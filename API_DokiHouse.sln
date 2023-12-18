@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_DokiHouse", "API_DokiHouse\API_DokiHouse.csproj", "{B373C2FF-5820-4729-8648-3798285E03BB}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DB_DokiHouse", "DB_DokiHouse\DB_DokiHouse.sqlproj", "{9976017A-4CE5-4294-99AB-8E66335675D2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL_DokiHouse", "DAL_DokiHouse\DAL_DokiHouse.csproj", "{78B9F73D-369D-48E8-8246-340EB0242A5B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL_DokiHouse", "BLL_DokiHouse\BLL_DokiHouse.csproj", "{BBF69CF9-CF1E-4518-B0F4-1627F5C30796}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities_DokiHouse", "Entities_DokiHouse\Entities_DokiHouse.csproj", "{518CFBCB-FCFD-4F96-9C27-23413A649B2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools_DokiHouse", "Tools_DokiHouse\Tools_DokiHouse.csproj", "{9E90044D-2014-4588-B238-D1FAD8934F91}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B373C2FF-5820-4729-8648-3798285E03BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B373C2FF-5820-4729-8648-3798285E03BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B373C2FF-5820-4729-8648-3798285E03BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B373C2FF-5820-4729-8648-3798285E03BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9976017A-4CE5-4294-99AB-8E66335675D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9976017A-4CE5-4294-99AB-8E66335675D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9976017A-4CE5-4294-99AB-8E66335675D2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9976017A-4CE5-4294-99AB-8E66335675D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9976017A-4CE5-4294-99AB-8E66335675D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9976017A-4CE5-4294-99AB-8E66335675D2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{78B9F73D-369D-48E8-8246-340EB0242A5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78B9F73D-369D-48E8-8246-340EB0242A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78B9F73D-369D-48E8-8246-340EB0242A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78B9F73D-369D-48E8-8246-340EB0242A5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBF69CF9-CF1E-4518-B0F4-1627F5C30796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBF69CF9-CF1E-4518-B0F4-1627F5C30796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBF69CF9-CF1E-4518-B0F4-1627F5C30796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBF69CF9-CF1E-4518-B0F4-1627F5C30796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{518CFBCB-FCFD-4F96-9C27-23413A649B2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{518CFBCB-FCFD-4F96-9C27-23413A649B2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{518CFBCB-FCFD-4F96-9C27-23413A649B2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{518CFBCB-FCFD-4F96-9C27-23413A649B2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E90044D-2014-4588-B238-D1FAD8934F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E90044D-2014-4588-B238-D1FAD8934F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E90044D-2014-4588-B238-D1FAD8934F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E90044D-2014-4588-B238-D1FAD8934F91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {72C61B98-4B81-43C0-8120-CBF53010F9EF}
+	EndGlobalSection
+EndGlobal
