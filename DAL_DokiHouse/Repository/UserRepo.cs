@@ -1,6 +1,6 @@
 ﻿using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Repository;
-using Entities_DokiHouse;
+using Entities_DokiHouse.Entities;
 
 using System.Data;
 

@@ -12,7 +12,7 @@
         Task<MD?> GetBy(U id); // retourne un élément par son identifiant en int par exemple 'id'
         Task<IEnumerable<MD>?> GetBy(S id); // retourne un élément par son identifiant en string par exemple 'nom'
         Task<bool> Create(MC modelToCreate);
-        Task<MC?> Update(U id, MC modelToUpdate);
+        Task<bool> Update(U id, MC modelToUpdate);
         Task<bool> Delete(U id);
     }
 }

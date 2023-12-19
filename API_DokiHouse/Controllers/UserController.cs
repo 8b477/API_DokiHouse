@@ -55,7 +55,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDisplayDTO))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             UserDisplayDTO? result = await _userService.GetByID(id);
 
@@ -101,9 +101,9 @@ namespace API_DokiHouse.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserCreateDTOPassConfirm))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create(UserCreateDTOPassConfirm model)
+        public async Task<IActionResult> Create([FromBody] UserCreateDTOPassConfirm model)
         {
-            UserCreateDTO user = Mapper.ToModelCreate(model);
+            UserCreateDTO user = Mapper.FromConfirmPassToModelCreate(model);
 
             if (await _userService.Create(user) && model is not null)
             {
@@ -127,14 +127,33 @@ namespace API_DokiHouse.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserCreateDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update(int id, UserCreateDTO model)
+        public async Task<IActionResult> Update([FromRoute] int id,[FromBody] UserUpdateDTO model)
         {
-            UserCreateDTO? user = await _userService.Update(id, model);
+            UserCreateDTO? user = Mapper.FromUpdateToModelCreate(model);
 
-            if (user is not null)
+            if(await _userService.Update(id, user))           
                 return Ok(user);
 
             return BadRequest();
         }
+
+
+        /// <summary>
+        /// Supprime un utilisateur en fonction de son identifiant.
+        /// </summary>
+        /// <remarks>
+        /// Cette méthode permet de supprimer un utilisateur existant en utilisant son identifiant.
+        /// </remarks>
+        /// <param name="id">L'identifiant de l'utilisateur à supprimer.</param>
+        /// <response code="204">L'utilisateur a été supprimé avec succès.</response>
+        /// <response code="400">La suppression de l'utilisateur a échoué.</response>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Delete([FromRoute] int id)
+        {
+            return await _userService.Delete(id) == true ? NoContent() : BadRequest("Aucune correspondance");
+        }
+
     }
 }

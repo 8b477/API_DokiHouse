@@ -9,6 +9,7 @@ namespace BLL_DokiHouse.Interfaces
         Task<IEnumerable<UserDisplayDTO>> Get();
         Task<IEnumerable<UserDisplayDTO>?> GetByName(string name);
         Task<UserDisplayDTO?> GetByID(int id);
-        Task<UserCreateDTO?> Update(int id, UserCreateDTO model);
+        Task<bool> Update(int id, UserCreateDTO model);
+        Task<bool> Delete(int id);
     }
 }

@@ -65,4 +65,7 @@
   <ItemGroup>
     <None Include="DB_DokiHouse.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\SeedDataUsers.sql" />
+  </ItemGroup>
 </Project>

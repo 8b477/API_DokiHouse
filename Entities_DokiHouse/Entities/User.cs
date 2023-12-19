@@ -1,6 +1,8 @@
-﻿namespace Entities_DokiHouse
+﻿using Entities_DokiHouse.Interfaces;
+
+namespace Entities_DokiHouse.Entities
 {
-    public class User
+    public class User : IEntity<int>
     {
         public int Id { get; set; }
         public string Pseudo { get; set; } = string.Empty;

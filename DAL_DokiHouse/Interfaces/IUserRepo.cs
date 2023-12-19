@@ -1,6 +1,7 @@
 ﻿using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
-using Entities_DokiHouse;
+
+using Entities_DokiHouse.Entities;
 
 namespace DAL_DokiHouse
 {

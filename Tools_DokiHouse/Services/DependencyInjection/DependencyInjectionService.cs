@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Data.SqlClient;
 
 
-namespace Tools_DokiHouse.Services
+namespace Tools_DokiHouse.Services.DependencyInjection
 {
     public static class DependencyInjectionService
     {
@@ -18,7 +18,6 @@ namespace Tools_DokiHouse.Services
             services.AddScoped<IUserRepo, UserRepo>(provider => new UserRepo(new SqlConnection(connectionString)));
 
             services.AddScoped<IUserBLLService, UserBLLService>();
-                
 
         }
     }

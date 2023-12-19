@@ -61,6 +61,7 @@ namespace BLL_DokiHouse.Services
             return null;
         }
 
+
         /// <summary>
         /// Créer un nouveau utilisateur en base de donnée
         /// </summary>
@@ -77,8 +78,7 @@ namespace BLL_DokiHouse.Services
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {
-                    string customErrorMessage = "L'adresse mail existe déjà en base de donnée";
-                    throw new BusinessException(customErrorMessage);
+                    throw new BusinessException("L'adresse mail existe déjà en base de donnée");
             }
             catch (Exception ex)
             {
@@ -93,15 +93,25 @@ namespace BLL_DokiHouse.Services
         /// <param name="id">Identifiant de type 'int'</param>
         /// <param name="model">model de création attendu : 'UserCreateDTO'</param>
         /// <returns>Retourne le user modifié si réussi, si non retourne null</returns>
-        public async Task<UserCreateDTO?> Update(int id, UserCreateDTO model)
+        public async Task<bool> Update(int id, UserCreateDTO model)
         {
-            UserCreateDTO? user = await _userRepo.Update(id, model);
-
-            if (user is not null)
-                return user;
-
-            return null;          
+            try
+            {
+               return await _userRepo.Update(id, model);
+            }
+            catch (SqlException ex) when (ex.Number == 2627)
+            {
+                throw new BusinessException("L'adresse mail existe déjà en base de donnée");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }          
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            return await _userRepo.Delete(id);
+        }
     }
 }

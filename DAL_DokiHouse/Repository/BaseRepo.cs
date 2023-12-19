@@ -1,5 +1,8 @@
 ﻿using DAL_DokiHouse.Interfaces;
+
 using Dapper;
+
+using Entities_DokiHouse.Interfaces;
 
 using System.Data;
 
@@ -7,27 +10,23 @@ using System.Data;
 namespace DAL_DokiHouse.Repository
 {
     public abstract class BaseRepo<E, M, MC, MD, U, S> : IRepo<E, M, MC, MD, U, S>
-        where E : class  // entité
-        where M : class  // modele
-        where MC : class // modele for create
-        where MD : class // model for display
-        where U : struct // int
-        where S : class  // string
+        where E : class, IEntity<U>, new()
+        where M : class
+        where MC : class
+        where MD : class
+        where U : struct
+        where S : class
     {
-
         #region Constructor
-
         protected readonly IDbConnection _connection;
 
         public BaseRepo(IDbConnection connection)
         {
             _connection = connection;
         }
-
         #endregion
 
-
-        public async Task<IEnumerable<MD>> Get()
+        public virtual async Task<IEnumerable<MD>> Get()
         {
             string query = $"SELECT * FROM [{GetTableName()}]";
             var result = await _connection.QueryAsync<MD>(query);
@@ -35,11 +34,10 @@ namespace DAL_DokiHouse.Repository
             return result;
         }
 
-        public async Task<MD?> GetBy(U id)
+        public virtual async Task<MD?> GetBy(U id)
         {
             string tableName = GetTableName();
             string query = $"SELECT * FROM [{tableName}] WHERE Id = @Id";
-
             var result = await _connection.QuerySingleOrDefaultAsync<MD>(query, new { Id = id });
 
             if (result is null)
@@ -48,27 +46,24 @@ namespace DAL_DokiHouse.Repository
             return result;
         }
 
-        public async Task<IEnumerable<MD>?> GetBy(S name)
+        public virtual async Task<IEnumerable<MD>?> GetBy(S name)
         {
             string tableName = GetTableName();
-
-            string query = $"SELECT * FROM [{tableName}] WHERE [Name] = @Name";
-
-            var result = await _connection.QueryAsync<MD>(query, new { Name = name });
+            string uppercaseName = name?.ToString()?.ToUpper() ?? "";
+            string query = $"SELECT * FROM [{tableName}] WHERE UPPER([Name]) = @UppercaseName";
+            var result = await _connection.QueryAsync<MD>(query,new { UppercaseName = uppercaseName });
 
             if (result != null && result.Any())
             {
                 return result;
             }
-
             return null;
         }
 
-        public async Task<bool> Create(MC modelToCreate)
+        public virtual async Task<bool> Create(MC modelToCreate)
         {
             string tableName = GetTableName();
             var propertyDict = GetPropertyDictionary(modelToCreate);
-
             string columns = string.Join(", ", propertyDict.Keys);
             string values = string.Join(", ", propertyDict.Keys.Select(k => "@" + k));
             string query = $"INSERT INTO [{tableName}] ({columns}) VALUES ({values})";
@@ -77,32 +72,19 @@ namespace DAL_DokiHouse.Repository
             return rowAffected > 0;
         }
 
-        public async Task<MC?> Update(U id, MC item)
+        public virtual async Task<bool> Update(U id, MC item)
         {
-            string tableName = GetTableName();
+            string tableName = GetTableName();    
+            var parameters = new DynamicParameters(item); // Dictionnaire de params pour les colonnes à mettre à jour
+            parameters.Add("ID", id); // Ajouter le paramètre ID pour la clause WHERE
+            string setClause = GetSetClause(item);
+            string query = $"UPDATE [{tableName}] SET {setClause} WHERE Id = @ID";
+            int rowsAffected = await _connection.ExecuteAsync(query, parameters);
 
-            // Créer un dictionnaire de paramètres pour les colonnes à mettre à jour
-            var parameters = new DynamicParameters(item);
-
-            // Vérifier si l'ID est de type int
-            if (id is int)
-            {
-                // Ajouter l'ID comme paramètre
-                parameters.Add("ID", id);
-
-                // Construire la requête SQL
-                string query = $"UPDATE [{tableName}] SET {GetUpdateColumns(parameters)} WHERE Id = @ID";
-
-                // Exécuter la requête et obtenir le nombre de lignes affectées
-                int rowsAffected = await _connection.ExecuteAsync(query, parameters);
-
-                // Retourner l'objet mis à jour si au moins une ligne a été affectée
-                return rowsAffected > 0 ? item : null;
-            }
-            return null;
+            return rowsAffected > 0;
         }
 
-        public async Task<bool> Delete(U id)
+        public virtual async Task<bool> Delete(U id)
         {
             string tableName = GetTableName();
             string query = $"DELETE FROM [{tableName}] WHERE ID = @Id";
@@ -112,15 +94,21 @@ namespace DAL_DokiHouse.Repository
 
         #region Private Methods
 
-        /// <summary>
-        /// Récupère le nom de la table correspondante au modèle T.
-        /// </summary>
-        /// <returns>Le nom de la table.</returns>
+        // Récupère le nom de la table correspondante au modèle E : Entity.
         private string GetTableName()
         {
             return typeof(E).Name;
         }
 
+        private string GetSetClause(MC item)
+        {
+// Récupérer les noms des propriétés de l'item pour les bind en tant que params sur le nom des colonnes de ma table côté DB
+            var columnNames = typeof(MC)
+                .GetProperties()
+                .Select(p => $"{p.Name} = @{p.Name}");
+
+            return string.Join(", ", columnNames);
+        }
 
         // Méthode pour obtenir un dictionnaire de propriétés et valeurs de l'objet modèle
         private Dictionary<string, object?> GetPropertyDictionary(MC item)
@@ -129,28 +117,6 @@ namespace DAL_DokiHouse.Repository
                 .GetProperties()
                 .ToDictionary(property => property.Name, property => property.GetValue(item));
         }
-
-
-        /// <summary>
-        /// La méthode GetUpdateColumns génère dynamiquement la liste des colonnes à mettre à jour dans la requête SQL.
-        /// Cette méthode est utilisée dans le cadre de la mise à jour d'une ligne dans la base de données.
-        /// </summary>
-        /// <param name="parameters">Dictionnaire de paramètres contenant les valeurs des colonnes à mettre à jour.</param>
-        /// <returns>Une chaîne représentant la partie SET de la requête SQL, spécifiant les colonnes à mettre à jour avec leurs nouvelles valeurs.</returns>
-        private string GetUpdateColumns(DynamicParameters parameters)
-        {
-            // La classe DynamicParameters de Dapper :
-            // - permet de créer automatiquement les paramètres à partir de notre modèle (item).
-
-            // Récupérer les noms de colonnes à partir des paramètres
-            var columnNames = parameters.ParameterNames
-                .Where(p => p != "Id") // Exclure la colonne ID
-                .Select(p => $"{p} = @{p}");
-
-            // Joindre les noms de colonnes avec une virgule
-            return string.Join(", ", columnNames);
-        }
         #endregion
-
     }
 }

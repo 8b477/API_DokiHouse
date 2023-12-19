@@ -1,15 +1,9 @@
-#region USING
+using Tools_DokiHouse.Services.Authentication;
+using Tools_DokiHouse.Services.DependencyInjection;
+using Tools_DokiHouse.Services.SwaggerConfiguration;
 
-#region using Project
-    using Tools_DokiHouse.Services;
-#endregion
-
-#region using Package
-    using Serilog;
-#endregion
-
-#endregion
-
+using Serilog;
+using Tools_DokiHouse.Filters.AuthorizationFilter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,15 +13,41 @@ builder.Services.AddSwaggerGen();
 
 
 
+
 //**************************** DEPENDENCY INJECTION ******************************************
 DependencyInjectionService
     .ConfigureDependencyInjection(builder.Services, builder.Configuration);
 //********************************************************************************************
 
 
-//**************************** BIND FIELD APPSETTINGS.JSON *********************************
+
+
+//**************************** BIND FILE APPSETTINGS.JSON **********************************
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 //******************************************************************************************
+
+
+
+
+//**************************** AUTHENTICATION CONFIG **** *************
+AuthenticationService.AddAuthenticationAuth0(builder.Services);
+//*********************************************************************
+
+
+
+
+//**************************** ADD FILTER ****************************************
+AuthorizationFilterService.AddFilterControllersAuthorize(builder.Services);
+//********************************************************************************
+
+
+
+
+//****************** SWAGGER CONFIG *********************
+SwaggerService.ConfigureSwagger(builder.Services);
+//*******************************************************
+
+
 
 
 //************ SERILOG *******************
@@ -39,6 +59,8 @@ builder.Host.UseSerilog();
 //****************************************
 
 
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -48,6 +70,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+
+
+//**********************
+app.UseAuthentication();
+//**********************
+
+
 
 app.UseAuthorization();
 
