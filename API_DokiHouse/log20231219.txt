@@ -1,14 +1,11 @@
-2023-12-19 15:11:23.879 +01:00 [ERR] An unhandled exception has occurred while executing the request.
-System.Data.SqlClient.SqlException (0x80131904): Invalid object name 'UserEntity'.
-   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__126_0(Task`1 result)
-   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
-   at System.Threading.Tasks.Task.<>c.<.cctor>b__272_0(Object obj)
-   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
---- End of stack trace from previous location ---
-   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
-   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
---- End of stack trace from previous location ---
-   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+2023-12-19 23:13:06.922 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Int32 Id, System.String Name, System.String Email, System.String Passwd, System.Byte[] Picture, System.String Role) is required for DAL_DokiHouse.DTO.UserDisplayDTO materialization
+   at Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3473
+   at Dapper.SqlMapper.GetTypeDeserializerImpl(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3304
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 151
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 50
+   at Dapper.SqlMapper.GetDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 1947
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 442
    at DAL_DokiHouse.Repository.BaseRepo`6.Get() in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\DAL_DokiHouse\Repository\BaseRepo.cs:line 32
    at BLL_DokiHouse.Services.UserBLLService.Get() in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\BLL_DokiHouse\Services\UserBLLService.cs:line 29
    at API_DokiHouse.Controllers.UserController.Get() in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\API_DokiHouse\Controllers\UserController.cs:line 37
@@ -23,25 +20,21 @@ System.Data.SqlClient.SqlException (0x80131904): Invalid object name 'UserEntity
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
-ClientConnectionId:335dbffd-4c68-43aa-bd20-ee964d95a355
-Error Number:208,State:1,Class:16
-2023-12-19 15:11:31.782 +01:00 [ERR] An unhandled exception has occurred while executing the request.
-System.Data.SqlClient.SqlException (0x80131904): Invalid object name 'UserEntity'.
-   at System.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__126_0(Task`1 result)
-   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
-   at System.Threading.Tasks.Task.<>c.<.cctor>b__272_0(Object obj)
-   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
---- End of stack trace from previous location ---
-   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
-   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
---- End of stack trace from previous location ---
-   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
-   at DAL_DokiHouse.Repository.BaseRepo`6.GetBy(S name) in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\DAL_DokiHouse\Repository\BaseRepo.cs:line 54
-   at BLL_DokiHouse.Services.UserBLLService.GetByName(String name) in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\BLL_DokiHouse\Services\UserBLLService.cs:line 56
-   at API_DokiHouse.Controllers.UserController.GetByName(String name) in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\API_DokiHouse\Controllers\UserController.cs:line 83
+2023-12-19 23:14:26.213 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Int32 Id, System.String Name, System.String Email, System.String Passwd, System.Byte[] Picture, System.String Role) is required for DAL_DokiHouse.DTO.UserDisplayDTO materialization
+   at Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3473
+   at Dapper.SqlMapper.GetTypeDeserializerImpl(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3304
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 151
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 50
+   at Dapper.SqlMapper.GetDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 1947
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 442
+   at DAL_DokiHouse.Repository.BaseRepo`6.Get() in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\DAL_DokiHouse\Repository\BaseRepo.cs:line 32
+   at BLL_DokiHouse.Services.UserBLLService.Get() in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\BLL_DokiHouse\Services\UserBLLService.cs:line 29
+   at API_DokiHouse.Controllers.UserController.Get() in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\API_DokiHouse\Controllers\UserController.cs:line 37
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
@@ -53,15 +46,21 @@ System.Data.SqlClient.SqlException (0x80131904): Invalid object name 'UserEntity
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
-ClientConnectionId:335dbffd-4c68-43aa-bd20-ee964d95a355
-Error Number:208,State:1,Class:16
-2023-12-19 15:18:31.867 +01:00 [ERR] An unhandled exception has occurred while executing the request.
-BLL_DokiHouse.ExceptionHandler.BusinessException: L'adresse mail existe déjà en base de donnée
-   at BLL_DokiHouse.Services.UserBLLService.Update(Int32 id, UserCreateDTO model) in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\BLL_DokiHouse\Services\UserBLLService.cs:line 110
-   at API_DokiHouse.Controllers.UserController.Update(Int32 id, UserCreateDTO model) in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\API_DokiHouse\Controllers\UserController.cs:line 132
+2023-12-19 23:15:15.062 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Int32 Id, System.String Name, System.String Email, System.String Passwd, System.Byte[] Picture, System.String Role) is required for DAL_DokiHouse.DTO.UserDisplayDTO materialization
+   at Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3473
+   at Dapper.SqlMapper.GetTypeDeserializerImpl(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3304
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 151
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 50
+   at Dapper.SqlMapper.GetDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 1947
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 442
+   at DAL_DokiHouse.Repository.BaseRepo`6.Get() in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\DAL_DokiHouse\Repository\BaseRepo.cs:line 32
+   at BLL_DokiHouse.Services.UserBLLService.Get() in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\BLL_DokiHouse\Services\UserBLLService.cs:line 29
+   at API_DokiHouse.Controllers.UserController.Get() in C:\Users\jonat\OneDrive\Bureau\API_DokiHouse\API_DokiHouse\Controllers\UserController.cs:line 37
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
@@ -73,6 +72,7 @@ BLL_DokiHouse.ExceptionHandler.BusinessException: L'adresse mail existe déjà e
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)

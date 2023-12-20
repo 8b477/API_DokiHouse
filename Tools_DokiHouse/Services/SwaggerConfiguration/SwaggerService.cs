@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 namespace Tools_DokiHouse.Services.SwaggerConfiguration
@@ -14,10 +13,14 @@ namespace Tools_DokiHouse.Services.SwaggerConfiguration
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "API CrowdFunding",
+                    Title = "API DokiHouse",
                     Version = "v1",
-                    Description = "Cette API permet de connecter des gens ensemble pour concrétiser de beaux projets !",
+                    Description = "Cette API est fait par un noob attention !",
                 });
+
+                var xmlhelp = "API_DokiHouse.xml"; // => t'ajoute le nom du projet de ton API.xml
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlhelp));
+
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

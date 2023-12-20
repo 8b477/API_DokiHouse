@@ -1,7 +1,9 @@
-﻿namespace DAL_DokiHouse.Interfaces
+﻿using Entities_DokiHouse.Interfaces;
+
+namespace DAL_DokiHouse.Interfaces
 {
     public interface IRepo<E, M, MC, MD, U, S>
-        where E : class  // entité
+        where E : class, IEntity<U>, new() // entité
         where M : class  // modele
         where MC : class // modele for create
         where MD : class // model for display
