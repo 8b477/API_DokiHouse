@@ -18,7 +18,6 @@ namespace Tools_DokiHouse.Services.DependencyInjection
             services.AddScoped<IUserRepo, UserRepo>(provider => new UserRepo(new SqlConnection(connectionString)));
 
             services.AddScoped<IUserBLLService, UserBLLService>();
-
         }
     }
 }

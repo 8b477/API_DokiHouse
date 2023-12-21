@@ -45,7 +45,6 @@ namespace API_piment.Services.Token
                 {
                         new Claim(ClaimTypes.NameIdentifier, userId),
                         new Claim(ClaimTypes.Role, role )
-
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

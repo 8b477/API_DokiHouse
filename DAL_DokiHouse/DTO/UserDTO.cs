@@ -1,23 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Entities_DokiHouse.Entities;
+
+using System.ComponentModel.DataAnnotations;
 
 
 namespace DAL_DokiHouse.DTO
 {
     public record class UserDTO
     {
-        public UserDTO(string name, string email, string passwd, byte[]? picture, string? role)
-        {
-            Name = name;
-            Email = email;
-            Passwd = passwd;
-            Picture = picture;
-            Role = role;
-        }
+        public UserDTO(string name, string email, string passwd, Image? picture, string? role)
+            => (Name ,Email, Passwd, Picture, Role) = (name, email, passwd, picture, role);
 
         public string Name { get; }
         public string Email { get; }
         public string Passwd { get; }
-        public byte[]? Picture { get;}
+        public Image? Picture { get;}
         public string? Role { get; }
     }
 
@@ -25,11 +21,7 @@ namespace DAL_DokiHouse.DTO
     public record class UserCreateDTO
     {
         public UserCreateDTO(string name, string email, string passwd)
-        {
-            Name = name;
-            Email = email;
-            Passwd = passwd;
-        }
+            => (Name, Email, Passwd) = (name, email, passwd);
 
         public string Name { get; }
 
@@ -43,7 +35,7 @@ namespace DAL_DokiHouse.DTO
     {
         public int Id { get; }
         public string Name { get; }
-        public byte[]? Picture { get; }
+        public Image? Picture { get; }
     }
 
 
@@ -53,7 +45,7 @@ namespace DAL_DokiHouse.DTO
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Passwd { get; set; } = string.Empty;
-        public byte[]? Picture { get; set; }
+        public Image? Picture { get; set; }
         public string? Role { get; set; }
     }
 

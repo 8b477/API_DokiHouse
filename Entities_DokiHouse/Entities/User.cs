@@ -8,7 +8,7 @@ namespace Entities_DokiHouse.Entities
         public string Pseudo { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Passwd { get; set; } = string.Empty;
-        public byte[]? Picture { get; set; } = null;
-        public string? Role { get; set; } = null;
-    }
+        public Image? Picture { get; set; }
+        public string? Role { get; set; }
+    } 
 }
