@@ -20,7 +20,7 @@ namespace DAL_DokiHouse.Repository
         #region Constructor
         protected readonly IDbConnection _connection;
 
-        public BaseRepo(IDbConnection connection) => (_connection) = (connection);     
+        protected BaseRepo(IDbConnection connection) => (_connection) = (connection);     
         #endregion
 
         public virtual async Task<IEnumerable<MD>> Get()
