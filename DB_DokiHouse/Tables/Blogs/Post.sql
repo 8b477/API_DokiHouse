@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[Post]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+	[Name] VARCHAR(50) NOT NULL,
+	[Description] VARCHAR(200) NOT NULL,
+	[Content] VARCHAR(MAX) NOT NULL,
+	[Picture] VARBINARY(MAX),
+	[UserId] INT NOT NULL
+	FOREIGN KEY(UserId) REFERENCES [User](Id)
+)

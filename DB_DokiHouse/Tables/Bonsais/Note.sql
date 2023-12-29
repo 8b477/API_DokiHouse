@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[Note]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+	[Title] VARCHAR(100),
+	[Description] VARCHAR(MAX) NOT NULL,
+	[CreateAt] DATETIME NOT NULL,
+	[BonsaiId] INT NOT NULL,
+	FOREIGN KEY(BonsaiId) REFERENCES [Bonsai](Id)
+)

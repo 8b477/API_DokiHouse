@@ -5,6 +5,8 @@ CREATE TABLE [dbo].[User]
 	[Name] VARCHAR(50) NOT NULL,
 	Email VARCHAR(150) NOT NULL UNIQUE,
 	Passwd VARCHAR(200) NOT NULL,
-	Picture VARBINARY(4),
-	Role VARCHAR(20) 
+	Picture VARBINARY(MAX),
+	Role VARCHAR(20),
+	[IdPictureProfil] INT
+	FOREIGN KEY (IdPictureProfil) REFERENCES [PictureProfil](Id)
 )

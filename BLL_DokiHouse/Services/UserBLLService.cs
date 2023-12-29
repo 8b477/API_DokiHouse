@@ -2,6 +2,8 @@
 using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse;
 using DAL_DokiHouse.DTO;
+using Entities_DokiHouse.Entities;
+
 
 using System.Data.SqlClient;
 
@@ -72,7 +74,11 @@ namespace BLL_DokiHouse.Services
             try
             {
                 if (model is not null)
-                    return await _userRepo.Create(model);
+                {
+                    UserCreateDTO user = new(model.Name, model.Email, BCrypt.Net.BCrypt.HashPassword(model.Passwd));
+
+                    return await _userRepo.Create(user);
+                }
 
                 return false;
             }
@@ -109,9 +115,36 @@ namespace BLL_DokiHouse.Services
             }          
         }
 
+
+        public Task<bool> UpdateProfilPicture(int idPicture, int idUser)
+        {
+            return _userRepo.UpdateProfilPicture(idPicture, idUser);
+        }
+
+
+        /// <summary>
+        /// Supprime un élément sur base d'un identifiant
+        /// </summary>
+        /// <param name="id">Un identifiant de type : int</param>
+        /// <returns>Retourne true si l'item à bien été supprimer de la base de donnée dans le cas contraire retourne false</returns>
         public async Task<bool> Delete(int id)
         {
             return await _userRepo.Delete(id);
         }
+
+
+        /// <summary>
+        /// Vérifie si un User est présent en base de donnée sur base de mot de passe et email
+        /// </summary>
+        /// <param name="email">Attendue emai de type : string</param>
+        /// <param name="passwd">Attendue mot de passe de type : string</param>
+        /// <returns></returns>
+        public async Task<User?> Login(string email, string passwd)
+        {
+            User? user = await _userRepo.Logger(email,passwd);
+
+            return user is not null ? user : null;
+        }
+
     }
 }

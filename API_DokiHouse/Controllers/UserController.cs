@@ -1,8 +1,12 @@
-﻿using API_DokiHouse.Services;
+﻿using API_DokiHouse.Models;
+using API_DokiHouse.Services;
 using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse.DTO;
+using DAL_DokiHouse.Interfaces;
+
 
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace API_DokiHouse.Controllers
 {
@@ -14,7 +18,7 @@ namespace API_DokiHouse.Controllers
         #region Injection
         private readonly IUserBLLService _userService;
 
-        public UserController(IUserBLLService userService)
+        public UserController(IUserBLLService userService, IPictureRepo pictureRepo)
         {
             _userService = userService;
         }
@@ -99,18 +103,18 @@ namespace API_DokiHouse.Controllers
         /// <response code="201">Retourne les informations de l'utilisateur créé.</response>
         /// <response code="400">La création de l'utilisateur a échoué.</response>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserCreateDTOPassConfirm))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserPassConfirmModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] UserCreateDTOPassConfirm model)
+        public async Task<IActionResult> Create([FromBody] UserPassConfirmModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             UserCreateDTO user = Mapper.FromConfirmPassToModelCreate(model);
 
-            if (await _userService.Create(user) && model is not null)
-            {
-                return CreatedAtAction(nameof(Create), model);
-            }
-
-            return BadRequest();
+            return await _userService.Create(user) == true 
+                ? CreatedAtAction(nameof(Create), model) 
+                : BadRequest();
         }
 
 
@@ -125,9 +129,9 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserCreateDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update([FromRoute] int id,[FromBody] UserUpdateDTO model)
+        public async Task<IActionResult> Update([FromRoute] int id,[FromBody] UserUpdateModel model)
         {
             UserCreateDTO? user = Mapper.FromUpdateToModelCreate(model);
 

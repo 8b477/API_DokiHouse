@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[PictureProfil]
+(
+	[Id] INT NOT NULL IDENTITY PRIMARY KEY,
+	[Picture] VARBINARY(MAX)
+)

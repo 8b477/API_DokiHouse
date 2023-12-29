@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[PictureBonsai]
+(
+	[Id] INT NOT NULL PRIMARY KEY,
+	[Picture] VARBINARY(MAX) NOT NULL,
+	[IdUser] INT NOT NULL
+	FOREIGN KEY (IdUser) REFERENCES [User](Id)
+)

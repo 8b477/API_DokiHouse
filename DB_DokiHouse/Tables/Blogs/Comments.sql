@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Comments]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+	[Content] VARCHAR(MAX) NOT NULL,
+	[UserId] INT NOT NULL
+	FOREIGN KEY (UserId) REFERENCES [User](Id)
+)

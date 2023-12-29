@@ -1,19 +1,20 @@
-﻿using DAL_DokiHouse.DTO;
+﻿using API_DokiHouse.Models;
 
-using System.Xml.Linq;
+using DAL_DokiHouse.DTO;
+
 
 namespace API_DokiHouse.Services
 {
     public static class Mapper
     {
-        public static UserCreateDTO FromConfirmPassToModelCreate(UserCreateDTOPassConfirm user)
+        public static UserCreateDTO FromConfirmPassToModelCreate(UserPassConfirmModel user)
         {
             return new UserCreateDTO(user.Name, user.Email, user.Passwd);
         }
 
-        public static UserCreateDTO FromUpdateToModelCreate(UserUpdateDTO user)
+        public static UserCreateDTO FromUpdateToModelCreate(UserUpdateModel user)
         {
             return new UserCreateDTO(user.Name, user.Email, user.Passwd);
-        }
+        }      
     }
 }

@@ -1,41 +1,41 @@
 ﻿-- Insertion d'utilisateurs avec différents rôle : admin, register le reste visitor
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Admin', 'admin@example.com', 'Test123*', 'Admin');
+    ('Admin', 'admin@example.com', 'Test123*', 'Admin', null);
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Regsiter', 'register@example.com', 'Test123*', 'Register');
+    ('Regsiter', 'register@example.com', 'Test123*', 'Register', null);
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Jhon', 'jhon@example.com', 'Test123*', 'Visitor');
+    ('Jhon', 'jhon@example.com', 'Test123*', 'Visitor', null);
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Marc', 'marc@example.com', 'Test123*', 'Visitor');
+    ('Marc', 'marc@example.com', 'Test123*', 'Visitor', null);
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Zoé', 'zoe@example.com', 'Test123*', 'Visitor');
+    ('Zoé', 'zoe@example.com', 'Test123*', 'Visitor', null);
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Marie', 'marie@example.com', 'Test123*', 'Visitor');
+    ('Marie', 'marie@example.com', 'Test123*', 'Visitor', null);
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Paul', 'paul@example.com', 'Test123*', 'Visitor');
+    ('Paul', 'paul@example.com', 'Test123*', 'Visitor', null);
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Lynn', 'lynn@example.com', 'Test123*', 'Visitor');
+    ('Lynn', 'lynn@example.com', 'Test123*', 'Visitor', null);
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Marie', 'marie@example.com', 'Test123*', 'Visitor');
+    ('Marie', 'marie@example.com', 'Test123*', 'Visitor', null);
 
-INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role])
+INSERT INTO [dbo].[User] ([Name], [Email], [Passwd], [Role] ,[IdPictureProfil])
 VALUES
-    ('Greg', 'greg@example.com', 'Test123*', 'Visitor');
+    ('Greg', 'greg@example.com', 'Test123*', 'Visitor', null);

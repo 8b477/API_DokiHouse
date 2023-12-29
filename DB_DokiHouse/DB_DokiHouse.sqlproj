@@ -58,14 +58,29 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Scripts" />
+    <Folder Include="Tables\Users" />
+    <Folder Include="Tables\Bonsais" />
+    <Folder Include="Tables\Blogs" />
+    <Folder Include="Tables\Images" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\User.sql" />
+    <Build Include="Tables\Users\User.sql" />
+    <Build Include="Tables\Bonsais\Bonsai.sql" />
+    <Build Include="Tables\Bonsais\Style.sql" />
+    <Build Include="Tables\Bonsais\Note.sql" />
+    <Build Include="Tables\Blogs\Post.sql" />
+    <Build Include="Tables\Blogs\Comments.sql" />
+    <Build Include="Tables\Users\Notification.sql" />
+    <Build Include="Tables\Images\PictureProfil.sql" />
+    <Build Include="Tables\Images\PictureBonsai.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DB_DokiHouse.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\SeedDataUsers.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Bonsais\Category.sql" />
   </ItemGroup>
 </Project>
