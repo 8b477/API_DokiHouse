@@ -29,6 +29,20 @@ namespace DAL_DokiHouse.Repository
 
             return insertedId > 0;
         }
+        
+        public async Task<bool> UpdateBonsai(BonsaiDTO bonsai)
+        {
+            string sql = "UPDATE [Bonsai] SET Name = @Name,Description = @Description WHERE IdUser = @id";
 
+            DynamicParameters parameters = new();
+            parameters.Add("@Name",bonsai.Name);
+            parameters.Add("@Description",bonsai.Description);
+            parameters.Add("@id", bonsai.IdUser);
+
+            int result = await _connection.ExecuteAsync(sql, parameters);
+
+            return result > 0;
+
+        }
     }
 }

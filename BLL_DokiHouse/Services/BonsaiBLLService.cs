@@ -44,9 +44,9 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<bool> Update(int id, BonsaiCreateDTO model)
+        public async Task<bool> Update(BonsaiDTO model)
         {
-            return await _bonsaiRepo.Update(id, model);
+            return await _bonsaiRepo.UpdateBonsai(model);
         }
 
     }

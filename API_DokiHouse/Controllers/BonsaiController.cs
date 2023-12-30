@@ -145,15 +145,16 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Update(BonsaiCreateModel model)
         {
-            BonsaiCreateDTO bonsaiDTO = Mapper.FromBonsaiCreateModelToBonsaiCreateDTO(model);
 
             int idToken = GetLoggedInUserId();
 
             if (idToken == 0)
                 return Unauthorized();
 
+            BonsaiDTO bonsaiDTO = new(model.Name, model.Description, idToken);
+
             return 
-                await _bonsaiService.Update(idToken, bonsaiDTO) 
+                await _bonsaiService.Update(bonsaiDTO) 
                 ? Ok() 
                 : BadRequest();
         }

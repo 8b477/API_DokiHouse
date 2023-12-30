@@ -9,7 +9,7 @@ namespace BLL_DokiHouse.Interfaces
         Task<IEnumerable<BonsaiDisplayDTO>> Get();
         Task<IEnumerable<BonsaiDisplayDTO>?> GetByName(string name);
         Task<BonsaiDisplayDTO?> GetByID(int id);
-        Task<bool> Update(int id, BonsaiCreateDTO model);
+        Task<bool> Update(BonsaiDTO bonsai);
         Task<bool> Delete(int id);
     }
 }
