@@ -1,10 +1,7 @@
 ﻿using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
-
 using Dapper;
-
 using Entities_DokiHouse.Entities;
-
 using System.Data;
 
 namespace DAL_DokiHouse.Repository
@@ -23,12 +20,12 @@ namespace DAL_DokiHouse.Repository
 
             var parameters = new
             {
-                Name = bonsai.Name,
-                Description = bonsai.Description,
-                IdUser = bonsai.IdUser
+                bonsai.Name,
+                bonsai.Description,
+                bonsai.IdUser
             };
 
-            int insertedId = await _connection.ExecuteScalarAsync<int>(sql, parameters);
+            int insertedId = await _connection.ExecuteAsync(sql, parameters);
 
             return insertedId > 0;
         }

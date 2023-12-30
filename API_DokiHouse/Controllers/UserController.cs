@@ -7,7 +7,6 @@ using DAL_DokiHouse.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
 namespace API_DokiHouse.Controllers
 {
@@ -114,7 +113,8 @@ namespace API_DokiHouse.Controllers
 
             UserCreateDTO user = Mapper.FromConfirmPassToModelCreate(model);
 
-            return await _userService.Create(user) == true 
+            return 
+                await _userService.Create(user) == true 
                 ? CreatedAtAction(nameof(Create), model) 
                 : BadRequest();
         }
@@ -158,7 +158,10 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Delete([FromRoute] int id)
         {
-            return await _userService.Delete(id) == true ? NoContent() : BadRequest("Aucune correspondance");
+            return 
+                await _userService.Delete(id) == true
+                ? NoContent() 
+                : BadRequest("Aucune correspondance");
         }
 
     }
