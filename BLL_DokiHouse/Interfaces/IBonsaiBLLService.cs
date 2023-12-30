@@ -5,7 +5,7 @@ namespace BLL_DokiHouse.Interfaces
 {
     public interface IBonsaiBLLService
     {
-        Task<bool> Create(BonsaiDTO model);
+        Task<bool> Create(BonsaiCreateDTO model);
         Task<IEnumerable<BonsaiDisplayDTO>> Get();
         Task<IEnumerable<BonsaiDisplayDTO>?> GetByName(string name);
         Task<BonsaiDisplayDTO?> GetByID(int id);

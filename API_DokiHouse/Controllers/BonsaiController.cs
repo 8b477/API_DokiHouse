@@ -2,6 +2,8 @@
 using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse.DTO;
 
+using Entities_DokiHouse.Entities;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
@@ -116,14 +118,14 @@ namespace API_DokiHouse.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
            
-            int id = GetLoggedInUserId();
+            int idToken = GetLoggedInUserId();
 
-            if(id == 0)            
+            if(idToken == 0)            
                return Unauthorized();
-            
-            BonsaiDTO bonsaiDTO = new(model.Name, model.Description, id);
 
-           return 
+            BonsaiCreateDTO bonsaiDTO = new(model.Name, model.Description, idToken);
+
+            return 
                 await _bonsaiService.Create(bonsaiDTO) 
                 ? CreatedAtAction(nameof(Create), model) 
                 : BadRequest();
@@ -139,11 +141,11 @@ namespace API_DokiHouse.Controllers
         /// <returns>
         /// Une action HTTP avec le statut Ok si la mise à jour réussit, sinon BadRequest.
         /// </returns>
-        [HttpPut]
+        [HttpPut("{idBonsai}:int")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Update(BonsaiCreateModel model)
+        public async Task<IActionResult> Update(int idBonsai,  BonsaiCreateModel model)
         {
 
             int idToken = GetLoggedInUserId();
@@ -151,7 +153,7 @@ namespace API_DokiHouse.Controllers
             if (idToken == 0)
                 return Unauthorized();
 
-            BonsaiDTO bonsaiDTO = new(model.Name, model.Description, idToken);
+            BonsaiDTO bonsaiDTO = new(idBonsai, model.Name, model.Description,idToken);
 
             return 
                 await _bonsaiService.Update(bonsaiDTO) 

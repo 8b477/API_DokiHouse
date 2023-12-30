@@ -14,7 +14,7 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<bool> Create(BonsaiDTO model)
+        public async Task<bool> Create(BonsaiCreateDTO model)
         {
             return await _bonsaiRepo.Create(model);
         }

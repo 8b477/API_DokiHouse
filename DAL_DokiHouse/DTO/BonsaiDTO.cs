@@ -3,7 +3,22 @@ namespace DAL_DokiHouse.DTO
 {
     public record BonsaiDTO
     {
-        public BonsaiDTO(string name, string? description, int idUser)
+        public BonsaiDTO(int id, string name, string? description, int idUser)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            IdUser = idUser;
+        }
+        public int Id { get; }
+        public string Name { get; }
+        public string? Description { get; }
+        public int IdUser { get; }
+    }
+
+    public record BonsaiCreateDTO
+    {
+        public BonsaiCreateDTO(string name, string? description, int idUser)
         {
             Name = name;
             Description = description;
@@ -12,17 +27,6 @@ namespace DAL_DokiHouse.DTO
         public string Name { get; }
         public string? Description { get; }
         public int IdUser { get; }
-    }
-
-    public record BonsaiCreateDTO
-    {
-        public BonsaiCreateDTO(string name, string? description)
-        {
-            Name = name;
-            Description = description;
-        }
-        public string Name { get; }
-        public string? Description { get; }
     }
 
     public record BonsaiDisplayDTO

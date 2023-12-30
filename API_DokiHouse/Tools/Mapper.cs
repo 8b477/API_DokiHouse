@@ -18,10 +18,5 @@ namespace API_DokiHouse.Services
             return new UserCreateDTO(user.Name, user.Email, user.Passwd);
         }
 
-        public static BonsaiCreateDTO FromBonsaiCreateModelToBonsaiCreateDTO(BonsaiCreateModel bonsai)
-        {
-            return new BonsaiCreateDTO(bonsai.Name, bonsai.Description);
-        }
-
     }
 }
