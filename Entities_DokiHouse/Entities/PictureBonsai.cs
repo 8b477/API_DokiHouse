@@ -6,6 +6,7 @@ namespace Entities_DokiHouse.Entities
     {
         public int Id { get; set; }
         public byte[] Picture { get; set; }
-        public int IdBonsai { get; set; } // ---> FK
+
+        public int IdUser { get; set; } // ---> FK
     }
 }

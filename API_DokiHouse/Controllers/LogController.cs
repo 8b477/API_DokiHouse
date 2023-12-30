@@ -1,8 +1,12 @@
 ﻿using API_DokiHouse.Models;
 using BLL_DokiHouse.Interfaces;
 
+using Entities_DokiHouse.Entities;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using Tools_DokiHouse.Token;
 
 namespace API_DokiHouse.Controllers
 {
@@ -15,8 +19,10 @@ namespace API_DokiHouse.Controllers
         #region Injection
 
         private readonly IUserBLLService _userBLLService;
+        private readonly JWTService _jwtService;
 
-        public LogController(IUserBLLService userBLLService) => (_userBLLService) = (userBLLService); 
+        public LogController(IUserBLLService userBLLService, JWTService jWTService)
+            => (_userBLLService, _jwtService) = (userBLLService, jWTService); 
 
         #endregion
 
@@ -29,8 +35,14 @@ namespace API_DokiHouse.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (await _userBLLService.Login(user.Email, user.Passwd) is not null)
-                return Ok("Connecter !");
+            User? result = await _userBLLService.Login(user.Email, user.Passwd);
+
+            if (result is not null)
+            {
+                string token = _jwtService.GenerateToken(result.Id.ToString(), result.Role);
+
+                return Ok(token);
+            }
 
             return BadRequest("Infos non valide !");
         }

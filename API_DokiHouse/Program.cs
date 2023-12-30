@@ -29,8 +29,8 @@ var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").B
 
 
 
-//**************************** AUTHENTICATION CONFIG **** *************
-AuthenticationService.AddAuthenticationAuth0(builder.Services);
+//**************************** AUTHENTICATION CONFIG ******************
+AuthenticationService.ConfigureAuthentication(builder.Services);
 //*********************************************************************
 
 

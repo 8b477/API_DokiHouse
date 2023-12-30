@@ -4,6 +4,6 @@
 	[Title] VARCHAR(100),
 	[Description] VARCHAR(MAX) NOT NULL,
 	[CreateAt] DATETIME NOT NULL,
-	[BonsaiId] INT NOT NULL,
-	FOREIGN KEY(BonsaiId) REFERENCES [Bonsai](Id)
+	[IdBonsai] INT NOT NULL,
+	FOREIGN KEY(IdBonsai) REFERENCES [Bonsai](Id)
 )

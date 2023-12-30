@@ -3,14 +3,14 @@ namespace DAL_DokiHouse.DTO
 {
     public record UserDTO
     {
-        public UserDTO(string name, string email, string passwd, int? idPictureProfil, string? role)
+        public UserDTO(string name, string email, string passwd, int? idPictureProfil, string role)
             => (Name ,Email, Passwd, IdPictureProfil, Role) = (name, email, passwd, idPictureProfil, role);
 
         public string Name { get; }
         public string Email { get; }
         public string Passwd { get; }
         public int? IdPictureProfil { get;}
-        public string? Role { get; }
+        public string Role { get; }
     }
 
 

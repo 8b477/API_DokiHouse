@@ -2,6 +2,7 @@
 
 using DAL_DokiHouse.DTO;
 
+using static API_DokiHouse.Models.BonsaiModel;
 
 namespace API_DokiHouse.Services
 {
@@ -15,6 +16,11 @@ namespace API_DokiHouse.Services
         public static UserCreateDTO FromUpdateToModelCreate(UserUpdateModel user)
         {
             return new UserCreateDTO(user.Name, user.Email, user.Passwd);
-        }      
+        }
+
+        public static BonsaiCreateDTO FromBonsaiCreateModelToBonsaiCreateDTO(BonsaiCreateModel bonsai)
+        {
+            return new BonsaiCreateDTO(bonsai.Name, bonsai.Description);
+        }
     }
 }

@@ -4,9 +4,10 @@ using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
 
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
 namespace API_DokiHouse.Controllers
 {
@@ -102,6 +103,7 @@ namespace API_DokiHouse.Controllers
         /// <param name="model">Les informations de l'utilisateur à créer.</param>
         /// <response code="201">Retourne les informations de l'utilisateur créé.</response>
         /// <response code="400">La création de l'utilisateur a échoué.</response>
+        [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserPassConfirmModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

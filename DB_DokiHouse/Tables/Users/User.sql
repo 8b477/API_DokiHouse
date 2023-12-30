@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[User]
 	Email VARCHAR(150) NOT NULL UNIQUE,
 	Passwd VARCHAR(200) NOT NULL,
 	Picture VARBINARY(MAX),
-	Role VARCHAR(20),
+	Role VARCHAR(20) DEFAULT 'Visitor',
 	[IdPictureProfil] INT
 	FOREIGN KEY (IdPictureProfil) REFERENCES [PictureProfil](Id)
 )

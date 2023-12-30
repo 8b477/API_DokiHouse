@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.SqlClient;
 
+using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
 namespace Tools_DokiHouse.Services.DependencyInjection
 {
@@ -26,6 +27,12 @@ namespace Tools_DokiHouse.Services.DependencyInjection
 
             services.AddScoped<IPictureBLLService, PictureBLLService>();
 
+
+            services.AddScoped<IBonsaiRepo, BonsaiRepo>(provider => new BonsaiRepo(new SqlConnection(connectionString)));
+
+            services.AddScoped<IBonsaiBLLService, BonsaiBLLService>();
+
+            services.AddScoped<JwtUserIdentifiantFilter>();
         }
     }
 }

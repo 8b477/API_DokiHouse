@@ -25,7 +25,7 @@ namespace API_DokiHouse.Controllers
         /// </summary>
         /// <param name="picture">Image à insérer</param>
         /// <returns></returns>
-        [HttpPost("profil")] //------------------------------------------------> TODO AJOUT DE FK DANS USER
+        [HttpPost("profil")] //-------------------------------------> TODO AJOUT DE FK DANS USER
         public async Task<IActionResult> AddPicture(IFormFile picture)
         {
             string filePath = Path.Combine(_env.ContentRootPath, @"images\profil");
@@ -66,20 +66,28 @@ namespace API_DokiHouse.Controllers
             return await _pictureRepo.AddPictureBonsai(file) != 0 ? Ok() : BadRequest();
         }
 
+        /// <summary>
+        /// Retourne un tableau de byte qui représente une image en base de donnée sur base d'un identifiant
+        /// </summary>
+        /// <param name="idPictureProfil">Identifiant de type : 'int'</param>
+        /// <returns>Retourne byte[]</returns>
+        [HttpGet("{idUser}/" + nameof(GetImageProfil))]
+        public async Task<IActionResult> GetImageProfil([FromRoute] int idPictureProfil)
+        {
+            return await _pictureRepo.GetImageProfil(idPictureProfil) is not null ? Ok() : BadRequest();
+        }
 
-        //[HttpGet(nameof(GetImageProfil))]
-        //public async Task<IActionResult> GetImageProfil([FromRoute] int idPictureProfil)
-        //{
-        //    return await _pictureRepo.GetImage(idPictureProfil) is not null ? Ok() : BadRequest();
-        //}
 
-        ////ici je peut récup plusieur bonsai
-        //[HttpGet(nameof(GetImageBonsai))]
-        //public async Task<IActionResult> GetImageBonsai([FromRoute] int idPictureBonsai)
-        //{
-        //    return await _pictureRepo.GetImage(idPictureBonsai) is not null ? Ok() : BadRequest();
-        //}
-
+        /// <summary>
+        /// Retourne une collection de tableau de byte qui représente des images en base de donnée sur base d'un identifiant
+        /// </summary>
+        /// <param name="idUser">Identifiant de type : 'int'</param>
+        /// <returns>Retourne Enumerable de byte[]</returns>
+        [HttpGet("{idUser}/" + nameof(GetImageBonsai))]
+        public async Task<IActionResult> GetImageBonsai([FromRoute] int idUser)
+        {
+            return await _pictureRepo.GetImageBonsai(idUser) is not null ? Ok() : BadRequest();
+        }
 
     }
 }
