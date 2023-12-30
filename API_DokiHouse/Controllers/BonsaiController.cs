@@ -136,7 +136,7 @@ namespace API_DokiHouse.Controllers
         /// <summary>
         /// Met à jour un bonsaï.
         /// </summary>
-        /// <param name="id">L'identifiant du bonsaï à mettre à jour.</param>
+        /// <param name="idBonsai">L'identifiant du bonsaï à mettre à jour.</param>
         /// <param name="model">Le modèle de création ou de mise à jour du bonsaï.</param>
         /// <returns>
         /// Une action HTTP avec le statut Ok si la mise à jour réussit, sinon BadRequest.

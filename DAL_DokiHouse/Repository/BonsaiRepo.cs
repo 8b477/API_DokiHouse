@@ -32,12 +32,12 @@ namespace DAL_DokiHouse.Repository
         
         public async Task<bool> UpdateBonsai(BonsaiDTO bonsai)
         {
-            string sql = "UPDATE [Bonsai] SET Name = @Name,Description = @Description WHERE IdUser = @id";
+            string sql = "UPDATE [Bonsai] SET Name = @Name,Description = @Description WHERE Id = @id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Name",bonsai.Name);
             parameters.Add("@Description",bonsai.Description);
-            parameters.Add("@id", bonsai.IdUser);
+            parameters.Add("@id", bonsai.Id);
 
             int result = await _connection.ExecuteAsync(sql, parameters);
 
