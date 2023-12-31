@@ -53,8 +53,7 @@ namespace API_DokiHouse.Controllers
 
             int idUser = GetLoggedInUserId();
 
-            if (idUser == 0)
-                return Unauthorized();
+            if (idUser == 0) return Unauthorized();
 
             IEnumerable<BonsaiAndChild>? result = await _bonsaiService.Get(idUser);
 
@@ -123,13 +122,11 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create(BonsaiCreateModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
            
             int idToken = GetLoggedInUserId();
 
-            if(idToken == 0)            
-               return Unauthorized();
+            if(idToken == 0) return Unauthorized();
 
             BonsaiCreateDTO bonsaiDTO = new(model.Name, model.Description, idToken);
 
@@ -167,8 +164,7 @@ namespace API_DokiHouse.Controllers
 
             int idToken = GetLoggedInUserId();
 
-            if (idToken == 0)
-                return Unauthorized();
+            if (idToken == 0) return Unauthorized();
 
             BonsaiDTO bonsaiDTO = new(idBonsai, model.Name, model.Description,idToken);
 

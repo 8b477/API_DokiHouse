@@ -6,6 +6,7 @@ namespace BLL_DokiHouse.Services
 {
     public class CategoryBLLService : ICategoryBLLService
     {
+
         #region Injection
         private readonly ICategoryRepo _repoCategory;
 

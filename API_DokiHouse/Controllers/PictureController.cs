@@ -51,7 +51,10 @@ namespace API_DokiHouse.Controllers
         [HttpPost("{idUser}/" + nameof(AddPictureDBProfil))]
         public async Task<IActionResult> AddPictureDBProfil([FromRoute] int idUser,IFormFile file)
         {
-            return await _pictureRepo.AddPictureProfil(idUser, file) != 0 ? Ok() : BadRequest();
+            return 
+                await _pictureRepo.AddPictureProfil(idUser, file) != 0
+                ? Ok() 
+                : BadRequest();
         }
 
 
@@ -63,8 +66,12 @@ namespace API_DokiHouse.Controllers
         [HttpPost(nameof(AddPictureDBBonsai))]
         public async Task<IActionResult> AddPictureDBBonsai(IFormFile file)
         {
-            return await _pictureRepo.AddPictureBonsai(file) != 0 ? Ok() : BadRequest();
+            return 
+                await _pictureRepo.AddPictureBonsai(file) != 0 
+                ? Ok() 
+                : BadRequest();
         }
+
 
         /// <summary>
         /// Retourne un tableau de byte qui représente une image en base de donnée sur base d'un identifiant
@@ -74,7 +81,10 @@ namespace API_DokiHouse.Controllers
         [HttpGet("{idUser}/" + nameof(GetImageProfil))]
         public async Task<IActionResult> GetImageProfil([FromRoute] int idPictureProfil)
         {
-            return await _pictureRepo.GetImageProfil(idPictureProfil) is not null ? Ok() : BadRequest();
+            return 
+                await _pictureRepo.GetImageProfil(idPictureProfil) is not null 
+                ? Ok() 
+                : BadRequest();
         }
 
 
@@ -86,7 +96,10 @@ namespace API_DokiHouse.Controllers
         [HttpGet("{idUser}/" + nameof(GetImageBonsai))]
         public async Task<IActionResult> GetImageBonsai([FromRoute] int idUser)
         {
-            return await _pictureRepo.GetImageBonsai(idUser) is not null ? Ok() : BadRequest();
+            return 
+                await _pictureRepo.GetImageBonsai(idUser) is not null 
+                ? Ok() 
+                : BadRequest();
         }
 
     }

@@ -7,6 +7,7 @@ namespace BLL_DokiHouse.Services
 {
     public class BonsaiBLLService : IBonsaiBLLService
     {
+
         #region Injection
 
         private readonly IBonsaiRepo _bonsaiRepo;
@@ -32,10 +33,12 @@ namespace BLL_DokiHouse.Services
             return await _bonsaiRepo.GetAllBonsai();
         }
 
+
         public async Task<IEnumerable<BonsaiAndChild>> Get(int idUser)
         {
             return await _bonsaiRepo.GetAllBonsai(idUser);
         }
+
 
         public async Task<BonsaiDisplayDTO?> GetByID(int id)
         {

@@ -2,11 +2,9 @@
 using API_DokiHouse.Services;
 using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace API_DokiHouse.Controllers
 {
@@ -18,11 +16,52 @@ namespace API_DokiHouse.Controllers
         #region Injection
         private readonly IUserBLLService _userService;
 
-        public UserController(IUserBLLService userService, IPictureRepo pictureRepo)
+        public UserController(IUserBLLService userService)
         {
             _userService = userService;
         }
         #endregion
+
+
+        private int GetLoggedInUserId()
+        {
+            string? identifiant = HttpContext?.Items["identifiant"]?.ToString();
+
+            if (int.TryParse(identifiant, out int id))
+            {
+                return id;
+            }
+            return 0;
+        }
+
+
+
+        /// <summary>
+        /// Crée un nouvel utilisateur.
+        /// </summary>
+        /// <remarks>
+        /// Cette méthode permet de créer un nouvel utilisateur en utilisant les informations fournies.
+        /// </remarks>
+        /// <param name="model">Les informations de l'utilisateur à créer.</param>
+        /// <response code="201">Retourne les informations de l'utilisateur créé.</response>
+        /// <response code="400">La création de l'utilisateur a échoué.</response>
+        [AllowAnonymous]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserPassConfirmModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody] UserPassConfirmModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            UserCreateDTO user = Mapper.FromConfirmPassToModelCreate(model);
+
+            return
+                await _userService.Create(user) == true
+                ? CreatedAtAction(nameof(Create), model)
+                : BadRequest();
+        }
+
 
 
         /// <summary>
@@ -47,27 +86,32 @@ namespace API_DokiHouse.Controllers
         }
 
 
+
         /// <summary>
         /// Récupère un utilisateur par ID.
         /// </summary>
         /// <remarks>
-        /// Cette méthode permet de récupérer un utilisateur spécifique en utilisant son ID.
+        /// Cette méthode permet de à l'utilisateur de consulter son profil.
         /// </remarks>
-        /// <param name="id">L'identifiant de l'utilisateur.</param>
         /// <response code="200">Retourne l'utilisateur trouvé.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
-        [HttpGet("{id:int}")]
+        [HttpGet("Profil")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDisplayDTO))]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetById()
         {
-            UserDisplayDTO? result = await _userService.GetByID(id);
+            int idUser = GetLoggedInUserId();
+
+            if (idUser == 0) return Unauthorized();
+
+            UserDisplayDTO? result = await _userService.GetByID(idUser);
 
             if (result is not null)
                 return Ok(result);
 
-            return NoContent();
+            return BadRequest("Aucune correspondance");
         }
+
 
 
         /// <summary>
@@ -93,55 +137,34 @@ namespace API_DokiHouse.Controllers
         }
 
 
-        /// <summary>
-        /// Crée un nouvel utilisateur.
-        /// </summary>
-        /// <remarks>
-        /// Cette méthode permet de créer un nouvel utilisateur en utilisant les informations fournies.
-        /// </remarks>
-        /// <param name="model">Les informations de l'utilisateur à créer.</param>
-        /// <response code="201">Retourne les informations de l'utilisateur créé.</response>
-        /// <response code="400">La création de l'utilisateur a échoué.</response>
-        [AllowAnonymous]
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserPassConfirmModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] UserPassConfirmModel model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
-            UserCreateDTO user = Mapper.FromConfirmPassToModelCreate(model);
-
-            return 
-                await _userService.Create(user) == true 
-                ? CreatedAtAction(nameof(Create), model) 
-                : BadRequest();
-        }
-
 
         /// <summary>
-        /// Met à jour un utilisateur.
+        /// Met à jour le profil d'un utilisateur.
         /// </summary>
         /// <remarks>
         /// Cette méthode permet de mettre à jour un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
         /// </remarks>
-        /// <param name="id">L'identifiant de l'utilisateur à mettre à jour.</param>
         /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
-        [HttpPut("{id}")]
+        [HttpPut("Update")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update([FromRoute] int id,[FromBody] UserUpdateModel model)
+        public async Task<IActionResult> Update([FromBody] UserUpdateModel model)
         {
+
+            int idUser = GetLoggedInUserId();
+
+            if (idUser == 0) return Unauthorized();
+
             UserCreateDTO? user = Mapper.FromUpdateToModelCreate(model);
 
-            if(await _userService.Update(id, user))           
+            if(await _userService.Update(idUser, user))           
                 return Ok(user);
 
             return BadRequest();
         }
+
 
 
         /// <summary>
@@ -153,13 +176,17 @@ namespace API_DokiHouse.Controllers
         /// <param name="id">L'identifiant de l'utilisateur à supprimer.</param>
         /// <response code="204">L'utilisateur a été supprimé avec succès.</response>
         /// <response code="400">La suppression de l'utilisateur a échoué.</response>
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Delete([FromRoute] int id)
+        public async Task<ActionResult> Delete()
         {
+            int idUser = GetLoggedInUserId();
+
+            if(idUser == 0) return Unauthorized();
+
             return 
-                await _userService.Delete(id) == true
+                await _userService.Delete(idUser) == true
                 ? NoContent() 
                 : BadRequest("Aucune correspondance");
         }

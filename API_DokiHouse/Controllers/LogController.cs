@@ -31,8 +31,7 @@ namespace API_DokiHouse.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserRegisterModel user)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             User? result = await _userBLLService.Login(user.Email, user.Passwd);
 

@@ -116,6 +116,12 @@ namespace BLL_DokiHouse.Services
         }
 
 
+        /// <summary>
+        /// Met à jour l'ID de l'image de profil pour un utilisateur spécifié.
+        /// </summary>
+        /// <param name="idPicture">L'ID de l'image de profil à associer à l'utilisateur.</param>
+        /// <param name="idUser">L'ID de l'utilisateur dont l'image de profil doit être mise à jour.</param>
+        /// <returns>Une tâche représentant l'opération de mise à jour.</returns>
         public Task<bool> UpdateProfilPicture(int idPicture, int idUser)
         {
             return _userRepo.UpdateProfilPicture(idPicture, idUser);
