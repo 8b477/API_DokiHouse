@@ -9,6 +9,7 @@ namespace DAL_DokiHouse.Interfaces
     {
         Task<int> CreateBonsai(BonsaiCreateDTO model);
         Task<bool> UpdateBonsai(BonsaiDTO bonsai);
-        Task<IEnumerable<BonsaiCateExp>?> GetAllBonsai();
+        Task<IEnumerable<BonsaiAndChild>?> GetAllBonsai();
+        Task<IEnumerable<BonsaiAndChild>> GetAllBonsai(int idUser);
     }
 }

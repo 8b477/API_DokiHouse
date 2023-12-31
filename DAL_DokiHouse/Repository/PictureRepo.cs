@@ -16,6 +16,8 @@ namespace DAL_DokiHouse.Repository
         public PictureRepo(IDbConnection connection) => (_connection) = (connection);
         #endregion
 
+
+
         /// <summary>
         /// Ajoute une image de profil à la table [PictureProfil] dans la base de données.
         /// </summary>
@@ -34,6 +36,7 @@ namespace DAL_DokiHouse.Repository
 
             return generatedId ?? 0;
         }
+
 
 
         /// <summary>
@@ -56,6 +59,7 @@ namespace DAL_DokiHouse.Repository
         }
 
 
+
         /// <summary>
         /// Récupère l'image de profil associée à l'identifiant spécifié depuis la table [PictureProfil].
         /// </summary>
@@ -67,6 +71,7 @@ namespace DAL_DokiHouse.Repository
 
             return imageData;
         }
+
 
 
         /// <summary>

@@ -2,12 +2,11 @@
 using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse.DTO;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
+using API_DokiHouse.Services;
 using static API_DokiHouse.Models.BonsaiModel;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using API_DokiHouse.Services;
-using DAL_DokiHouse.Repository;
 
 namespace API_DokiHouse.Controllers
 {
@@ -39,7 +38,7 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Récupère tous les bonsaïs.
+        /// Récupère tous les bonsaïs lié à l'utilisateur identifié.
         /// </summary>
         /// <returns>
         /// Une action HTTP avec le statut Ok et la liste des bonsaïs si la récupération réussit,
@@ -48,9 +47,16 @@ namespace API_DokiHouse.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiDisplayDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<BonsaiCateExp>? result = await _bonsaiService.Get();
+
+            int idUser = GetLoggedInUserId();
+
+            if (idUser == 0)
+                return Unauthorized();
+
+            IEnumerable<BonsaiAndChild>? result = await _bonsaiService.Get(idUser);
 
             return 
                 result is not null 
@@ -72,7 +78,9 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            BonsaiDisplayDTO bonsai = await _bonsaiService.GetByID(id);
+
+            BonsaiDisplayDTO? bonsai = await _bonsaiService.GetByID(id);
+
             return 
                 bonsai is not null 
                 ? Ok(bonsai) 

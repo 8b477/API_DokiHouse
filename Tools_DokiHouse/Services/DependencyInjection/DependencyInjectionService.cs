@@ -43,16 +43,16 @@ namespace Tools_DokiHouse.Services.DependencyInjection
             services.AddScoped<ICategoryBLLService, CategoryBLLService>();
 
 
-            //Category Style
-            //services.AddScoped<IStyleRepo, StyleRepo>(provider => new StyleRepo(new SqlConnection(connectionString)));
+            //Style Service
+            services.AddScoped<IStyleRepo, StyleRepo>(provider => new StyleRepo(new SqlConnection(connectionString)));
 
-            //services.AddScoped<IStyleBLLService, StyleBLLService>();
+            services.AddScoped<IStyleBLLService, StyleBLLService>();
 
 
-            //Category Note
-            //services.AddScoped<INoteRepo, NoteRepo>(provider => new NoteRepo(new SqlConnection(connectionString)));
+            //Note Service
+            services.AddScoped<INoteRepo, NoteRepo>(provider => new NoteRepo(new SqlConnection(connectionString)));
 
-            //services.AddScoped<INoteBLLService, NoteBLLService>();
+            services.AddScoped<INoteBLLService, NoteBLLService>();
 
 
             //Token Service

@@ -50,7 +50,7 @@ namespace DAL_DokiHouse.DTO
     }
 
 
-    public class BonsaiCateExp
+    public class BonsaiAndChild
     {
         public int IdBonsai { get; set; }
         public string Name { get; set; }

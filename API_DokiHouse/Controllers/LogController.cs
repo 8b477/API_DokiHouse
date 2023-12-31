@@ -22,13 +22,12 @@ namespace API_DokiHouse.Controllers
         private readonly JWTService _jwtService;
 
         public LogController(IUserBLLService userBLLService, JWTService jWTService)
-            => (_userBLLService, _jwtService) = (userBLLService, jWTService); 
+            => (_userBLLService, _jwtService) 
+            =  (userBLLService, jWTService); 
 
         #endregion
 
 
-
-        // ----------> Ici je dois générer mon token côté API et le set avec le role et l'id du User loggé
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserRegisterModel user)
         {

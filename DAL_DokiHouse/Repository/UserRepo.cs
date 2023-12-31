@@ -42,6 +42,7 @@ namespace DAL_DokiHouse
         }
 
 
+
         /// <summary>
         /// Met à jour la colonne IdPictureProfil de la table [User] avec la nouvelle valeur spécifiée.
         /// </summary>

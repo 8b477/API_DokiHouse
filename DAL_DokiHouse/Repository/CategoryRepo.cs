@@ -11,39 +11,51 @@ namespace DAL_DokiHouse.Repository
         #region Injection
         private readonly DbConnection _connection;
 
-        public CategoryRepo(DbConnection connection) => _connection = connection; 
+        public CategoryRepo(DbConnection connection) => _connection = connection;
         #endregion
 
 
+        /// <summary>
+        /// Met à jour les informations d'une catégorie dans la base de données.
+        /// </summary>
+        /// <param name="category">Les nouvelles informations de la catégorie.</param>
+        /// <returns>True si la mise à jour a réussi, sinon False.</returns>
         public async Task<bool> Update(CategoryDTO category)
         {
             string sql = @"
-                        UPDATE [Category]
-                        SET 
-                            Shohin = @Shohin,
-                            Mame = @Mame,
-                            Chokkan = @Chokkan,
-                            Moyogi = @Moyogi,
-                            Shakan = @Shakan,
-                            Kengai = @Kengai,
-                            HanKengai = @HanKengai,
-                            Ikadabuki = @Ikadabuki,
-                            Neagari = @Neagari,
-                            Literati = @Literati,
-                            YoseUe = @YoseUe,
-                            Ishitsuki = @Ishitsuki,
-                            Kabudachi = @Kabudachi,
-                            Kokufu = @Kokufu,
-                            Yamadori = @Yamadori,
-                            Perso = @Perso
-                        WHERE IdBonsai = @IdBonsai";
+        UPDATE [Category]
+        SET 
+            Shohin = @Shohin,
+            Mame = @Mame,
+            Chokkan = @Chokkan,
+            Moyogi = @Moyogi,
+            Shakan = @Shakan,
+            Kengai = @Kengai,
+            HanKengai = @HanKengai,
+            Ikadabuki = @Ikadabuki,
+            Neagari = @Neagari,
+            Literati = @Literati,
+            YoseUe = @YoseUe,
+            Ishitsuki = @Ishitsuki,
+            Kabudachi = @Kabudachi,
+            Kokufu = @Kokufu,
+            Yamadori = @Yamadori,
+            Perso = @Perso
+        WHERE IdBonsai = @IdBonsai";
 
+            // Exécute la requête et récupère le nombre de lignes affectées
             int rowsAffected = await _connection.ExecuteAsync(sql, category);
 
             return rowsAffected > 0;
         }
 
 
+
+        /// <summary>
+        /// Crée une nouvelle catégorie dans la base de données.
+        /// </summary>
+        /// <param name="model">Les informations de la catégorie à créer.</param>
+        /// <returns>True si la création a réussi, sinon False.</returns>
         public async Task<bool> Create(CategoryDTO model)
         {
             string sql = @"
@@ -59,10 +71,12 @@ namespace DAL_DokiHouse.Repository
             @Perso, @IdBonsai
         )";
 
+            // Exécute la requête et récupère le nombre de lignes affectées
             int rowAffected = await _connection.ExecuteAsync(sql, model);
 
             return rowAffected > 0;
         }
+
 
     }
 }
