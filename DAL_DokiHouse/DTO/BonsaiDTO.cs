@@ -1,6 +1,7 @@
 ﻿
 namespace DAL_DokiHouse.DTO
 {
+
     public record BonsaiDTO
     {
         public BonsaiDTO(int id, string name, string? description, int idUser)
@@ -16,6 +17,7 @@ namespace DAL_DokiHouse.DTO
         public int IdUser { get; }
     }
 
+
     public record BonsaiCreateDTO
     {
         public BonsaiCreateDTO(string name, string? description, int idUser)
@@ -28,6 +30,7 @@ namespace DAL_DokiHouse.DTO
         public string? Description { get; }
         public int IdUser { get; }
     }
+
 
     public record BonsaiDisplayDTO
     {
@@ -44,5 +47,18 @@ namespace DAL_DokiHouse.DTO
         public string Name { get; }
         public string? Description { get; }
         public int IdUser { get; }
+    }
+
+
+    public class BonsaiCateExp
+    {
+        public int IdBonsai { get; set; }
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public int IdUser { get; set; }
+        public CategoryDTO Category { get; set; }
+
+        public StyleDTO Style { get; set; }
+        public NoteDTO Note { get; set; }
     }
 }

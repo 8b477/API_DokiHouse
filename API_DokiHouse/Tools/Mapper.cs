@@ -1,8 +1,5 @@
 ﻿using API_DokiHouse.Models;
-
 using DAL_DokiHouse.DTO;
-
-using static API_DokiHouse.Models.BonsaiModel;
 
 namespace API_DokiHouse.Services
 {
@@ -18,5 +15,17 @@ namespace API_DokiHouse.Services
             return new UserCreateDTO(user.Name, user.Email, user.Passwd);
         }
 
+        public static CategoryDTO FromCategoryModelToCategoryDTO(CategoryModel user)
+        {
+            return new CategoryDTO(
+                        user.Id,
+                        user.Shohin, user.Mame, user.Chokkan,
+                        user.Moyogi,user.Shakan, user.Kengai,
+                        user.HanKengai, user.Ikadabuki, user.Neagari,
+                        user.Literati, user.YoseUe, user.Ishitsuki,
+                        user.Kabudachi, user.Kokufu, user.Yamadori,
+                        user.Perso, user.IdBonsai
+                        );
+        }
     }
 }

@@ -1,14 +1,13 @@
-﻿using API_DokiHouse.Services;
+﻿using API_DokiHouse.Models;
 using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse.DTO;
-
-using Entities_DokiHouse.Entities;
+using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
+using static API_DokiHouse.Models.BonsaiModel;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
-
-using static API_DokiHouse.Models.BonsaiModel;
+using API_DokiHouse.Services;
+using DAL_DokiHouse.Repository;
 
 namespace API_DokiHouse.Controllers
 {
@@ -21,8 +20,9 @@ namespace API_DokiHouse.Controllers
 
         #region Injection
         private readonly IBonsaiBLLService _bonsaiService;
+        private readonly ICategoryBLLService _categoryService;
 
-        public BonsaiController(IBonsaiBLLService bonsaiService) => _bonsaiService = bonsaiService;
+        public BonsaiController(IBonsaiBLLService bonsaiService, ICategoryBLLService categoryService) => (_bonsaiService, _categoryService) = (bonsaiService, categoryService);
         #endregion
 
         private int GetLoggedInUserId()
@@ -50,7 +50,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<BonsaiDisplayDTO> result = await _bonsaiService.Get();
+            IEnumerable<BonsaiCateExp>? result = await _bonsaiService.Get();
 
             return 
                 result is not null 
@@ -125,11 +125,20 @@ namespace API_DokiHouse.Controllers
 
             BonsaiCreateDTO bonsaiDTO = new(model.Name, model.Description, idToken);
 
-            return 
-                await _bonsaiService.Create(bonsaiDTO) 
-                ? CreatedAtAction(nameof(Create), model) 
-                : BadRequest();
-            
+            int idBonsai = await _bonsaiService.Create(bonsaiDTO);
+
+            if(idBonsai != 0) //Si idBonsai == 0 erreur au niveau de la requete DAL_DokiHouse
+            {
+                CategoryModel CategoryDefault = new();
+                CategoryDefault.IdBonsai = idBonsai;
+
+                CategoryDTO cateClean = Mapper.FromCategoryModelToCategoryDTO(CategoryDefault);
+
+                await _categoryService.Create(cateClean);
+            }
+
+            return CreatedAtAction(nameof(Create), model);
+           
         }
 
 

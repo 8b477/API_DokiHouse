@@ -2,6 +2,8 @@
 using DAL_DokiHouse.Interfaces;
 using Entities_DokiHouse.Entities;
 
+using System.Reflection;
+
 namespace DAL_DokiHouse
 {
     public interface IUserRepo : IRepo<User, UserDTO, UserCreateDTO, UserDisplayDTO, int, string>

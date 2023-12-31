@@ -16,22 +16,46 @@ namespace Tools_DokiHouse.Services.DependencyInjection
     {
         public static void ConfigureDependencyInjection(IServiceCollection services, IConfiguration configuration)
         {
+            // Connection string
             string connectionString = configuration.GetConnectionString("dev") ?? "";
 
+            //User Service
             services.AddScoped<IUserRepo, UserRepo>(provider => new UserRepo(new SqlConnection(connectionString)));
 
             services.AddScoped<IUserBLLService, UserBLLService>();
 
 
+            //Picture Service
             services.AddScoped<IPictureRepo, PictureRepo>(provider => new PictureRepo(new SqlConnection(connectionString)));
 
             services.AddScoped<IPictureBLLService, PictureBLLService>();
 
 
+            //Bonsai Service
             services.AddScoped<IBonsaiRepo, BonsaiRepo>(provider => new BonsaiRepo(new SqlConnection(connectionString)));
 
             services.AddScoped<IBonsaiBLLService, BonsaiBLLService>();
 
+
+            //Category Service
+            services.AddScoped<ICategoryRepo, CategoryRepo>(provider => new CategoryRepo(new SqlConnection(connectionString)));
+
+            services.AddScoped<ICategoryBLLService, CategoryBLLService>();
+
+
+            //Category Style
+            //services.AddScoped<IStyleRepo, StyleRepo>(provider => new StyleRepo(new SqlConnection(connectionString)));
+
+            //services.AddScoped<IStyleBLLService, StyleBLLService>();
+
+
+            //Category Note
+            //services.AddScoped<INoteRepo, NoteRepo>(provider => new NoteRepo(new SqlConnection(connectionString)));
+
+            //services.AddScoped<INoteBLLService, NoteBLLService>();
+
+
+            //Token Service
             services.AddScoped<JwtUserIdentifiantFilter>();
         }
     }

@@ -4,7 +4,8 @@ namespace DAL_DokiHouse.DTO
     public record UserDTO
     {
         public UserDTO(string name, string email, string passwd, int? idPictureProfil, string role)
-            => (Name ,Email, Passwd, IdPictureProfil, Role) = (name, email, passwd, idPictureProfil, role);
+            => (Name ,Email, Passwd, IdPictureProfil, Role) 
+            =  (name, email, passwd, idPictureProfil, role);
 
         public string Name { get; }
         public string Email { get; }
@@ -17,7 +18,8 @@ namespace DAL_DokiHouse.DTO
     public record UserCreateDTO
     {
         public UserCreateDTO(string name, string email, string passwd)
-            => (Name, Email, Passwd) = (name, email, passwd);
+            => (Name, Email, Passwd) 
+            =  (name, email, passwd);
 
         public string Name { get; }
         public string Email { get;  }
@@ -27,10 +29,11 @@ namespace DAL_DokiHouse.DTO
 
     public record UserDisplayDTO
     {
-        public UserDisplayDTO(){ } // ---> Dapper a besoin d'un constructeur vide
+        public UserDisplayDTO(){ } 
 
         public UserDisplayDTO(int id, string name, int? idPictureProfil)
-            => (Id, Name, IdPictureProfil) = (id, name, idPictureProfil);
+            => (Id, Name, IdPictureProfil) 
+            =  (id, name, idPictureProfil);
 
         public int Id { get; }
         public string Name { get; }

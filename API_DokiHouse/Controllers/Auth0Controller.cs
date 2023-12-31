@@ -1,6 +1,7 @@
 ﻿using BLL_DokiHouse.Interfaces;
 
 using DAL_DokiHouse.DTO;
+using DAL_DokiHouse.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +17,13 @@ namespace API_DokiHouse.Controllers
 
         #region Injection
 
-        private readonly IMemoryCache _memoryCach;
+        //private readonly IMemoryCache _memoryCach;
         private readonly ILogger<Auth0Controller> _logger;
         private readonly IUserBLLService _repo;
 
-        public Auth0Controller(IMemoryCache memoryCach, ILogger<Auth0Controller> logger, IUserBLLService repo)
-            => (_memoryCach, _logger, _repo) = (memoryCach, logger, repo); 
+        public Auth0Controller
+            (ILogger<Auth0Controller> logger, IUserBLLService repo)
+            => (_logger, _repo) = (logger, repo); 
 
         #endregion
 

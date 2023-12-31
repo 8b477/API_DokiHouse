@@ -1,6 +1,7 @@
 ﻿using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository;
 
 namespace BLL_DokiHouse.Services
 {
@@ -14,9 +15,9 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<bool> Create(BonsaiCreateDTO model)
+        public async Task<int> Create(BonsaiCreateDTO model)
         {
-            return await _bonsaiRepo.Create(model);
+            return await _bonsaiRepo.CreateBonsai(model);
         }
 
 
@@ -26,11 +27,10 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<IEnumerable<BonsaiDisplayDTO>> Get()
+        public async Task<IEnumerable<BonsaiCateExp>?> Get()
         {
-            return await _bonsaiRepo.Get();
+            return await _bonsaiRepo.GetAllBonsai();
         }
-
 
         public async Task<BonsaiDisplayDTO?> GetByID(int id)
         {
