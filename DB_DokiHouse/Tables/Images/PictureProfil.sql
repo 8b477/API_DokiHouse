@@ -1,5 +1,7 @@
 ﻿CREATE TABLE [dbo].[PictureProfil]
 (
 	[Id] INT NOT NULL IDENTITY PRIMARY KEY,
-	[Picture] VARBINARY(MAX)
+	[Picture] VARBINARY(MAX),
+	[IdUser] INT NOT NULL
+	FOREIGN KEY (IdUser) REFERENCES [User](Id)
 )

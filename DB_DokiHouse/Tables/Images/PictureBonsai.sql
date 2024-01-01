@@ -2,6 +2,6 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY,
 	[Picture] VARBINARY(MAX) NOT NULL,
-	[IdUser] INT NOT NULL
-	FOREIGN KEY (IdUser) REFERENCES [User](Id)
+	[IdBonsai] INT NOT NULL
+	FOREIGN KEY (IdBonsai) REFERENCES [Bonsai](Id)
 )
