@@ -1,5 +1,8 @@
 ﻿using BLL_DokiHouse.ExceptionHandler;
 using BLL_DokiHouse.Interfaces;
+using BLL_DokiHouse.Models;
+using BLL_DokiHouse.Tools;
+
 using DAL_DokiHouse;
 using DAL_DokiHouse.DTO;
 using Entities_DokiHouse.Entities;
@@ -69,7 +72,7 @@ namespace BLL_DokiHouse.Services
         /// </summary>
         /// <param name="model">attend un : 'UserCreateDTO'</param>
         /// <returns>Retoune 'true' si réussi ou si non 'false'</returns>
-        public async Task<bool> Create(UserCreateDTO model)
+        public async Task<bool> Create(UserBLL model)
         {
             try
             {
@@ -99,11 +102,15 @@ namespace BLL_DokiHouse.Services
         /// <param name="id">Identifiant de type 'int'</param>
         /// <param name="model">model de création attendu : 'UserCreateDTO'</param>
         /// <returns>Retourne le user modifié si réussi, si non retourne null</returns>
-        public async Task<bool> Update(int id, UserCreateDTO model)
+        public async Task<bool> Update(int id, UserBLL model)
         {
             try
             {
-               return await _userRepo.Update(id, model);
+               UserCreateDTO userDTO = Mapper.UserBLLToDAL(model);
+
+               userDTO.Passwd = BCrypt.Net.BCrypt.HashPassword(model.Passwd);
+
+               return await _userRepo.Update(id, userDTO);
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {

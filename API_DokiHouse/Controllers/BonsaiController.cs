@@ -7,6 +7,8 @@ using static API_DokiHouse.Models.BonsaiModel;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using API_DokiHouse.Tools;
+using BLL_DokiHouse.Models;
 
 namespace API_DokiHouse.Controllers
 {
@@ -19,20 +21,37 @@ namespace API_DokiHouse.Controllers
 
         #region Injection
         private readonly IBonsaiBLLService _bonsaiService;
-        private readonly ICategoryBLLService _categoryService;
 
-        public BonsaiController(IBonsaiBLLService bonsaiService, ICategoryBLLService categoryService) => (_bonsaiService, _categoryService) = (bonsaiService, categoryService);
+        private readonly GetInfosHTTPContext _httpContextService;
+
+        public BonsaiController(IBonsaiBLLService bonsaiService, GetInfosHTTPContext httpContextService)
+        {
+            _bonsaiService = bonsaiService;
+            _httpContextService = httpContextService;
+        }
+
+
         #endregion
 
-        private int GetLoggedInUserId()
-        {
-            string? identifiant = HttpContext?.Items["identifiant"]?.ToString();
 
-            if (int.TryParse(identifiant, out int id))
-            {
-                return id;
-            }
-            return 0;
+        /// <summary>
+        /// Récupère tous les bonsaïs en base de données.
+        /// </summary>
+        /// <returns>
+        /// Retourne la liste des bonsaïs si la récupération réussit, sinon une liste vide.
+        /// </returns>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiDisplayDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Get()
+        {
+            IEnumerable<BonsaiAndChild>? result = await _bonsaiService.Get();
+
+            return
+                result is not null
+                ? Ok(result)
+                : NoContent();
         }
 
 
@@ -44,14 +63,14 @@ namespace API_DokiHouse.Controllers
         /// Une action HTTP avec le statut Ok et la liste des bonsaïs si la récupération réussit,
         /// sinon BadRequest ou NoContent si la liste est vide.
         /// </returns>
-        [HttpGet]
+        [HttpGet(nameof(GetOwnBonsai))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiDisplayDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetOwnBonsai()
         {
 
-            int idUser = GetLoggedInUserId();
+            int idUser = _httpContextService.GetLoggedInUserId();
 
             if (idUser == 0) return Unauthorized();
 
@@ -62,6 +81,7 @@ namespace API_DokiHouse.Controllers
                 ? Ok(result) 
                 : NoContent();
         }
+
 
 
         /// <summary>
@@ -87,6 +107,7 @@ namespace API_DokiHouse.Controllers
         }
 
 
+
         /// <summary>
         /// Récupère un bonsaï par son nom.
         /// </summary>
@@ -108,6 +129,7 @@ namespace API_DokiHouse.Controllers
         }
 
 
+
         /// <summary>
         /// Crée un nouveau bonsaï.
         /// </summary>
@@ -124,27 +146,25 @@ namespace API_DokiHouse.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
            
-            int idToken = GetLoggedInUserId();
+            int idToken = _httpContextService.GetLoggedInUserId();
 
             if(idToken == 0) return Unauthorized();
 
-            BonsaiCreateDTO bonsaiDTO = new(model.Name, model.Description, idToken);
+            BonsaiBLL bonsaiDTO = Mapper.BonsaiModelToBLL(model);
+
+            bonsaiDTO.IdUser = idToken;
 
             int idBonsai = await _bonsaiService.Create(bonsaiDTO);
 
-            if(idBonsai != 0) //Si idBonsai == 0 erreur au niveau de la requete DAL_DokiHouse
+
+            if(idBonsai != 0 )
             {
-                CategoryModel CategoryDefault = new();
-                CategoryDefault.IdBonsai = idBonsai;
-
-                CategoryDTO cateClean = Mapper.FromCategoryModelToCategoryDTO(CategoryDefault);
-
-                await _categoryService.Create(cateClean);
-            }
 
             return CreatedAtAction(nameof(Create), model);
-           
+            }
+            return BadRequest("fin de create error");
         }
+
 
 
         /// <summary>
@@ -162,7 +182,7 @@ namespace API_DokiHouse.Controllers
         public async Task<IActionResult> Update(int idBonsai,  BonsaiCreateModel model)
         {
 
-            int idToken = GetLoggedInUserId();
+            int idToken = _httpContextService.GetLoggedInUserId();
 
             if (idToken == 0) return Unauthorized();
 
@@ -173,6 +193,7 @@ namespace API_DokiHouse.Controllers
                 ? Ok() 
                 : BadRequest();
         }
+
 
 
         /// <summary>

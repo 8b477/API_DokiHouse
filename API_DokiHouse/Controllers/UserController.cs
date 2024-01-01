@@ -1,38 +1,33 @@
 ﻿using API_DokiHouse.Models;
 using API_DokiHouse.Services;
+using API_DokiHouse.Tools;
 using BLL_DokiHouse.Interfaces;
+using BLL_DokiHouse.Models;
 using DAL_DokiHouse.DTO;
+using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace API_DokiHouse.Controllers
 {
     [Route("api/[controller]")]
+    [ServiceFilter(typeof(JwtUserIdentifiantFilter))]
     [ApiController]
     public class UserController : ControllerBase
     {
 
         #region Injection
         private readonly IUserBLLService _userService;
+        private readonly GetInfosHTTPContext _httpContextService;
 
-        public UserController(IUserBLLService userService)
+        public UserController(IUserBLLService userService, GetInfosHTTPContext httpContextService)
         {
             _userService = userService;
+            _httpContextService = httpContextService;
         }
         #endregion
-
-
-        private int GetLoggedInUserId()
-        {
-            string? identifiant = HttpContext?.Items["identifiant"]?.ToString();
-
-            if (int.TryParse(identifiant, out int id))
-            {
-                return id;
-            }
-            return 0;
-        }
 
 
 
@@ -47,18 +42,18 @@ namespace API_DokiHouse.Controllers
         /// <response code="400">La création de l'utilisateur a échoué.</response>
         [AllowAnonymous]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserPassConfirmModel))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserBLL))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] UserPassConfirmModel model)
+        public async Task<IActionResult> Create([FromBody] UserCreateModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            UserCreateDTO user = Mapper.FromConfirmPassToModelCreate(model);
+            UserBLL user = Mapper.UserModelToBLL(model);
 
             return
                 await _userService.Create(user) == true
-                ? CreatedAtAction(nameof(Create), model)
+                ? CreatedAtAction(nameof(Create), user)
                 : BadRequest();
         }
 
@@ -100,7 +95,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetById()
         {
-            int idUser = GetLoggedInUserId();
+            int idUser = _httpContextService.GetLoggedInUserId();
 
             if (idUser == 0) return Unauthorized();
 
@@ -152,12 +147,12 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update([FromBody] UserUpdateModel model)
         {
-
-            int idUser = GetLoggedInUserId();
+            
+            int idUser = _httpContextService.GetLoggedInUserId();
 
             if (idUser == 0) return Unauthorized();
 
-            UserCreateDTO? user = Mapper.FromUpdateToModelCreate(model);
+            UserBLL? user = Mapper.UserModelToBLL(model);
 
             if(await _userService.Update(idUser, user))           
                 return Ok(user);
@@ -181,7 +176,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Delete()
         {
-            int idUser = GetLoggedInUserId();
+            int idUser = _httpContextService.GetLoggedInUserId();
 
             if(idUser == 0) return Unauthorized();
 

@@ -3,12 +3,12 @@ using BLL_DokiHouse.Services;
 using DAL_DokiHouse;
 using DAL_DokiHouse.Interfaces;
 using DAL_DokiHouse.Repository;
+using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.SqlClient;
 
-using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
 namespace Tools_DokiHouse.Services.DependencyInjection
 {

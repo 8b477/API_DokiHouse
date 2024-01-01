@@ -29,7 +29,7 @@ namespace API_DokiHouse.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] UserRegisterModel user)
+        public async Task<IActionResult> Login([FromBody] UserLoginModel user)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

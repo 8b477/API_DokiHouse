@@ -1,31 +1,44 @@
 ﻿using API_DokiHouse.Models;
-using DAL_DokiHouse.DTO;
+using BLL_DokiHouse.Models;
+
+using static API_DokiHouse.Models.BonsaiModel;
 
 namespace API_DokiHouse.Services
 {
     public static class Mapper
     {
-        public static UserCreateDTO FromConfirmPassToModelCreate(UserPassConfirmModel user)
+        
+
+        // User
+        public static UserBLL UserModelToBLL(UserCreateModel user)
         {
-            return new UserCreateDTO(user.Name, user.Email, user.Passwd);
+            return new UserBLL(user.Name, user.Email, user.Passwd);
         }
 
-        public static UserCreateDTO FromUpdateToModelCreate(UserUpdateModel user)
+        public static UserBLL UserModelToBLL(UserUpdateModel user)
         {
-            return new UserCreateDTO(user.Name, user.Email, user.Passwd);
+            return new UserBLL(user.Name, user.Email, user.Passwd);
         }
 
-        public static CategoryDTO FromCategoryModelToCategoryDTO(CategoryModel user)
+
+        // Category
+        public static CategoryBLL CategoryModelToBLL(CategoryModel user)
         {
-            return new CategoryDTO(
-                        user.Id,
+            return new CategoryBLL(
                         user.Shohin, user.Mame, user.Chokkan,
-                        user.Moyogi,user.Shakan, user.Kengai,
+                        user.Moyogi, user.Shakan, user.Kengai,
                         user.HanKengai, user.Ikadabuki, user.Neagari,
                         user.Literati, user.YoseUe, user.Ishitsuki,
                         user.Kabudachi, user.Kokufu, user.Yamadori,
-                        user.Perso, user.IdBonsai
+                        user.Perso,0
                         );
+        }
+
+
+        //Bonsai
+        public static BonsaiBLL BonsaiModelToBLL(BonsaiCreateModel bonsai)
+        {
+            return new BonsaiBLL(bonsai.Name, bonsai.Description,0);
         }
     }
 }

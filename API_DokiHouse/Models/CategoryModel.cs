@@ -2,7 +2,6 @@
 {
     public class CategoryModel
     {
-        public int Id { get; set; } = 0;
         public bool Shohin { get; set; } = false;
         public bool Mame { get; set; } = false;
         public bool Chokkan { get; set; } = false;
@@ -19,7 +18,5 @@
         public bool Kokufu { get; set; } = false;
         public bool Yamadori { get; set; } = false;
         public string? Perso { get; set; } = "";
-
-        public int IdBonsai { get; set; } = 0;
     }
 }

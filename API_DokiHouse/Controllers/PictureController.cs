@@ -16,7 +16,8 @@ namespace API_DokiHouse.Controllers
         private readonly IWebHostEnvironment _env;
 
         public PictureController(IWebHostEnvironment env, IPictureBLLService pictureRepo)
-            => (_env, _pictureRepo) = (env, pictureRepo);
+            => (_env, _pictureRepo) 
+            =  (env, pictureRepo);
         #endregion
 
 

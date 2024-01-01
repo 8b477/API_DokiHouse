@@ -15,15 +15,15 @@ namespace DAL_DokiHouse.DTO
     }
 
 
-    public record UserCreateDTO
+    public class UserCreateDTO
     {
         public UserCreateDTO(string name, string email, string passwd)
             => (Name, Email, Passwd) 
             =  (name, email, passwd);
 
-        public string Name { get; }
-        public string Email { get;  }
-        public string Passwd { get;  }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Passwd { get; set; }
     }
 
 

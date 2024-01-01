@@ -1,4 +1,6 @@
 ﻿using BLL_DokiHouse.Interfaces;
+using BLL_DokiHouse.Models;
+using BLL_DokiHouse.Tools;
 using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
 
@@ -16,9 +18,11 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<int> Create(BonsaiCreateDTO model)
+        public async Task<int> Create(BonsaiBLL model)
         {
-            return await _bonsaiRepo.CreateBonsai(model);
+            BonsaiCreateDTO bonsaiDTO = Mapper.BonsaiBLLToDAL(model);
+
+            return await _bonsaiRepo.CreateBonsai(bonsaiDTO);
         }
 
 

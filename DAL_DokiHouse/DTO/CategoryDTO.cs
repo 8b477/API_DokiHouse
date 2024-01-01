@@ -1,17 +1,12 @@
 ﻿
-
 namespace DAL_DokiHouse.DTO
 {
     public class CategoryDTO
     {
-        public CategoryDTO()
-        {
+        public CategoryDTO() {}
 
-        }
-
-        public CategoryDTO(int id, bool shohin, bool mame, bool chokkan, bool moyogi, bool shakan, bool kengai, bool hanKengai, bool ikadabuki, bool neagari, bool literati, bool yoseUe, bool ishitsuki, bool kabudachi, bool kokufu, bool yamadori, string? perso, int idBonsai)
+        public CategoryDTO(bool shohin, bool mame, bool chokkan, bool moyogi, bool shakan, bool kengai, bool hanKengai, bool ikadabuki, bool neagari, bool literati, bool yoseUe, bool ishitsuki, bool kabudachi, bool kokufu, bool yamadori, string? perso, int idBonsai)
         {
-            Id = id;
             Shohin = shohin;
             Mame = mame;
             Chokkan = chokkan;

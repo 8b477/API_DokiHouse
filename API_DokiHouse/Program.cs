@@ -4,6 +4,8 @@ using Tools_DokiHouse.Services.SwaggerConfiguration;
 
 using Serilog;
 using Tools_DokiHouse.Filters.AuthorizationFilter;
+using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
+using API_DokiHouse.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,9 @@ builder.Services.AddSwaggerGen();
 //**************************** DEPENDENCY INJECTION ******************************************
 DependencyInjectionService
     .ConfigureDependencyInjection(builder.Services, builder.Configuration);
+//HTTPContext Service
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<GetInfosHTTPContext>();
 //********************************************************************************************
 
 
