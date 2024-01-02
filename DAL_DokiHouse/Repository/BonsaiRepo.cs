@@ -76,8 +76,7 @@ namespace DAL_DokiHouse.Repository
         FROM [Bonsai] b
         LEFT JOIN [Category] c ON b.Id = c.IdBonsai
         LEFT JOIN [Style] s ON b.Id = s.IdBonsai
-        LEFT JOIN [Note] n ON b.Id = n.IdBonsai
-        WHERE IdUser = @idParam";
+        LEFT JOIN [Note] n ON b.Id = n.IdBonsai";
 
             // Exécute la requête et mappe les résultats dans la liste BonsaiAndChild
             var bonsaiCategories = await _connection.QueryAsync<BonsaiAndChild, CategoryDTO, StyleDTO, NoteDTO, BonsaiAndChild>(

@@ -23,11 +23,20 @@ namespace API_DokiHouse.Controllers
 
         public LogController(IUserBLLService userBLLService, JWTService jWTService)
             => (_userBLLService, _jwtService) 
-            =  (userBLLService, jWTService); 
+            =  (userBLLService, jWTService);
 
         #endregion
 
 
+        /// <summary>
+        /// Méthode permettant de gérer la requête HTTP POST pour l'authentification d'un utilisateur.
+        /// </summary>
+        /// <param name="user">Modèle contenant les informations d'authentification de l'utilisateur.</param>
+        /// <returns>
+        /// Retourne un objet IActionResult représentant le résultat de l'opération d'authentification.
+        /// </returns>
+        /// <response code="200">Authentification réussie. Retourne un jeton d'authentification.</response>
+        /// <response code="400">La requête est incorrecte ou les informations d'authentification sont invalides.</response>
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLoginModel user)
         {

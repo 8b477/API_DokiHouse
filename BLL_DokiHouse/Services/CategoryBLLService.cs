@@ -29,5 +29,6 @@ namespace BLL_DokiHouse.Services
 
             return await _repoCategory.Create(categoryDAL);
         }
+
     }
 }

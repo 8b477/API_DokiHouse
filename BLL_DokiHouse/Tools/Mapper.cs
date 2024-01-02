@@ -5,6 +5,15 @@ namespace BLL_DokiHouse.Tools
 {
     internal class Mapper
     {
+
+        #region CATEGORY
+
+
+        /// <summary>
+        /// Convertit un objet de logique métier catégorie en un objet d'accès aux données catégorie.
+        /// </summary>
+        /// <param name="cate">Objet de logique métier catégorie à convertir.</param>
+        /// <returns>Objet d'accès aux données catégorie.</returns>
         public static CategoryDTO CategoryBLLToDAL(CategoryBLL cate)
         {
             return new CategoryDTO(
@@ -17,14 +26,44 @@ namespace BLL_DokiHouse.Tools
                         );
         }
 
+        #endregion
+
+
+
+        #region USER
+
+
+
+        /// <summary>
+        /// Convertit un objet de logique métier utilisateur en un objet d'accès aux données pour la création d'utilisateur.
+        /// </summary>
+        /// <param name="user">Objet de logique métier utilisateur à convertir.</param>
+        /// <returns>Objet d'accès aux données pour la création d'utilisateur.</returns>
         public static UserCreateDTO UserBLLToDAL(UserBLL user)
         {
             return new UserCreateDTO(user.Name,user.Email, user.Passwd);
         }
 
+
+        #endregion
+
+
+
+        #region BONSAI
+
+        /// <summary>
+        /// Convertit un objet de logique métier bonsaï en un objet d'accès aux données pour la création de bonsaï.
+        /// </summary>
+        /// <param name="bonsai">Objet de logique métier bonsaï à convertir.</param>
+        /// <returns>Objet d'accès aux données pour la création de bonsaï.</returns>
         public static BonsaiCreateDTO BonsaiBLLToDAL(BonsaiBLL bonsai)
         {
             return new BonsaiCreateDTO(bonsai.Name, bonsai.Description, bonsai.IdUser);
         }
+
+
+        #endregion
+
+
     }
 }

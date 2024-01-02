@@ -15,30 +15,31 @@ namespace BLL_DokiHouse.Services
 
         public PictureBLLService(IPictureRepo pictureRepo, IUserBLLService userBLLService)
         => (_pictureRepo,_userBLLService) = (pictureRepo, userBLLService);
-        
+
         #endregion
 
 
         // -------------------------------------------------------------------------------------------> TODO
+       
         public async Task<int> AddPictureBonsai(IFormFile file)
         {
-            // récup l'id du User qui créé l'image pour l'associé a la table PictureBonsai
             int idPicture = await _pictureRepo.AddPictureBonsai(file);
 
             return idPicture;
         }
 
 
+
         public async Task<int> AddPictureProfil(int idUser, IFormFile file)
         {
-            // récup l'id de l'image
+
             int idPicturePofil = await _pictureRepo.AddPictureProfil(file);
 
-            // update table User avec id comme FK
-            await _userBLLService.UpdateProfilPicture(idUser,idPicturePofil);
+            await _userBLLService.UpdateProfilPicture(idUser, idPicturePofil);
 
             return idPicturePofil;
         }
+
 
 
         public async Task<IEnumerable<byte[]?>> GetImageBonsai(int idUser)
@@ -47,10 +48,12 @@ namespace BLL_DokiHouse.Services
         }
 
 
+
         public async Task<byte[]?> GetImageProfil(int idPicture)
         {
             return await _pictureRepo.GetImageProfil(idPicture);
         }
+
 
     }
 }

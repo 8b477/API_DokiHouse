@@ -8,7 +8,7 @@ using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using static DAL_DokiHouse.UserRepo;
 
 namespace API_DokiHouse.Controllers
 {
@@ -185,6 +185,24 @@ namespace API_DokiHouse.Controllers
                 ? NoContent() 
                 : BadRequest("Aucune correspondance");
         }
+
+
+
+
+        [AllowAnonymous]
+        [HttpGet(nameof(GetEvery))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDisplayDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> GetEvery()
+        {
+            IEnumerable<UserEveryDTO>? result = await _userService.GetEvery();
+
+            if (result is not null)
+                return Ok(result);
+
+            return NoContent();
+        }
+
 
     }
 }

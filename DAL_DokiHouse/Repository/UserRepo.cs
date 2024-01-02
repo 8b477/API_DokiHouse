@@ -4,8 +4,6 @@ using Entities_DokiHouse.Entities;
 
 using Dapper;
 using System.Data;
-
-
 namespace DAL_DokiHouse
 {
     public class UserRepo : BaseRepo<User, UserDTO, UserCreateDTO, UserDisplayDTO, int, string>, IUserRepo
@@ -41,6 +39,59 @@ namespace DAL_DokiHouse
             return null;
         }
 
+
+
+        public async Task<IEnumerable<UserEveryDTO>?> GetEvery()
+        {
+            // SQL pour récupérer les bonsaïs avec leurs informations associées
+            string sql = @"
+        SELECT u.Id AS UserId, u.Name AS UserName, u.Email, u.Role, u.IdPictureProfil,
+               b.Id AS BonsaiId, b.Name AS BonsaiName, b.Description, b.IdUser AS BonsaiUserId,
+               c.Id AS CategoryId, c.Shohin, c.Mame, c.Chokkan, c.Moyogi, c.Shakan,
+               c.Kengai, c.HanKengai, c.Ikadabuki, c.Neagari, c.Literati, c.YoseUe,
+               c.Ishitsuki, c.Kabudachi, c.Kokufu, c.Yamadori, c.Perso,
+               s.Id AS StyleId, s.Chokkan AS StyleChokkan, s.Moyogi AS StyleMoyogi, s.Shakan AS StyleShakan, 
+               s.Kengai AS StyleKengai, s.HanKengai AS StyleHanKengai, s.Ikadabuki AS StyleIkadabuki,
+               s.Neagari AS StyleNeagari, s.Bunjin AS StyleBunjin, s.YoseUe AS StyleYoseUe,
+               s.Ishitsuki AS StyleIshitsuki, s.Kabudachi AS StyleKabudachi, s.Bankan AS StyleBankan,
+               s.Korabuki AS StyleKorabuki, s.Yamadori AS StyleYamadori, s.Ishituki AS StyleIshituki,
+               s.Perso AS StylePerso,
+               n.Id AS NoteId, n.Title, n.Description, n.CreateAt
+        FROM [Bonsai] b
+        LEFT JOIN [Category] c ON b.Id = c.IdBonsai
+        LEFT JOIN [Style] s ON b.Id = s.IdBonsai
+        LEFT JOIN [Note] n ON b.Id = n.IdBonsai
+        LEFT JOIN [User] u ON b.IdUser = u.Id"; // Ajout de la jointure avec la table User
+
+            // Exécute la requête et mappe les résultats dans la liste UserEveryDTO
+            var userEveryDTOs = await _connection.QueryAsync<UserEveryDTO, BonsaiDTO, CategoryDTO, StyleDTO, NoteDTO, UserEveryDTO>(
+                sql,
+                (user, bonsai, category, style, note) =>
+                {
+                    user.Bonsai = bonsai;
+                    user.Category = category;
+                    user.Style = style;
+                    user.Note = note;
+
+                    return user;
+                },
+                splitOn: "BonsaiId,CategoryId,StyleId,NoteId");
+
+            return userEveryDTOs;
+        }
+
+
+
+        public class UserEveryDTO
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public int? IdPictureProfil { get; set; }
+            public BonsaiDTO Bonsai { get; set; }
+            public CategoryDTO Category { get; set; }
+            public StyleDTO Style { get; set; }
+            public NoteDTO Note { get; set; }
+        }
 
 
         /// <summary>

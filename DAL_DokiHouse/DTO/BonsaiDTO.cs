@@ -4,6 +4,11 @@ namespace DAL_DokiHouse.DTO
 
     public record BonsaiDTO
     {
+        public BonsaiDTO()
+        {
+
+        }
+
         public BonsaiDTO(int id, string name, string? description, int idUser)
         {
             Id = id;

@@ -26,12 +26,6 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<bool> Delete(int id)
-        {
-            return await _bonsaiRepo.Delete(id);
-        }
-
-
         public async Task<IEnumerable<BonsaiAndChild>?> Get()
         {
             return await _bonsaiRepo.GetAllBonsai();
@@ -61,5 +55,10 @@ namespace BLL_DokiHouse.Services
             return await _bonsaiRepo.UpdateBonsai(model);
         }
 
+
+        public async Task<bool> Delete(int id)
+        {
+            return await _bonsaiRepo.Delete(id);
+        }
     }
 }
