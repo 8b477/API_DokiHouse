@@ -1,12 +1,25 @@
 ﻿
 namespace DAL_DokiHouse.DTO
 {
-    public class NoteDTO
+    public record class NoteDTO
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime CreateAt { get; set; }
-        public int IdBonsai { get; set; } // ---> FK
+        public NoteDTO()
+        {
+
+        }
+
+        public NoteDTO(string title, string description, DateTime createAt, int idBonsai)
+        {
+            Title = title;
+            Description = description;
+            CreateAt = createAt;
+            IdBonsai = idBonsai;
+        }
+
+        public int Id { get; }
+        public string Title { get; }
+        public string Description { get; }
+        public DateTime CreateAt { get; }
+        public int IdBonsai { get; } // ---> FK
     }
 }

@@ -16,34 +16,9 @@ namespace DAL_DokiHouse.Repository
 
 
 
-        /// <summary>
-        /// Crée un nouveau bonsaï dans la base de données.
-        /// </summary>
-        /// <param name="model">Les informations du bonsaï à créer.</param>
-        /// <returns>L'ID du nouveau bonsaï créé.</returns>
-        public async Task<int> CreateBonsai(BonsaiCreateDTO model)
-        {
-            string sql = @"
-        INSERT INTO [Bonsai] (Name, Description, IdUser)
-        VALUES (@Name, @Description, @IdUser);
-        SELECT CAST(SCOPE_IDENTITY() AS INT);";
-
-            // Exécute la requête et récupère l'ID généré
-            int idBonsai = await _connection.QuerySingleAsync<int>(sql, model);
-
-            return idBonsai;
-        }
-
-
-
-        /// <summary>
-        /// Met à jour les informations d'un bonsaï dans la base de données.
-        /// </summary>
-        /// <param name="bonsai">Les nouvelles informations du bonsaï.</param>
-        /// <returns>True si la mise à jour a réussi, sinon False.</returns>
         public async Task<bool> UpdateBonsai(BonsaiDTO bonsai)
         {
-            string sql = "UPDATE [Bonsai] SET Name = @Name, Description = @Description WHERE Id = @id";
+            string sql = "UPDATE [Bonsai] SET Name = @Name, Description = @Description WHERE IdUser = @id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Name", bonsai.Name);
@@ -57,10 +32,7 @@ namespace DAL_DokiHouse.Repository
 
 
 
-        /// <summary>
-        /// Récupère tous les bonsaïs avec leurs informations associées depuis la base de données.
-        /// </summary>
-        /// <returns>Une liste de BonsaiAndChild contenant les informations des bonsaïs et de leurs enfants (Category, Style, Note).</returns>
+
         public async Task<IEnumerable<BonsaiAndChild>?> GetAllBonsai()
         {
             // SQL pour récupérer les bonsaïs avec leurs informations associées
@@ -96,11 +68,7 @@ namespace DAL_DokiHouse.Repository
 
 
 
-        /// <summary>
-        /// Récupère tous les bonsaïs d'un utilisateur avec leurs informations associées depuis la base de données.
-        /// </summary>
-        /// <param name="idUser">L'ID de l'utilisateur.</param>
-        /// <returns>Une liste de BonsaiAndChild contenant les informations des bonsaïs et de leurs enfants (Category, Style, Note).</returns>
+
         public async Task<IEnumerable<BonsaiAndChild>> GetAllBonsai(int idUser)
         {
             // SQL pour récupérer les bonsaïs avec leurs informations associées filtrés par IdUser

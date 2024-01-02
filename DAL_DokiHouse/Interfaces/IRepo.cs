@@ -4,7 +4,7 @@ namespace DAL_DokiHouse.Interfaces
 {
     public interface IRepo<E, M, MC, MD, U, S>
         where E : class, IEntity<U>, new() // entité
-        where M : class  // modele
+        where M : class
         where MC : class // modele for create
         where MD : class // model for display
         where U : struct // int

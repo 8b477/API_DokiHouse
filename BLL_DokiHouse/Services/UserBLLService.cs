@@ -2,11 +2,9 @@
 using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models;
 using BLL_DokiHouse.Tools;
-
 using DAL_DokiHouse;
 using DAL_DokiHouse.DTO;
 using Entities_DokiHouse.Entities;
-
 
 using System.Data.SqlClient;
 
@@ -123,13 +121,6 @@ namespace BLL_DokiHouse.Services
 
             return user is not null ? user : null;
         }
-
-
-        public async Task<IEnumerable<UserRepo.UserEveryDTO>?> GetEvery()
-        {
-            return await _userRepo.GetEvery();
-        }
-
 
     }
 }

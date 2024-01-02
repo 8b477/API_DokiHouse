@@ -18,11 +18,11 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<int> Create(BonsaiBLL model)
+        public async Task<bool> Create(BonsaiBLL model)
         {
             BonsaiCreateDTO bonsaiDTO = Mapper.BonsaiBLLToDAL(model);
 
-            return await _bonsaiRepo.CreateBonsai(bonsaiDTO);
+            return await _bonsaiRepo.Create(bonsaiDTO);
         }
 
 

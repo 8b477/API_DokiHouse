@@ -2,7 +2,7 @@
 
 namespace Entities_DokiHouse.Entities
 {
-    internal class Style :IEntity<int>
+    public class Style :IEntity<int>
     {
         public int Id { get; set; }
         public bool Chokkan { get; set; }

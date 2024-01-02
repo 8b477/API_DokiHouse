@@ -150,18 +150,17 @@ namespace API_DokiHouse.Controllers
 
             if(idToken == 0) return Unauthorized();
 
+
             BonsaiBLL bonsaiDTO = Mapper.BonsaiModelToBLL(model);
 
             bonsaiDTO.IdUser = idToken;
 
-            int idBonsai = await _bonsaiService.Create(bonsaiDTO);
 
-
-            if(idBonsai != 0 )
+            if(await _bonsaiService.Create(bonsaiDTO))
             {
-
-            return CreatedAtAction(nameof(Create), model);
+                return CreatedAtAction(nameof(Create), model);
             }
+
             return BadRequest("fin de create error");
         }
 
@@ -186,7 +185,7 @@ namespace API_DokiHouse.Controllers
 
             if (idToken == 0) return Unauthorized();
 
-            BonsaiDTO bonsaiDTO = new(idBonsai, model.Name, model.Description,idToken);
+            BonsaiDTO bonsaiDTO = new(idBonsai, model.Name, model.Description, idToken);
 
             return 
                 await _bonsaiService.Update(bonsaiDTO) 

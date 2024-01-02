@@ -12,7 +12,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle de bonsaï à créer.</param>
         /// <returns>L'ID du bonsaï créé.</returns>
-        Task<int> Create(BonsaiBLL model);
+        Task<bool> Create(BonsaiBLL model);
 
         /// <summary>
         /// Récupère tous les bonsaïs avec leurs informations associées.

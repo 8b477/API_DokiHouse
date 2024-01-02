@@ -7,5 +7,4 @@
 	FOREIGN KEY (IdUser) REFERENCES [User](Id),
 	[IdPicture] 
 	INT FOREIGN KEY (IdPicture) REFERENCES [PictureBonsai](Id)
-	
 )

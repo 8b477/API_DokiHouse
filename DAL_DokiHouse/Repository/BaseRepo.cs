@@ -17,11 +17,15 @@ namespace DAL_DokiHouse.Repository
         where U : struct
         where S : class
     {
+
         #region Constructor
+
         protected readonly IDbConnection _connection;
 
         protected BaseRepo(IDbConnection connection) => (_connection) = (connection);     
+
         #endregion
+
 
         public virtual async Task<IEnumerable<MD>> Get()
         {
@@ -30,6 +34,7 @@ namespace DAL_DokiHouse.Repository
 
             return result;
         }
+
 
         public virtual async Task<MD?> GetBy(U id)
         {
@@ -42,6 +47,7 @@ namespace DAL_DokiHouse.Repository
 
             return result;
         }
+
 
         public virtual async Task<IEnumerable<MD>?> GetBy(S name)
         {
@@ -57,6 +63,7 @@ namespace DAL_DokiHouse.Repository
             return null;
         }
 
+
         public virtual async Task<bool> Create(MC modelToCreate)
         {
             string tableName = GetTableName();
@@ -68,6 +75,7 @@ namespace DAL_DokiHouse.Repository
 
             return rowAffected > 0;
         }
+
 
         public virtual async Task<bool> Update(U id, MC item)
         {
@@ -81,6 +89,7 @@ namespace DAL_DokiHouse.Repository
             return rowsAffected > 0;
         }
 
+
         public virtual async Task<bool> Delete(U id)
         {
             string tableName = GetTableName();
@@ -89,6 +98,9 @@ namespace DAL_DokiHouse.Repository
             return rowsAffected > 0;
         }
 
+
+
+
         #region Private Methods
 
         // Récupère le nom de la table correspondante au modèle E : Entity.
@@ -96,6 +108,7 @@ namespace DAL_DokiHouse.Repository
         {
             return typeof(E).Name;
         }
+
 
         private string GetSetClause(MC item)
         {
@@ -107,6 +120,7 @@ namespace DAL_DokiHouse.Repository
             return string.Join(", ", columnNames);
         }
 
+
         // Méthode pour obtenir un dictionnaire de propriétés et valeurs de l'objet modèle
         private Dictionary<string, object?> GetPropertyDictionary(MC item)
         {
@@ -114,6 +128,7 @@ namespace DAL_DokiHouse.Repository
                 .GetProperties()
                 .ToDictionary(property => property.Name, property => property.GetValue(item));
         }
+
         #endregion
     }
 }

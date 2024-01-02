@@ -1,11 +1,7 @@
-﻿
-using BLL_DokiHouse.Models;
-
+﻿using BLL_DokiHouse.Models;
 using DAL_DokiHouse.DTO;
-
 using Entities_DokiHouse.Entities;
 
-using static DAL_DokiHouse.UserRepo;
 
 namespace BLL_DokiHouse.Interfaces
 {
@@ -74,7 +70,5 @@ namespace BLL_DokiHouse.Interfaces
         /// <returns></returns>
         Task<User?> Login(string email, string passwd);
 
-
-        Task<IEnumerable<UserEveryDTO>?> GetEvery();
     }
 }

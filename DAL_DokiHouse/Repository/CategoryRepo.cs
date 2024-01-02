@@ -15,11 +15,7 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-        /// <summary>
-        /// Met à jour les informations d'une catégorie dans la base de données.
-        /// </summary>
-        /// <param name="category">Les nouvelles informations de la catégorie.</param>
-        /// <returns>True si la mise à jour a réussi, sinon False.</returns>
+
         public async Task<bool> Update(CategoryDTO category)
         {
             string sql = @"
@@ -50,12 +46,6 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-
-        /// <summary>
-        /// Crée une nouvelle catégorie dans la base de données.
-        /// </summary>
-        /// <param name="model">Les informations de la catégorie à créer.</param>
-        /// <returns>True si la création a réussi, sinon False.</returns>
         public async Task<bool> Create(CategoryDTO model)
         {
             string sql = @"
