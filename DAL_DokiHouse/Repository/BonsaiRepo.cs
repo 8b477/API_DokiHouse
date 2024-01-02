@@ -104,6 +104,55 @@ namespace DAL_DokiHouse.Repository
             return bonsaiCategories;
         }
 
+
+
+
+        public async Task<IEnumerable<UserEveryDTO>?> GetTest()
+        {
+            // SQL pour récupérer les bonsaïs avec leurs informations associées
+            string sql = @"
+    SELECT u.Id AS UserId, u.Name AS UserName, u.Email, u.Role, u.IdPictureProfil,
+           b.Id AS BonsaiId, b.Name AS BonsaiName, b.Description, b.IdUser AS BonsaiUserId,
+           c.Id AS CategoryId, c.Shohin, c.Mame, c.Chokkan, c.Moyogi, c.Shakan,
+           c.Kengai, c.HanKengai, c.Ikadabuki, c.Neagari, c.Literati, c.YoseUe,
+           c.Ishitsuki, c.Kabudachi, c.Kokufu, c.Yamadori, c.Perso,
+           s.Id AS StyleId, s.Chokkan, s.Moyogi, s.Shakan, 
+           s.Kengai, s.HanKengai, s.Ikadabuki ,
+           s.Neagari, s.Bunjin, s.YoseUe,
+           s.Ishitsuki, s.Kabudachi, s.Bankan,
+           s.Korabuki, s.Yamadori, s.Ishituki,
+           s.Perso AS StylePerso,
+           n.Id AS NoteId, n.Title, n.Description, n.CreateAt
+    FROM [Bonsai] b
+    LEFT JOIN [Category] c ON b.Id = c.IdBonsai
+    LEFT JOIN [Style] s ON b.Id = s.IdBonsai
+    LEFT JOIN [Note] n ON b.Id = n.IdBonsai
+    LEFT JOIN [User] u ON b.IdUser = u.Id";
+
+            var userEveryDTOs = await _connection.QueryAsync<UserEveryDTO, BonsaiAndChild, UserEveryDTO>(
+                sql,
+                (user, bonsai) =>
+                {
+                    user.BonsaiCollection ??= new List<BonsaiAndChild>();
+                    bonsai.Category = bonsai.Category ?? new CategoryDTO();
+                    bonsai.Style = bonsai.Style ?? new StyleDTO(); 
+                    bonsai.Note = bonsai.Note ?? new NoteDTO(); 
+
+                    user.BonsaiCollection.Add(bonsai); 
+                    return user;
+                },
+                splitOn: "Id,BonsaiId,CategoryId,StyleId,NoteId");
+
+            return userEveryDTOs;
+        }
+
+        public class UserEveryDTO
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public int? IdPictureProfil { get; set; }
+            public List<BonsaiAndChild> BonsaiCollection { get; set; }
+        }
     }
 
 }

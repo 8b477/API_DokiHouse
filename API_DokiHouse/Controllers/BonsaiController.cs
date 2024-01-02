@@ -215,5 +215,21 @@ namespace API_DokiHouse.Controllers
         }
 
 
+
+
+        [AllowAnonymous]
+        [HttpGet(nameof(Test))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiDisplayDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Test()
+        {
+            var result = await _bonsaiService.GetTest();
+
+            return
+                result is not null
+                ? Ok(result)
+                : NoContent();
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using DAL_DokiHouse.DTO;
 using Entities_DokiHouse.Entities;
 
+using static DAL_DokiHouse.Repository.BonsaiRepo;
+
 namespace DAL_DokiHouse.Interfaces
 {
     public interface IBonsaiRepo : IRepo<Bonsai, BonsaiDTO, BonsaiCreateDTO, BonsaiDisplayDTO, int, string>
@@ -27,5 +29,9 @@ namespace DAL_DokiHouse.Interfaces
         /// <param name="idUser">L'ID de l'utilisateur.</param>
         /// <returns>Une liste de BonsaiAndChild contenant les informations des bonsaïs et de leurs enfants (Category, Style, Note).</returns>
         Task<IEnumerable<BonsaiAndChild>> GetAllBonsai(int idUser);
+
+
+
+        Task<IEnumerable<UserEveryDTO>?> GetTest();
     }
 }

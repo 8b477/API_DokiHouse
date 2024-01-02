@@ -2,6 +2,8 @@
 
 using DAL_DokiHouse.DTO;
 
+using static DAL_DokiHouse.Repository.BonsaiRepo;
+
 namespace BLL_DokiHouse.Interfaces
 {
     public interface IBonsaiBLLService
@@ -59,5 +61,10 @@ namespace BLL_DokiHouse.Interfaces
         /// <returns>True si la suppression est réussie, sinon false.</returns>
         Task<bool> Delete(int id);
 
+
+
+
+
+        Task<IEnumerable<UserEveryDTO>?> GetTest();
     }
 }

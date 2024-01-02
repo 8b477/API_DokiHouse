@@ -3,7 +3,7 @@ using BLL_DokiHouse.Models;
 using BLL_DokiHouse.Tools;
 using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
-
+using DAL_DokiHouse.Repository;
 
 namespace BLL_DokiHouse.Services
 {
@@ -60,5 +60,16 @@ namespace BLL_DokiHouse.Services
         {
             return await _bonsaiRepo.Delete(id);
         }
+
+
+
+
+
+        public Task<IEnumerable<BonsaiRepo.UserEveryDTO>?> GetTest()
+        {
+            return _bonsaiRepo.GetTest();
+        }
+
+
     }
 }
