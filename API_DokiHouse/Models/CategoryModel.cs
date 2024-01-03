@@ -1,5 +1,8 @@
-﻿namespace API_DokiHouse.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace API_DokiHouse.Models
 {
+
     public class CategoryModel
     {
         public bool Shohin { get; set; } = false;
@@ -17,6 +20,8 @@
         public bool Kabudachi { get; set; } = false;
         public bool Kokufu { get; set; } = false;
         public bool Yamadori { get; set; } = false;
-        public string? Perso { get; set; } = "";
+        
+        [MaxLength(150,ErrorMessage = "Ne peut contenir plus de 150 caractères")]
+        public string? Perso { get; set; }
     }
 }

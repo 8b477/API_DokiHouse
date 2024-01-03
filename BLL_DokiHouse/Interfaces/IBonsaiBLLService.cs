@@ -1,8 +1,6 @@
 ﻿using BLL_DokiHouse.Models;
-
 using DAL_DokiHouse.DTO;
 
-using static DAL_DokiHouse.Repository.BonsaiRepo;
 
 namespace BLL_DokiHouse.Interfaces
 {
@@ -16,26 +14,28 @@ namespace BLL_DokiHouse.Interfaces
         /// <returns>L'ID du bonsaï créé.</returns>
         Task<bool> Create(BonsaiBLL model);
 
+
         /// <summary>
-        /// Récupère tous les bonsaïs avec leurs informations associées.
+        /// Récupère tous les bonsaïs.
         /// </summary>
-        /// <returns>Une collection de bonsaïs avec leurs informations associées.</returns>
-        Task<IEnumerable<BonsaiAndChild>?> Get();
+        /// <returns>Une collection de bonsaïs</returns>
+        Task<IEnumerable<BonsaiDTO>> Get();
 
 
         /// <summary>
-        /// Récupère tous les bonsaïs d'un utilisateur avec leurs informations associées.
+        /// Récupère tous les bonsaïs d'un utilisateur associées.
         /// </summary>
         /// <param name="idUser">L'ID de l'utilisateur dont on veut récupérer les bonsaïs.</param>
-        /// <returns>Une collection de bonsaïs avec leurs informations associées.</returns>
-        Task<IEnumerable<BonsaiAndChild>> Get(int idUser);
+        /// <returns>Une collection de bonsaïs ou une liste collection vide si pas de correspondance.</returns>
+        Task<IEnumerable<BonsaiDTO>> Get(int idUser);
+
 
         /// <summary>
         /// Récupère les informations détaillées d'un bonsaï spécifique par son ID.
         /// </summary>
         /// <param name="id">L'ID du bonsaï à récupérer.</param>
         /// <returns>Les informations détaillées du bonsaï.</returns>
-        Task<BonsaiDisplayDTO?> GetByID(int id);
+        Task<BonsaiDTO> GetByID(int id);
 
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="name">Le nom à rechercher.</param>
         /// <returns>Une collection de bonsaïs correspondant au nom donné.</returns>
-        Task<IEnumerable<BonsaiDisplayDTO>?> GetByName(string name);
+        Task<IEnumerable<BonsaiDTO>> GetByName(string name);
 
 
         /// <summary>
@@ -60,11 +60,5 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="id">L'ID du bonsaï à supprimer.</param>
         /// <returns>True si la suppression est réussie, sinon false.</returns>
         Task<bool> Delete(int id);
-
-
-
-
-
-        Task<IEnumerable<UserEveryDTO>?> GetTest();
     }
 }

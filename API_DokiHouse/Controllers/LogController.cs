@@ -1,8 +1,5 @@
 ﻿using API_DokiHouse.Models;
 using BLL_DokiHouse.Interfaces;
-
-using Entities_DokiHouse.Entities;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,13 +39,13 @@ namespace API_DokiHouse.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            User? result = await _userBLLService.Login(user.Email, user.Passwd);
+            var result = await _userBLLService.Login(user.Email, user.Passwd);
 
             if (result is not null)
             {
                 string token = _jwtService.GenerateToken(result.Id.ToString(), result.Role);
 
-                return Ok(token);
+                return Ok(token); //--> peut être envoyé sous forme d'objet au Front `Ok(new {token})`
             }
 
             return BadRequest("Infos non valide !");

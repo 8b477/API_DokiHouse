@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Note]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
-	[Title] VARCHAR(100),
+	[Title] VARCHAR(100) NOT NULL,
 	[Description] VARCHAR(MAX) NOT NULL,
 	[CreateAt] DATETIME NOT NULL,
 	[IdBonsai] INT NOT NULL,

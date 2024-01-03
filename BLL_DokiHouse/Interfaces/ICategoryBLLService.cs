@@ -22,6 +22,6 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle de catégorie à mettre à jour.</param>
         /// <returns>True si la mise à jour est réussie, sinon false.</returns>
-        Task<bool> Update(CategoryDTO model);
+        Task<bool> Update(CategoryBLL model);
     }
 }

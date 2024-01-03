@@ -1,14 +1,10 @@
 ﻿
-namespace DAL_DokiHouse.DTO
+namespace BLL_DokiHouse.Models
 {
-    public class NoteDTO
+    public class NoteBLL
     {
-        public NoteDTO()
-        {
 
-        }
-
-        public NoteDTO(string title, string description, DateTime createAt, int idBonsai)
+        public NoteBLL(string title, string description, DateTime createAt, int idBonsai)
         {
             Title = title;
             Description = description;
@@ -16,11 +12,9 @@ namespace DAL_DokiHouse.DTO
             IdBonsai = idBonsai;
         }
 
-        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime CreateAt { get; set; }
         public int IdBonsai { get; set; } // ---> FK
     }
-
 }

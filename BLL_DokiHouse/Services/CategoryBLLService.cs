@@ -1,4 +1,5 @@
-﻿using BLL_DokiHouse.Interfaces;
+﻿using BLL_DokiHouse.ExceptionHandler;
+using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models;
 using BLL_DokiHouse.Tools;
 
@@ -17,14 +18,19 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<bool> Update(CategoryDTO model)
+        public async Task<bool> Update(CategoryBLL model)
         {
-            return await _repoCategory.Update(model);
+            CategoryDTO categoryDTO = Mapper.CategoryBLLToDAL(model); 
+
+            return await _repoCategory.Update(categoryDTO);
         }
 
 
         public async Task<bool> Create(int idBonsai, CategoryBLL model)
         {
+            if (await _repoCategory.NotValide(model.IdBonsai))
+                throw new BusinessException("Le Bonsai possède déjà une Catégorie, update le !");
+
             CategoryDTO categoryDAL = Mapper.CategoryBLLToDAL(model);
 
             return await _repoCategory.Create(categoryDAL);

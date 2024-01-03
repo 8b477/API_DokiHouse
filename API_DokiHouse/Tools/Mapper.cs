@@ -1,12 +1,12 @@
 ﻿using API_DokiHouse.Models;
 using BLL_DokiHouse.Models;
 
-using static API_DokiHouse.Models.BonsaiModel;
 
 namespace API_DokiHouse.Services
 {
     internal static class Mapper
     {
+
 
         #region USER
 
@@ -36,7 +36,8 @@ namespace API_DokiHouse.Services
         #endregion
 
 
-        #region BONSAI
+
+        #region CATEGORY
 
 
         /// <summary>
@@ -57,16 +58,44 @@ namespace API_DokiHouse.Services
         }
 
 
+        #endregion
+
+
+
+        #region BONSAI
+
+
         /// <summary>
         /// Convertit un modèle de création de bonsaï en un objet de logique métier bonsaï.
         /// </summary>
         /// <param name="bonsai">Modèle de création de bonsaï à convertir.</param>
         /// <returns>Objet de logique métier bonsaï.</returns>
-        public static BonsaiBLL BonsaiModelToBLL(BonsaiCreateModel bonsai)
+        public static BonsaiBLL BonsaiModelToBLL(BonsaiModel bonsai)
         {
             return new BonsaiBLL(bonsai.Name, bonsai.Description, 0);
         }
 
+
+        #endregion
+
+
+        #region STYLE
+
+        public static StyleBLL StyleModelToBLL(StyleModel model)
+        {
+            return new StyleBLL(model.Bunjin, model.Bankan,model.Korabuki,model.Ishituki,model.Perso,0);
+        }
+
+        #endregion
+
+
+
+        #region NOTE
+
+        public static NoteBLL NoteModelToBLL(NoteModel model)
+        {
+            return new NoteBLL(model.Title, model.Description, DateTime.Now,0);
+        }
 
         #endregion
     }

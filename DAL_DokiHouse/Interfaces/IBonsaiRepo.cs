@@ -1,37 +1,31 @@
 ﻿using DAL_DokiHouse.DTO;
 using Entities_DokiHouse.Entities;
 
-using static DAL_DokiHouse.Repository.BonsaiRepo;
 
 namespace DAL_DokiHouse.Interfaces
 {
-    public interface IBonsaiRepo : IRepo<Bonsai, BonsaiDTO, BonsaiCreateDTO, BonsaiDisplayDTO, int, string>
+    public interface IBonsaiRepo : IRepo<Bonsai, BonsaiDTO, int, string>
     {
+        /// <summary>
+        /// Insert un Utilisateur dans la base de donnée.
+        /// </summary>
+        /// <param name="model">model à inséré en base de donnée</param>
+        /// <returns></returns>
+        Task<bool> Create(BonsaiDTO model);
+
 
         /// <summary>
         /// Met à jour les informations d'un bonsaï dans la base de données.
         /// </summary>
         /// <param name="bonsai">Les nouvelles informations du bonsaï.</param>
         /// <returns>True si la mise à jour a réussi, sinon False.</returns>
-        Task<bool> UpdateBonsai(BonsaiDTO bonsai);
-
-
-        /// <summary>
-        /// Récupère tous les bonsaïs avec leurs informations associées depuis la base de données.
-        /// </summary>
-        /// <returns>Une liste de BonsaiAndChild contenant les informations des bonsaïs et de leurs enfants (Category, Style, Note).</returns>
-        Task<IEnumerable<BonsaiAndChild>?> GetAllBonsai();
-
+        Task<bool> Update(BonsaiDTO bonsai);
 
         /// <summary>
-        /// Récupère tous les bonsaïs d'un utilisateur avec leurs informations associées depuis la base de données.
+        /// Vas chercher en base de donnée tout les bonsai associé à un Utilsateur
         /// </summary>
-        /// <param name="idUser">L'ID de l'utilisateur.</param>
-        /// <returns>Une liste de BonsaiAndChild contenant les informations des bonsaïs et de leurs enfants (Category, Style, Note).</returns>
-        Task<IEnumerable<BonsaiAndChild>> GetAllBonsai(int idUser);
-
-
-
-        Task<IEnumerable<UserEveryDTO>?> GetTest();
+        /// <param name="idUser">Identifiant de type : 'int'</param>
+        /// <returns>Retourne une liste de bonsai, ou une liste vide si pas de bonsai trouver</returns>
+        Task<IEnumerable<BonsaiDTO>> Get(int idUser);
     }
 }

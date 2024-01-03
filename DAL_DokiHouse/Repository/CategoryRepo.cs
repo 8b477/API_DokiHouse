@@ -68,5 +68,16 @@ namespace DAL_DokiHouse.Repository
         }
 
 
+        public async Task<bool> NotValide(int idBonsai)
+        {
+            string sql = @"
+        SELECT TOP 1 1
+        FROM [Category] 
+        WHERE IdBonsai = @IdBonsai";
+
+            int? result = await _connection.QueryFirstOrDefaultAsync<int?>(sql, new { IdBonsai = idBonsai });
+
+            return result.HasValue; // Retourne true si une valeur est trouvée, false sinon
+        }
     }
 }

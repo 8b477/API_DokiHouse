@@ -1,6 +1,9 @@
 ﻿
 namespace BLL_DokiHouse.Models
 {
+    /// <summary>
+    /// Role principal permettre le set de la propriété 'Passwd' pour hash le pass
+    /// </summary>
     public class UserBLL
     {
         public UserBLL(string name, string email, string passwd)

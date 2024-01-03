@@ -10,7 +10,7 @@ namespace API_DokiHouse.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
-    {  
+    {
         #region Injection
 
         private readonly ICategoryBLLService _categoryService;
@@ -24,7 +24,7 @@ namespace API_DokiHouse.Controllers
 
 
         [HttpPost("{idBonsai}:int")]
-        public async Task<IActionResult> Create([FromRoute] int idBonsai ,CategoryModel model)
+        public async Task<IActionResult> Create([FromRoute] int idBonsai, CategoryModel model)
         {
             CategoryBLL categoryBLL = Mapper.CategoryModelToBLL(model);
 
@@ -36,6 +36,24 @@ namespace API_DokiHouse.Controllers
             if (await _categoryService.Create(idBonsai, categoryBLL)) return Ok();
 
             return BadRequest();
+        }
+
+
+        [HttpPut("{idBonsai}:int")]
+        public async Task<IActionResult> Update([FromRoute] int idBonsai, [FromBody] CategoryModel model)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            CategoryBLL category = Mapper.CategoryModelToBLL(model);
+
+            category.IdBonsai = idBonsai;
+
+            return
+                await _categoryService.Update(category)
+                ? Ok()
+                : BadRequest();
         }
     }
 }

@@ -2,79 +2,41 @@
 namespace DAL_DokiHouse.DTO
 {
 
-    public record BonsaiDTO
-    {
-        public BonsaiDTO(){ }
-
-
-        public BonsaiDTO(int id ,string name, string? description, int idUser)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            IdUser = idUser;
-        }
-
-
-        public int Id { get; }
-        public string Name { get; }
-        public string? Description { get; }
-        public int IdUser { get; }
-    }
-
-
-    public record BonsaiCreateDTO
+    public class BonsaiDTO
     {
 
-        public BonsaiCreateDTO(string name, string? description, int idUser)
+        public BonsaiDTO() { }
+
+        public BonsaiDTO(string name, string? description, int idUser)
         {
             Name = name;
             Description = description;
             IdUser = idUser;
         }
 
-
-        public string Name { get; }
-        public string? Description { get; }
-        public int IdUser { get; }
-    }
-
-
-    public record BonsaiDisplayDTO
-    {
-        public BonsaiDisplayDTO() { }
-
-
-        public BonsaiDisplayDTO(int id, string name, string? description, int idUser)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            IdUser = idUser;
-        }
-
-
-        public int Id { get; }
-        public string Name { get; }
-        public string? Description { get; }
-        public int IdUser { get; }
-    }
-
-
-    public record class BonsaiAndChild
-    {
-        public BonsaiAndChild(){}
-
-
-        public int IdBonsai { get; set; }
-
+        public int Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
         public int IdUser { get; set; }
-        public CategoryDTO Category { get; set; }
+    }
 
+
+
+    public class BonsaiAndChild
+    {
+        public BonsaiAndChild(){}
+
+        public int IdBonsai { get; set; }
+        public string Name { get; set; }
+        public string? Description { get; set; }
+        public int IdUser { get; set; }
+
+        public BonsaiDTO Bonsai { get; set; }
+        public CategoryDTO Category { get; set; }
         public StyleDTO Style { get; set; }
         public NoteDTO Note { get; set; }
     }
+
+
 
 }

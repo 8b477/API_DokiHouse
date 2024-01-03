@@ -1,15 +1,8 @@
-﻿
-namespace DAL_DokiHouse.DTO
+﻿namespace BLL_DokiHouse.Models
 {
-    public class StyleDTO
+    public class StyleBLL
     {
-
-        public StyleDTO()
-        {
-
-        }
-
-        public StyleDTO(bool bunjin, bool bankan, bool korabuki, bool ishituki, string? perso, int idBonsai)
+        public StyleBLL(bool bunjin, bool bankan, bool korabuki, bool ishituki, string? perso, int idBonsai)
         {
             Bunjin = bunjin;
             Bankan = bankan;
@@ -19,7 +12,6 @@ namespace DAL_DokiHouse.DTO
             IdBonsai = idBonsai;
         }
 
-        public int Id { get; set; }
         public bool Bunjin { get; set; }
         public bool Bankan { get; set; }
         public bool Korabuki { get; set; }
@@ -27,5 +19,6 @@ namespace DAL_DokiHouse.DTO
         public string? Perso { get; set; }
 
         public int IdBonsai { get; set; } //---> FK
+
     }
 }

@@ -1,6 +1,9 @@
 ﻿
 namespace BLL_DokiHouse.Models
 {
+    /// <summary>
+    /// Permet de set l'IdBonsai pour créer lien entre l'objet Category et Bonsai
+    /// </summary>
     public class CategoryBLL
     {
         public CategoryBLL(bool shohin, bool mame, bool chokkan, bool moyogi, bool shakan, bool kengai, bool hanKengai, bool ikadabuki, bool neagari, bool literati, bool yoseUe, bool ishitsuki, bool kabudachi, bool kokufu, bool yamadori, string? perso, int idBonsai)

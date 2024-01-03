@@ -8,7 +8,7 @@ using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static DAL_DokiHouse.UserRepo;
+
 
 namespace API_DokiHouse.Controllers
 {
@@ -52,7 +52,7 @@ namespace API_DokiHouse.Controllers
             UserBLL user = Mapper.UserModelToBLL(model);
 
             return
-                await _userService.Create(user) == true
+                await _userService.CreateUser(user) == true
                 ? CreatedAtAction(nameof(Create), user)
                 : BadRequest();
         }
@@ -72,12 +72,30 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<UserDisplayDTO>? result = await _userService.Get();
+            IEnumerable<UserDTO?> result = await _userService.Get();
+
+            //ICI MAP POUR DONNER UN VISU SANS MDP ROLE EMAIL
 
             if (result is not null)
                 return Ok(result);
 
             return NoContent();
+        }
+
+
+
+        [HttpGet(nameof(GetInfos))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetInfos()
+        {
+            IEnumerable<EveryDTO>? result = await _userService.GetInfos();
+
+            return
+                result is not null
+                ? Ok(result)
+                : NoContent();
         }
 
 
@@ -99,7 +117,7 @@ namespace API_DokiHouse.Controllers
 
             if (idUser == 0) return Unauthorized();
 
-            UserDisplayDTO? result = await _userService.GetByID(idUser);
+            UserDTO? result = await _userService.GetByID(idUser);
 
             if (result is not null)
                 return Ok(result);
@@ -123,7 +141,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetByName([FromRoute] string name)
         {
-            IEnumerable<UserDisplayDTO>? result = await _userService.GetByName(name);
+            IEnumerable<UserDTO?> result = await _userService.GetByName(name);
 
             if (result is not null)
                 return Ok(result);
@@ -154,7 +172,7 @@ namespace API_DokiHouse.Controllers
 
             UserBLL? user = Mapper.UserModelToBLL(model);
 
-            if(await _userService.Update(idUser, user))           
+            if(await _userService.UpdateUser(idUser, user))           
                 return Ok(user);
 
             return BadRequest();
@@ -181,7 +199,7 @@ namespace API_DokiHouse.Controllers
             if(idUser == 0) return Unauthorized();
 
             return 
-                await _userService.Delete(idUser) == true
+                await _userService.DeleteUser(idUser) == true
                 ? NoContent() 
                 : BadRequest("Aucune correspondance");
         }
