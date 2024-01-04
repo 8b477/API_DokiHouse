@@ -37,5 +37,10 @@ Résultat :
 Les User qui n'ont pas de Bonsai, Style, Catégorie, Note ceux-ci seront affiché comme champ avec une valeur 'null', j'ai décidé de ne pas développer d'avantage les propriétés de l'objet si celui-ci est évalué à 'null'.
 
 
+--------------------
+# Comment publier la DB et changer la connection string ?
+
+https://github.com/8b477/API_DokiHouse/assets/92020766/f642e210-170a-44f4-b525-f7205a491193
+
 
 
