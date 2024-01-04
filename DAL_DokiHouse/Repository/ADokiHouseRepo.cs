@@ -21,12 +21,12 @@ namespace DAL_DokiHouse.Repository
         SELECT 
             u.Id AS UserId, u.Name AS UserName, u.Role, u.IdPictureProfil, 
             b.Id AS BonsaiId, b.Name AS BonsaiName, b.Description AS BonsaiDescription, b.IdUser AS BonsaiUserId,
-            c.Id AS CategoryId, c.Shohin, c.Mame, c.Chokkan, c.Moyogi, c.Shakan, c.Kengai, c.HanKengai, c.Ikadabuki, c.Neagari, c.Literati, c.YoseUe, c.Ishitsuki, c.Kabudachi, c.Kokufu, c.Yamadori, c.Perso AS CategoryPerso,
+            c.Id AS CategoryId, c.Shohin, c.Mame, c.Chokkan, c.Moyogi, c.Shakan, c.Kengai, c.HanKengai, c.Ikadabuki, c.Neagari, c.Literati, c.YoseUe, c.Ishitsuki, c.Kabudachi, c.Kokufu, c.Yamadori, c.Perso AS CategoryPerso, c.IdBonsai,
             s.Id AS StyleID, Bunjin, s.Bankan, s.Korabuki, s.Ishituki, s.Perso AS StylePerso, s.IdBonsai,
             n.Id AS NoteId, n.Title, n.Description AS NoteDescription, n.CreateAt, n.IdBonsai
         FROM [dbo].[User] u
-        LEFT JOIN [dbo].[Bonsai] b ON u.Id = b.Id
-        LEFT JOIN [dbo].[Category] c ON b.Id = c.Id
+        LEFT JOIN [dbo].[Bonsai] b ON u.Id = b.IdUser
+        LEFT JOIN [dbo].[Category] c ON b.Id = c.IdBonsai
         LEFT JOIN [dbo].[Style] s ON b.Id = s.IdBonsai
         LEFT JOIN [dbo].[Note] n ON b.Id = n.IdBonsai";
 
@@ -102,17 +102,17 @@ namespace DAL_DokiHouse.Repository
         {
             string sql = @"
         SELECT 
-            u.Id AS UserId, u.Name AS UserName, u.Role, u.IdPictureProfil, 
+            u.Id AS UserId, u.Name AS UserName, u.Role, u.IdPictureProfil,
             b.Id AS BonsaiId, b.Name AS BonsaiName, b.Description AS BonsaiDescription, b.IdUser AS BonsaiUserId,
-            c.Id AS CategoryId, c.Shohin, c.Mame, c.Chokkan, c.Moyogi, c.Shakan, c.Kengai, c.HanKengai, c.Ikadabuki, c.Neagari, c.Literati, c.YoseUe, c.Ishitsuki, c.Kabudachi, c.Kokufu, c.Yamadori, c.Perso AS CategoryPerso,
-            s.Id AS StyleID, s.Bunjin, s.Bankan, s.Korabuki, s.Ishituki, s.Perso AS StylePerso, s.IdBonsai,
+            c.Id AS CategoryId, c.Shohin, c.Mame, c.Chokkan, c.Moyogi, c.Shakan, c.Kengai, c.HanKengai, c.Ikadabuki, c.Neagari, c.Literati, c.YoseUe, c.Ishitsuki, c.Kabudachi, c.Kokufu, c.Yamadori, c.Perso AS CategoryPerso, c.IdBonsai,
+            s.Id AS StyleID, Bunjin, s.Bankan, s.Korabuki, s.Ishituki, s.Perso AS StylePerso, s.IdBonsai,
             n.Id AS NoteId, n.Title, n.Description AS NoteDescription, n.CreateAt, n.IdBonsai
         FROM [dbo].[User] u
-        LEFT JOIN [dbo].[Bonsai] b ON u.Id = b.Id
-        LEFT JOIN [dbo].[Category] c ON b.Id = c.Id
+        LEFT JOIN [dbo].[Bonsai] b ON u.Id = b.IdUser
+        LEFT JOIN [dbo].[Category] c ON b.Id = c.IdBonsai
         LEFT JOIN [dbo].[Style] s ON b.Id = s.IdBonsai
         LEFT JOIN [dbo].[Note] n ON b.Id = n.IdBonsai
-        ORDER BY u.Id  -- Remplacez ceci par la colonne que vous souhaitez utiliser pour trier les résultats
+        ORDER BY u.Id
         OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
 
             //Ici je map

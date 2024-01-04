@@ -1,6 +1,4 @@
 ﻿
-using DAL_DokiHouse.DTO;
-
 namespace DAL_DokiHouse.DTO
 {
     public class CategoryDTO
@@ -53,48 +51,48 @@ namespace DAL_DokiHouse.DTO
     }
 
 
-    public record class CategoryDisplayDTO
-    {
+    //public record class CategoryDisplayDTO
+    //{
 
-        public CategoryDisplayDTO() {}
+    //    public CategoryDisplayDTO() {}
 
-        public CategoryDisplayDTO(bool shohin, bool mame, bool chokkan, bool moyogi, bool shakan, bool kengai, bool hanKengai, bool ikadabuki, bool neagari, bool literati, bool yoseUe, bool ishitsuki, bool kabudachi, bool kokufu, bool yamadori, string? perso)
-        {
-            Shohin = shohin;
-            Mame = mame;
-            Chokkan = chokkan;
-            Moyogi = moyogi;
-            Shakan = shakan;
-            Kengai = kengai;
-            HanKengai = hanKengai;
-            Ikadabuki = ikadabuki;
-            Neagari = neagari;
-            Literati = literati;
-            YoseUe = yoseUe;
-            Ishitsuki = ishitsuki;
-            Kabudachi = kabudachi;
-            Kokufu = kokufu;
-            Yamadori = yamadori;
-            Perso = perso;
-        }
+    //    public CategoryDisplayDTO(bool shohin, bool mame, bool chokkan, bool moyogi, bool shakan, bool kengai, bool hanKengai, bool ikadabuki, bool neagari, bool literati, bool yoseUe, bool ishitsuki, bool kabudachi, bool kokufu, bool yamadori, string? perso)
+    //    {
+    //        Shohin = shohin;
+    //        Mame = mame;
+    //        Chokkan = chokkan;
+    //        Moyogi = moyogi;
+    //        Shakan = shakan;
+    //        Kengai = kengai;
+    //        HanKengai = hanKengai;
+    //        Ikadabuki = ikadabuki;
+    //        Neagari = neagari;
+    //        Literati = literati;
+    //        YoseUe = yoseUe;
+    //        Ishitsuki = ishitsuki;
+    //        Kabudachi = kabudachi;
+    //        Kokufu = kokufu;
+    //        Yamadori = yamadori;
+    //        Perso = perso;
+    //    }
 
 
-        public bool Shohin { get; }
-        public bool Mame { get; }
-        public bool Chokkan { get; }
-        public bool Moyogi { get; }
-        public bool Shakan { get; }
-        public bool Kengai { get; }
-        public bool HanKengai { get; }
-        public bool Ikadabuki { get; }
-        public bool Neagari { get; }
-        public bool Literati { get; }
-        public bool YoseUe { get; }
-        public bool Ishitsuki { get; }
-        public bool Kabudachi { get; }
-        public bool Kokufu { get; }
-        public bool Yamadori { get; }
-        public string? Perso { get; }
-    }
+    //    public bool Shohin { get; }
+    //    public bool Mame { get; }
+    //    public bool Chokkan { get; }
+    //    public bool Moyogi { get; }
+    //    public bool Shakan { get; }
+    //    public bool Kengai { get; }
+    //    public bool HanKengai { get; }
+    //    public bool Ikadabuki { get; }
+    //    public bool Neagari { get; }
+    //    public bool Literati { get; }
+    //    public bool YoseUe { get; }
+    //    public bool Ishitsuki { get; }
+    //    public bool Kabudachi { get; }
+    //    public bool Kokufu { get; }
+    //    public bool Yamadori { get; }
+    //    public string? Perso { get; }
+    //}
 }
 

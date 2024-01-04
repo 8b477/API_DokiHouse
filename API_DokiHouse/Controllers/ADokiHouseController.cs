@@ -2,7 +2,6 @@
 using DAL_DokiHouse.DTO;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace API_DokiHouse.Controllers
 {
@@ -48,6 +47,8 @@ namespace API_DokiHouse.Controllers
         {
             if (startIndex < 1 || pageSize < 1)
                 return BadRequest("La page et la taille de la page doivent être des valeurs positives.");
+
+            startIndex--;
 
             IEnumerable<EveryDTO>? result = await _dokiHouseBLLService.GetInfosPaginated(startIndex, pageSize, cancellationToken);
 

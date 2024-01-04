@@ -1,14 +1,11 @@
 ﻿
-using DAL_DokiHouse.DTO;
 
 namespace DAL_DokiHouse.DTO
 {
+
     public class UserDTO
     {
-        public UserDTO()
-        {
-
-        }
+        public UserDTO(){ }
 
         public UserDTO(string name, string email, string passwd)
         {
@@ -48,33 +45,33 @@ namespace DAL_DokiHouse.DTO
     }
 
 
-    public record class UserCreateDTO
-    {
-        public UserCreateDTO(string name, string email, string passwd)
-            => (Name, Email, Passwd) 
-            =  (name, email, passwd);
+    //public record class UserCreateDTO
+    //{
+    //    public UserCreateDTO(string name, string email, string passwd)
+    //        => (Name, Email, Passwd) 
+    //        =  (name, email, passwd);
 
-        public string Name { get; }
-        public string Email { get; }
-        public string Passwd { get; set; }
-    }
-
-
-    public record class UserDisplayDTO
-    {
-
-        public UserDisplayDTO() { }
+    //    public string Name { get; }
+    //    public string Email { get; }
+    //    public string Passwd { get; set; }
+    //}
 
 
-        public UserDisplayDTO(int id, string name, int? idPictureProfil)
-            => (Id, Name, IdPictureProfil) 
-            =  (id, name, idPictureProfil);
+    //public record class UserDisplayDTO
+    //{
+
+    //    public UserDisplayDTO() { }
 
 
-        public int Id { get; }
-        public string Name { get; }
-        public int? IdPictureProfil { get; }
-    }
+    //    public UserDisplayDTO(int id, string name, int? idPictureProfil)
+    //        => (Id, Name, IdPictureProfil) 
+    //        =  (id, name, idPictureProfil);
+
+
+    //    public int Id { get; }
+    //    public string Name { get; }
+    //    public int? IdPictureProfil { get; }
+    //}
 
 
 }

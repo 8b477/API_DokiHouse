@@ -4,10 +4,7 @@ namespace DAL_DokiHouse.DTO
     public class StyleDTO
     {
 
-        public StyleDTO()
-        {
-
-        }
+        public StyleDTO(){}
 
         public StyleDTO(bool bunjin, bool bankan, bool korabuki, bool ishituki, string? perso, int idBonsai)
         {

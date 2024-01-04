@@ -69,7 +69,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDisplayDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserModelDisplay>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Get()
         {
@@ -92,7 +92,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne l'utilisateur trouvé.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet("Profil")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDisplayDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserModelDisplay))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetById()
         {
@@ -120,7 +120,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne la liste des utilisateurs trouvés.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet("{name}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDisplayDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserModelDisplay>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetByName([FromRoute] string name)
         {

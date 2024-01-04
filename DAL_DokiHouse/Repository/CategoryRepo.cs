@@ -2,6 +2,8 @@
 using DAL_DokiHouse.Interfaces;
 using Dapper;
 
+using Entities_DokiHouse.Entities;
+
 using System.Data.Common;
 
 namespace DAL_DokiHouse.Repository
@@ -39,14 +41,34 @@ namespace DAL_DokiHouse.Repository
             Perso = @Perso
         WHERE IdBonsai = @IdBonsai";
 
+            var parameters = new DynamicParameters();
+            parameters.Add("@Shohin", category.Shohin);
+            parameters.Add("@Mame", category.Mame);
+            parameters.Add("@Chokkan", category.Chokkan);
+            parameters.Add("@Moyogi", category.Moyogi);
+            parameters.Add("@Shakan", category.Shakan);
+            parameters.Add("@Kengai", category.Kengai);
+            parameters.Add("@HanKengai", category.HanKengai);
+            parameters.Add("@Ikadabuki", category.Ikadabuki);
+            parameters.Add("@Neagari", category.Neagari);
+            parameters.Add("@Literati", category.Literati);
+            parameters.Add("@YoseUe", category.YoseUe);
+            parameters.Add("@Ishitsuki", category.Ishitsuki);
+            parameters.Add("@Kabudachi", category.Kabudachi);
+            parameters.Add("@Kokufu", category.Kokufu);
+            parameters.Add("@Yamadori", category.Yamadori);
+            parameters.Add("@Perso", category.Perso);
+            parameters.Add("@IdBonsai", category.IdBonsai);
+
+
             // Exécute la requête et récupère le nombre de lignes affectées
-            int rowsAffected = await _connection.ExecuteAsync(sql, category);
+            int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;
         }
 
 
-        public async Task<bool> Create(CategoryDTO model)
+        public async Task<bool> Create(CategoryDTO category)
         {
             string sql = @"
         INSERT INTO [Category] (
@@ -61,8 +83,27 @@ namespace DAL_DokiHouse.Repository
             @Perso, @IdBonsai
         )";
 
+            var parameters = new DynamicParameters();
+            parameters.Add("@Shohin", category.Shohin);
+            parameters.Add("@Mame", category.Mame);
+            parameters.Add("@Chokkan", category.Chokkan);
+            parameters.Add("@Moyogi", category.Moyogi);
+            parameters.Add("@Shakan", category.Shakan);
+            parameters.Add("@Kengai", category.Kengai);
+            parameters.Add("@HanKengai", category.HanKengai);
+            parameters.Add("@Ikadabuki", category.Ikadabuki);
+            parameters.Add("@Neagari", category.Neagari);
+            parameters.Add("@Literati", category.Literati);
+            parameters.Add("@YoseUe", category.YoseUe);
+            parameters.Add("@Ishitsuki", category.Ishitsuki);
+            parameters.Add("@Kabudachi", category.Kabudachi);
+            parameters.Add("@Kokufu", category.Kokufu);
+            parameters.Add("@Yamadori", category.Yamadori);
+            parameters.Add("@Perso", category.Perso);
+            parameters.Add("@IdBonsai", category.IdBonsai);
+
             // Exécute la requête et récupère le nombre de lignes affectées
-            int rowAffected = await _connection.ExecuteAsync(sql, model);
+            int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowAffected > 0;
         }
