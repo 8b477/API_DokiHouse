@@ -43,4 +43,11 @@ Les User qui n'ont pas de Bonsai, Style, Catégorie, Note ceux-ci seront affich�
 https://github.com/8b477/API_DokiHouse/assets/92020766/f642e210-170a-44f4-b525-f7205a491193
 
 
+---------------
 
+# TODO
+
+- Fix les endpoints Picture.
+- Mettre en place un système d'envoie de mail si l'utilisateur à perdu son mot de passe.
+- Ajouter les tables Blog, Comments, Notification.
+- Mettre en place un système de notification Sms/Mail.
