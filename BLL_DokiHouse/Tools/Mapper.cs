@@ -2,6 +2,8 @@
 
 using DAL_DokiHouse.DTO;
 
+using System.Collections.Generic;
+
 namespace BLL_DokiHouse.Tools
 {
     internal class Mapper

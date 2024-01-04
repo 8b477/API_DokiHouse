@@ -1,6 +1,7 @@
 ﻿using API_DokiHouse.Models;
 using BLL_DokiHouse.Models;
 
+using DAL_DokiHouse.DTO;
 
 namespace API_DokiHouse.Services
 {
@@ -29,9 +30,29 @@ namespace API_DokiHouse.Services
         /// <returns>Objet de logique métier utilisateur.</returns>
         public static UserBLL UserModelToBLL(UserUpdateModel user)
         {
-            return new UserBLL(user.Name, user.Email, user.Passwd);
+            return new UserBLL(user.Name, user.Passwd);
         }
 
+
+        public static IEnumerable<UserModelDisplay> UserBLLToFormatDisplay(IEnumerable<UserDTO> users)
+        {
+            List<UserModelDisplay> usersCollection = new();
+
+            foreach (var item in users)
+            {
+                UserModelDisplay userDisplay = new (item.Id,item.Name, item.Role, item.IdPictureProfil);
+
+                usersCollection.Add(userDisplay);
+            }
+
+            return usersCollection;
+        }
+
+
+        public static UserModelDisplay UserBLLToFormatDisplay(UserDTO user)
+        {
+            return new UserModelDisplay(user.Id, user.Name, user.Role, user.IdPictureProfil);
+        }
 
         #endregion
 

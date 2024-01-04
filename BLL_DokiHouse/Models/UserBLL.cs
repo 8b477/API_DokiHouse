@@ -6,6 +6,12 @@ namespace BLL_DokiHouse.Models
     /// </summary>
     public class UserBLL
     {
+        public UserBLL(string name, string passwd)
+        {
+            Name = name;
+            Passwd = passwd;
+        }
+
         public UserBLL(string name, string email, string passwd)
         {
             Name = name;
@@ -17,4 +23,5 @@ namespace BLL_DokiHouse.Models
         public string Email { get; set; }
         public string Passwd { get; set; }
     }
+
 }

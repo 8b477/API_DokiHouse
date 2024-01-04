@@ -15,13 +15,6 @@ namespace BLL_DokiHouse.Interfaces
         Task<bool> CreateUser(UserBLL model);
 
 
-        /// <summary>
-        /// Récupère les users en base de donnée et toute ses relations
-        /// </summary>
-        /// <returns>Retourne la liste des users + leur relations</returns>
-        Task<IEnumerable<EveryDTO>?> GetInfos();
-
-
 
         /// <summary>
         /// Récupère les user en base de donnée

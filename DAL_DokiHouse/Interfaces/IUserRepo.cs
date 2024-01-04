@@ -41,11 +41,5 @@ namespace DAL_DokiHouse
         /// <returns>Une tâche représentant l'opération asynchrone.</returns>
         Task<bool> UpdateProfilPicture(int idUser, int idPicture);
 
-
-        /// <summary>
-        /// Récupère les users en base de donnée et toute ses relations
-        /// </summary>
-        /// <returns>Retourne la liste des users + leur relations</returns>
-        Task<IEnumerable<EveryDTO>?> Infos();
     }
 }

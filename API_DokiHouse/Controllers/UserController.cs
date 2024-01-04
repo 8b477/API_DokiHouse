@@ -38,7 +38,7 @@ namespace API_DokiHouse.Controllers
         /// Cette méthode permet de créer un nouvel utilisateur en utilisant les informations fournies.
         /// </remarks>
         /// <param name="model">Les informations de l'utilisateur à créer.</param>
-        /// <response code="201">Retourne les informations de l'utilisateur créé.</response>
+        /// <response code="201">La création de l'utilisateur à réusi.</response>
         /// <response code="400">La création de l'utilisateur a échoué.</response>
         [AllowAnonymous]
         [HttpPost]
@@ -53,7 +53,7 @@ namespace API_DokiHouse.Controllers
 
             return
                 await _userService.CreateUser(user) == true
-                ? CreatedAtAction(nameof(Create), user)
+                ? CreatedAtAction(nameof(Create),null)
                 : BadRequest();
         }
 
@@ -68,34 +68,17 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne la liste des utilisateurs.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDisplayDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Get()
         {
             IEnumerable<UserDTO?> result = await _userService.Get();
 
-            //ICI MAP POUR DONNER UN VISU SANS MDP ROLE EMAIL
-
             if (result is not null)
-                return Ok(result);
+                return Ok(Mapper.UserBLLToFormatDisplay(result));
 
             return NoContent();
-        }
-
-
-
-        [HttpGet(nameof(GetInfos))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiDTO>))]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetInfos()
-        {
-            IEnumerable<EveryDTO>? result = await _userService.GetInfos();
-
-            return
-                result is not null
-                ? Ok(result)
-                : NoContent();
         }
 
 
@@ -120,7 +103,7 @@ namespace API_DokiHouse.Controllers
             UserDTO? result = await _userService.GetByID(idUser);
 
             if (result is not null)
-                return Ok(result);
+                return Ok(Mapper.UserBLLToFormatDisplay(result));
 
             return BadRequest("Aucune correspondance");
         }
@@ -144,7 +127,7 @@ namespace API_DokiHouse.Controllers
             IEnumerable<UserDTO?> result = await _userService.GetByName(name);
 
             if (result is not null)
-                return Ok(result);
+                return Ok(Mapper.UserBLLToFormatDisplay(result));
 
             return NoContent();
         }
@@ -173,7 +156,7 @@ namespace API_DokiHouse.Controllers
             UserBLL? user = Mapper.UserModelToBLL(model);
 
             if(await _userService.UpdateUser(idUser, user))           
-                return Ok(user);
+                return Ok();
 
             return BadRequest();
         }

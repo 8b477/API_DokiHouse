@@ -1,11 +1,11 @@
 using Tools_DokiHouse.Services.Authentication;
 using Tools_DokiHouse.Services.DependencyInjection;
 using Tools_DokiHouse.Services.SwaggerConfiguration;
-
-using Serilog;
 using Tools_DokiHouse.Filters.AuthorizationFilter;
-using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 using API_DokiHouse.Tools;
+
+using Microsoft.Extensions.Caching.Memory;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 

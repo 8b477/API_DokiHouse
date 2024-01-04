@@ -24,7 +24,7 @@ namespace BLL_DokiHouse.Services
 
         public async Task<IEnumerable<UserDTO>> Get()
         {
-            return await _userRepo.Get();     
+            return await _userRepo.Get();
         }
 
 
@@ -127,14 +127,5 @@ namespace BLL_DokiHouse.Services
         {
             return _userRepo.UpdateProfilPicture(idPicture, idUser);
         }
-
-
-
-        public Task<IEnumerable<EveryDTO>?> GetInfos()
-        {
-            return _userRepo.Infos();
-        }
-
-
     }
 }

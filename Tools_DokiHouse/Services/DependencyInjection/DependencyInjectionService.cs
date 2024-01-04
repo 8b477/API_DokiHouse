@@ -55,6 +55,12 @@ namespace Tools_DokiHouse.Services.DependencyInjection
             services.AddScoped<INoteBLLService, NoteBLLService>();
 
 
+            //DokiHouse Service
+            services.AddScoped<IADokiHouseRepo, ADokiHouseRepo>(provider => new ADokiHouseRepo(new SqlConnection(connectionString)));
+
+            services.AddScoped<IADokiHouseBLLService, ADokiHouseBLLService>();
+
+
             //Token Service
             services.AddScoped<JwtUserIdentifiantFilter>();
         }
