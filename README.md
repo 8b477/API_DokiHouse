@@ -1,15 +1,15 @@
 # Sommaire
 
-1. [Bref présentation du projet.](#one)
-2. Comment l'utiliser ?
-3. Mockup si vous avez la flemme de remplir les datas.
-4. Résulat attendu après suivis un schéma d'insertion basique.
-5. A savoir, spécifisité dans le projet.
-6. Vidéo explicative sur comment publié la base de donnée.
-7. Todo, liste de tâches en cours (évolutif).
+### [1. Bref présentation du projet.](#zero) <br>
+### [2. Comment l'utiliser ?](#one)  
+### [3. Mockup si vous avez la flemme de remplir les datas.](#two)
+### [4. Résulat attendu après suivis un schéma d'insertion basique.](#trois)
+### [5. A savoir, spécifisité dans le projet.](#four)
+### [6. Vidéo explicative sur comment publié la base de donnée.](#five)
+### [7. Todo, liste de tâches en cours (évolutif).](#six)
 
 
-# API_DokiHouse  
+# <a name="zero"> API_DokiHouse </a> 
 
 Création d'une API sur la gestion d'un Bonsaï :  
 
@@ -17,14 +17,14 @@ Création d'une API sur la gestion d'un Bonsaï :
 - Espace gestion Bonsaï, ajout, suivis, notification.
 
 
-<a name="one">
-But à terme de l'api et du front 
-</a> 
+
+But à terme de l'api et du front  
+
 - Mise en relation des utilisateurs autour d'une même passion.
 - Possibilité pour l'utilisateur de publier des posts ou de commenter.
 
 
-# Utilisation
+# <a name="one"> Utilisation </a>
 
 - Création d'un nouveau User
 - Entrée son mail et mot de passe dans le endpoint Log
@@ -36,7 +36,7 @@ But à terme de l'api et du front
 
 Attention les endpoints sont protégés il n'y a que la création d'un User et le endpoint Log qui sont en public, une fois log et avoir inséré son token dans l'endroit approprié les autres endpoints sont ouverts.
 
-## Mockup
+## <a name="two"> Mockup </a>
 
 **USER Create**
 ```json
@@ -106,7 +106,9 @@ Log
 }
 ```
 
-*résultat attendu via =>*   
+## <a name="trois"> Résulat </a>
+
+*Attendu via =>*   
    `https://localhost:7043/api/Bonsai/GetOwnBonsai`
 ```json
 [
@@ -120,7 +122,7 @@ Log
 ```
 
 
-*résultat attendu via =>*  
+*Attendu via =>*  
   `https://localhost:7043/api/ADokiHouse`
 
 ```json
@@ -175,7 +177,7 @@ Log
 ]
 ```
 
-# A savoir
+# <a name="four"> A savoir </a>
 
 Le projet a un endpoint qui se nomme ADokiHouse, il récupère toutes les données en base de données et build un objet via leurs relations de clé étrangère:
 
@@ -189,14 +191,14 @@ Les User qui n'ont pas de Bonsai, Style, Catégorie, Note ceux-ci seront affich�
 
 
 --------------------
-# Comment publier la DB et changer la connection string ?
+# <a name="five"> Comment publier la DB et changer la connection string ? </a>
 
 https://github.com/8b477/API_DokiHouse/assets/92020766/f642e210-170a-44f4-b525-f7205a491193
 
 
 ---------------
 
-# TODO
+# <a name="six"> TODO </a>
 
 - Fix les endpoints Picture.
 - Mettre en place un système d'envoie de mail si l'utilisateur à perdu son mot de passe.
