@@ -4,7 +4,7 @@
 ### [2. Comment l'utiliser ?](#one)  
 ### [3. Mockup si vous avez la flemme de remplir les datas.](#two)
 ### [4. Résulat attendu après suivis un schéma d'insertion basique.](#trois)
-### [5. A savoir, spécifisité dans le projet.](#four)
+### [5. À savoir, spécificité.](#four)
 ### [6. Vidéo explicative sur comment publié la base de donnée.](#five)
 ### [7. Todo, liste de tâches en cours (évolutif).](#six)
 
