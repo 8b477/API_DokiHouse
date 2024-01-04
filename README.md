@@ -35,3 +35,7 @@ Enfin la table Catégorie, Style, Note liée au à la table Bonsai
 Résultat : 
 
 Les User qui n'ont pas de Bonsai, Style, Catégorie, Note ceux-ci seront affiché comme champ avec une valeur 'null', j'ai décidé de ne pas développer d'avantage les propriétés de l'objet si celui-ci est évalué à 'null'.
+
+
+
+
