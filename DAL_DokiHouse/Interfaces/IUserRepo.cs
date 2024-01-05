@@ -17,11 +17,28 @@ namespace DAL_DokiHouse
 
 
         /// <summary>
-        /// Met à jour les informations d'un utilisateur existant avec les données fournies dans le modèle.
+        /// Met à jour le nom d'un utilisateur existant avec les données fournies dans le modèle.
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> Update(UserDTO model);
+        Task<bool> UpdateName(UserUpNameDTO model);
+
+
+        /// <summary>
+        /// Met à jour le pass d'un utilisateur existant avec les données fournies dans le modèle.
+        /// </summary>
+        /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
+        /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
+        Task<bool> UpdatePass(UserUpPassDTO model);
+
+
+        /// <summary>
+        /// Met à jour le mail d'un utilisateur existant avec les données fournies dans le modèle.
+        /// </summary>
+        /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
+        /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
+        Task<bool> UpdateEmail(UserUpMailDTO model);
+
 
 
         /// <summary>

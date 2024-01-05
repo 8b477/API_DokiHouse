@@ -27,22 +27,22 @@ namespace BLL_DokiHouse.Models
             IdBonsai = idBonsai;
         }
 
-        public bool Shohin { get; set; } = false;
-        public bool Mame { get; set; } = false;
-        public bool Chokkan { get; set; } = false;
-        public bool Moyogi { get; set; } = false;
-        public bool Shakan { get; set; } = false;
-        public bool Kengai { get; set; } = false;
-        public bool HanKengai { get; set; } = false;
-        public bool Ikadabuki { get; set; } = false;
-        public bool Neagari { get; set; } = false;
-        public bool Literati { get; set; } = false;
-        public bool YoseUe { get; set; } = false;
-        public bool Ishitsuki { get; set; } = false;
-        public bool Kabudachi { get; set; } = false;
-        public bool Kokufu { get; set; } = false;
-        public bool Yamadori { get; set; } = false;
-        public string? Perso { get; set; } = "";
+        public bool Shohin { get; set; } 
+        public bool Mame { get; set; }
+        public bool Chokkan { get; set; } 
+        public bool Moyogi { get; set; }
+        public bool Shakan { get; set; }
+        public bool Kengai { get; set; }
+        public bool HanKengai { get; set; }
+        public bool Ikadabuki { get; set; }
+        public bool Neagari { get; set; }
+        public bool Literati { get; set; } 
+        public bool YoseUe { get; set; } 
+        public bool Ishitsuki { get; set; } 
+        public bool Kabudachi { get; set; }
+        public bool Kokufu { get; set; } 
+        public bool Yamadori { get; set; } 
+        public string? Perso { get; set; } 
 
         public int IdBonsai { get; set; }
     }

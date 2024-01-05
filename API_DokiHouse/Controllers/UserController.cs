@@ -143,23 +143,83 @@ namespace API_DokiHouse.Controllers
         /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
-        [HttpPut("Update")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateModel))]
+        [HttpPut(nameof(Name))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserNameUpdateModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update([FromBody] UserUpdateModel model)
+        public async Task<IActionResult> Name([FromBody] UserNameUpdateModel model)
         {
             
             int idUser = _httpContextService.GetLoggedInUserId();
 
             if (idUser == 0) return Unauthorized();
 
-            UserBLL? user = Mapper.UserModelToBLL(model);
+            UserUpdateNameBLL user = Mapper.UserModelToBLL(model);
 
-            if(await _userService.UpdateUser(idUser, user))           
+            if(await _userService.UpdateUserName(idUser, user))           
                 return Ok();
 
             return BadRequest();
         }
+
+
+
+        /// <summary>
+        /// Met à jour le profil d'un utilisateur.
+        /// </summary>
+        /// <remarks>
+        /// Cette méthode permet de mettre à jour un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
+        /// </remarks>
+        /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
+        /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
+        /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
+        [HttpPut(nameof(Pass))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPassUpdateModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Pass([FromBody] UserPassUpdateModel model)
+        {
+
+            int idUser = _httpContextService.GetLoggedInUserId();
+
+            if (idUser == 0) return Unauthorized();
+
+            UserUpdatePassBLL user = Mapper.UserModelToBLL(model);
+
+            if (await _userService.UpdateUserPass(idUser, user))
+                return Ok();
+
+            return BadRequest();
+        }
+
+
+
+        /// <summary>
+        /// Met à jour le profil d'un utilisateur.
+        /// </summary>
+        /// <remarks>
+        /// Cette méthode permet de mettre à jour un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
+        /// </remarks>
+        /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
+        /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
+        /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
+        [HttpPut(nameof(Mail))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserMailUpdateModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Mail([FromBody] UserMailUpdateModel model)
+        {
+
+            int idUser = _httpContextService.GetLoggedInUserId();
+
+            if (idUser == 0) return Unauthorized();
+
+            UserUpdateMailBLL user = Mapper.UserModelToBLL(model);
+
+            if (await _userService.UpdateUserEmail(idUser, user))
+                return Ok();
+
+            return BadRequest();
+        }
+
+
 
 
 
@@ -169,7 +229,6 @@ namespace API_DokiHouse.Controllers
         /// <remarks>
         /// Cette méthode permet de supprimer un utilisateur existant en utilisant son identifiant.
         /// </remarks>
-        /// <param name="id">L'identifiant de l'utilisateur à supprimer.</param>
         /// <response code="204">L'utilisateur a été supprimé avec succès.</response>
         /// <response code="400">La suppression de l'utilisateur a échoué.</response>
         [HttpDelete("Delete")]

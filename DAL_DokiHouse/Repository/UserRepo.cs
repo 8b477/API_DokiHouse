@@ -35,16 +35,51 @@ namespace DAL_DokiHouse
 
 
 
-        public async Task<bool> Update(UserDTO model)
+        public async Task<bool> UpdateName(UserUpNameDTO model)
         {
             string sql = @"
         UPDATE [User]
-        SET Name = @Name, Passwd = @Passwd
+        SET Name = @Name
         WHERE Id = @id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Name", model.Name);
+            parameters.Add("@id", model.Id);
+
+            int result = await _connection.ExecuteAsync(sql, parameters);
+
+            return result > 0;
+        }
+
+
+
+        public async Task<bool> UpdatePass(UserUpPassDTO model)
+        {
+            string sql = @"
+        UPDATE [User]
+        SET Passwd = @Passwd
+        WHERE Id = @id";
+
+            DynamicParameters parameters = new();
             parameters.Add("@Passwd", model.Passwd);
+            parameters.Add("@id", model.Id);
+
+            int result = await _connection.ExecuteAsync(sql, parameters);
+
+            return result > 0;
+        }
+
+
+
+        public async Task<bool> UpdateEmail(UserUpMailDTO model)
+        {
+            string sql = @"
+        UPDATE [User]
+        SET Email = @Email
+        WHERE Id = @id";
+
+            DynamicParameters parameters = new();
+            parameters.Add("@Email", model.Email);
             parameters.Add("@id", model.Id);
 
             int result = await _connection.ExecuteAsync(sql, parameters);

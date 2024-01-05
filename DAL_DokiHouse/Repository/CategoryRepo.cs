@@ -2,8 +2,6 @@
 using DAL_DokiHouse.Interfaces;
 using Dapper;
 
-using Entities_DokiHouse.Entities;
-
 using System.Data.Common;
 
 namespace DAL_DokiHouse.Repository
@@ -102,7 +100,6 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Perso", category.Perso);
             parameters.Add("@IdBonsai", category.IdBonsai);
 
-            // Exécute la requête et récupère le nombre de lignes affectées
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowAffected > 0;

@@ -24,14 +24,16 @@ namespace API_DokiHouse.Models
         public string PasswdConfirm { get; set; } = string.Empty;
     }
 
-    public record UserUpdateModel
+    public record UserNameUpdateModel
     {
         [Required(ErrorMessage = $"{nameof(Name)} : champ requis")]
         [MinLength(3, ErrorMessage = $"Le champ {nameof(Name)} est requis et doit comporter au min 3 caratères")]
         [MaxLength(20, ErrorMessage = $"Le champ {nameof(Name)} est requis et doit comporter au max 20 caratères")]
         public string Name { get; set; } = string.Empty;
+    }
 
-
+    public record UserPassUpdateModel
+    {
         [Required(ErrorMessage = $"{nameof(Passwd)} : champ requis")]
         [DataType(DataType.Password)]
         [RegularExpression("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", ErrorMessage = $"8 caractères mini, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial")]
@@ -42,12 +44,21 @@ namespace API_DokiHouse.Models
         public string PasswdConfirm { get; set; } = string.Empty;
     }
 
+
+    public record UserMailUpdateModel
+    {
+        [Required(ErrorMessage = $"{nameof(Email)} : champ requis")]
+        [DataType(DataType.EmailAddress, ErrorMessage = $"{nameof(Email)} : champ requis, {nameof(Email)} : non valide !")]
+        [EmailAddress(ErrorMessage = $"{nameof(Email)} : champ requis, {nameof(Email)} : non valide !")]
+        public string Email { get; set; } = string.Empty;
+    }
+
+
     public record UserLoginModel
     {
         [Required(ErrorMessage = $"{nameof(Email)} : champ requis")]
         [DataType(DataType.EmailAddress, ErrorMessage = $"{nameof(Email)} : champ requis, {nameof(Email)} : non valide !")]
         [EmailAddress(ErrorMessage = $"{nameof(Email)} : champ requis, {nameof(Email)} : non valide !")]
-
         public string Email { get; set; } = string.Empty;
 
 

@@ -19,5 +19,4 @@ namespace DAL_DokiHouse.DTO
         public string? Description { get;  }
         public int IdUser { get;  }
     }
-
 }

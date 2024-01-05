@@ -43,12 +43,29 @@ namespace BLL_DokiHouse.Interfaces
 
 
         /// <summary>
-        /// Met à jour un user
+        /// Met à jour le nom d'un utilisateur existant avec les données fournies dans le modèle.
         /// </summary>
-        /// <param name="id">Identifiant de type 'int'</param>
-        /// <param name="model">model de création attendu : 'UserCreateDTO'</param>
-        /// <returns>Retourne le user modifié si réussi, si non retourne null</returns>
-        Task<bool> UpdateUser(int id, UserBLL model);
+        /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
+        /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
+        Task<bool> UpdateUserName(int id, UserUpdateNameBLL model);
+
+
+
+        /// <summary>
+        /// Met à jour le pass d'un utilisateur existant avec les données fournies dans le modèle.
+        /// </summary>
+        /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
+        /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
+        Task<bool> UpdateUserPass(int id, UserUpdatePassBLL model);
+
+
+
+        /// <summary>
+        /// Met à jour le mail d'un utilisateur existant avec les données fournies dans le modèle.
+        /// </summary>
+        /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
+        /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
+        Task<bool> UpdateUserEmail(int id, UserUpdateMailBLL model);
 
 
 

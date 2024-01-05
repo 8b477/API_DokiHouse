@@ -25,10 +25,27 @@ namespace BLL_DokiHouse.Tools
         }
 
 
+        public static UserUpNameDTO UserUpNameDTOBLLToDAL(int id, UserUpdateNameBLL user)
+        {
+            return new UserUpNameDTO( id, user.Name);
+        }
+
+        public static UserUpMailDTO UserUpMailDTOBLLToDAL(int id, UserUpdateMailBLL user)
+        {
+            return new UserUpMailDTO(id, user.Email);
+        }
+
+        public static UserUpPassDTO UserUpPassBLLToDAL(int id, UserUpdatePassBLL user)
+        {
+            return new UserUpPassDTO(id, user.Passwd);
+        }
+
+
         public static UserBLL UserDALToBLL(UserDTO user)
         {
-            return new UserBLL(user.Name, user.Email, user.Passwd);
+            return new UserBLL(user.Name, user.Email, user.Passwd, user.Role);
         }
+
 
 
         #endregion

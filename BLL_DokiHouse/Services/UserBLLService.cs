@@ -80,17 +80,31 @@ namespace BLL_DokiHouse.Services
 
 
 
-        public async Task<bool> UpdateUser(int id, UserBLL model)
+        public async Task<bool> UpdateUserName(int id, UserUpdateNameBLL model)
+        {
+            UserUpNameDTO user = Mapper.UserUpNameDTOBLLToDAL(id,model);
+
+            return await _userRepo.UpdateName(user);             
+        }
+
+
+        public async Task<bool> UpdateUserPass(int id, UserUpdatePassBLL model)
+        {
+            model.Passwd = BCrypt.Net.BCrypt.HashPassword(model.Passwd);
+
+            UserUpPassDTO user = Mapper.UserUpPassBLLToDAL(id, model);
+
+            return await _userRepo.UpdatePass(user);
+        }
+
+
+        public async Task<bool> UpdateUserEmail(int id, UserUpdateMailBLL model)
         {
             try
             {
-               model.Passwd = BCrypt.Net.BCrypt.HashPassword(model.Passwd);
+                UserUpMailDTO user = Mapper.UserUpMailDTOBLLToDAL(id, model);
 
-               UserDTO user = Mapper.UserBLLToDAL(model);
-
-                user.Id = id;
-
-               return await _userRepo.Update(user);
+                return await _userRepo.UpdateEmail(user);
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {
@@ -99,9 +113,8 @@ namespace BLL_DokiHouse.Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }          
+            }
         }
-
 
 
         public async Task<bool> DeleteUser(int id)

@@ -19,7 +19,7 @@ namespace API_DokiHouse.Services
         /// <returns>Objet de logique métier utilisateur.</returns>
         public static UserBLL UserModelToBLL(UserCreateModel user)
         {
-            return new UserBLL(user.Name, user.Email, user.Passwd);
+            return new UserBLL(user.Name, user.Email, user.Passwd, "Visitor");
         }
 
 
@@ -28,11 +28,30 @@ namespace API_DokiHouse.Services
         /// </summary>
         /// <param name="user">Modèle de mise à jour d'utilisateur à convertir.</param>
         /// <returns>Objet de logique métier utilisateur.</returns>
-        public static UserBLL UserModelToBLL(UserUpdateModel user)
+        public static UserUpdateNameBLL UserModelToBLL(UserNameUpdateModel user)
         {
-            return new UserBLL(user.Name, user.Passwd);
+            return new UserUpdateNameBLL(user.Name);
         }
 
+        /// <summary>
+        /// Convertit un modèle de mise à jour d'utilisateur en un objet de logique métier utilisateur.
+        /// </summary>
+        /// <param name="user">Modèle de mise à jour d'utilisateur à convertir.</param>
+        /// <returns>Objet de logique métier utilisateur.</returns>
+        public static UserUpdatePassBLL UserModelToBLL(UserPassUpdateModel user)
+        {
+            return new UserUpdatePassBLL(user.Passwd);
+        }
+
+        /// <summary>
+        /// Convertit un modèle de mise à jour d'utilisateur en un objet de logique métier utilisateur.
+        /// </summary>
+        /// <param name="user">Modèle de mise à jour d'utilisateur à convertir.</param>
+        /// <returns>Objet de logique métier utilisateur.</returns>
+        public static UserUpdateMailBLL UserModelToBLL(UserMailUpdateModel user)
+        {
+            return new UserUpdateMailBLL(user.Email);
+        }
 
         public static IEnumerable<UserModelDisplay> UserBLLToFormatDisplay(IEnumerable<UserDTO> users)
         {
