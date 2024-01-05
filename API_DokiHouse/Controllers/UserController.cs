@@ -138,7 +138,7 @@ namespace API_DokiHouse.Controllers
         /// Met à jour le profil d'un utilisateur.
         /// </summary>
         /// <remarks>
-        /// Cette méthode permet de mettre à jour un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
+        /// Cette méthode permet de mettre à jour le nom d'un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
         /// </remarks>
         /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
@@ -147,8 +147,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserNameUpdateModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Name([FromBody] UserNameUpdateModel model)
-        {
-            
+        {         
             int idUser = _httpContextService.GetLoggedInUserId();
 
             if (idUser == 0) return Unauthorized();
@@ -167,7 +166,7 @@ namespace API_DokiHouse.Controllers
         /// Met à jour le profil d'un utilisateur.
         /// </summary>
         /// <remarks>
-        /// Cette méthode permet de mettre à jour un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
+        /// Cette méthode permet de mettre à jour le mot de passe d'un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
         /// </remarks>
         /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
@@ -177,7 +176,6 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Pass([FromBody] UserPassUpdateModel model)
         {
-
             int idUser = _httpContextService.GetLoggedInUserId();
 
             if (idUser == 0) return Unauthorized();
@@ -196,7 +194,7 @@ namespace API_DokiHouse.Controllers
         /// Met à jour le profil d'un utilisateur.
         /// </summary>
         /// <remarks>
-        /// Cette méthode permet de mettre à jour un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
+        /// Cette méthode permet de mettre à jour l'email d'un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
         /// </remarks>
         /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
@@ -206,7 +204,6 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Mail([FromBody] UserMailUpdateModel model)
         {
-
             int idUser = _httpContextService.GetLoggedInUserId();
 
             if (idUser == 0) return Unauthorized();
@@ -218,8 +215,6 @@ namespace API_DokiHouse.Controllers
 
             return BadRequest();
         }
-
-
 
 
 

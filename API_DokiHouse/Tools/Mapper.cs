@@ -8,9 +8,7 @@ namespace API_DokiHouse.Services
     internal static class Mapper
     {
 
-
         #region USER
-
 
         /// <summary>
         /// Convertit un modèle de création d'utilisateur en un objet de logique métier utilisateur.
@@ -33,6 +31,7 @@ namespace API_DokiHouse.Services
             return new UserUpdateNameBLL(user.Name);
         }
 
+
         /// <summary>
         /// Convertit un modèle de mise à jour d'utilisateur en un objet de logique métier utilisateur.
         /// </summary>
@@ -42,6 +41,8 @@ namespace API_DokiHouse.Services
         {
             return new UserUpdatePassBLL(user.Passwd);
         }
+
+
 
         /// <summary>
         /// Convertit un modèle de mise à jour d'utilisateur en un objet de logique métier utilisateur.
@@ -53,13 +54,19 @@ namespace API_DokiHouse.Services
             return new UserUpdateMailBLL(user.Email);
         }
 
+
+        /// <summary>
+        /// Convertit une liste d'objets de logique métier utilisateur en une liste de modèles d'affichage utilisateur.
+        /// </summary>
+        /// <param name="users">Liste d'objets de logique métier utilisateur à convertir.</param>
+        /// <returns>Liste de modèles d'affichage utilisateur.</returns>
         public static IEnumerable<UserModelDisplay> UserBLLToFormatDisplay(IEnumerable<UserDTO> users)
         {
             List<UserModelDisplay> usersCollection = new();
 
             foreach (var item in users)
             {
-                UserModelDisplay userDisplay = new (item.Id,item.Name, item.Role, item.IdPictureProfil);
+                UserModelDisplay userDisplay = new(item.Id, item.Name, item.Role, item.IdPictureProfil);
 
                 usersCollection.Add(userDisplay);
             }
@@ -68,6 +75,11 @@ namespace API_DokiHouse.Services
         }
 
 
+        /// <summary>
+        /// Convertit un objet de logique métier utilisateur en un modèle d'affichage utilisateur.
+        /// </summary>
+        /// <param name="user">Objet de logique métier utilisateur à convertir.</param>
+        /// <returns>Modèle d'affichage utilisateur.</returns>
         public static UserModelDisplay UserBLLToFormatDisplay(UserDTO user)
         {
             return new UserModelDisplay(user.Id, user.Name, user.Role, user.IdPictureProfil);
@@ -76,9 +88,7 @@ namespace API_DokiHouse.Services
         #endregion
 
 
-
         #region CATEGORY
-
 
         /// <summary>
         /// Convertit un modèle de catégorie en un objet de logique métier catégorie.
@@ -97,13 +107,10 @@ namespace API_DokiHouse.Services
             );
         }
 
-
         #endregion
 
 
-
         #region BONSAI
-
 
         /// <summary>
         /// Convertit un modèle de création de bonsaï en un objet de logique métier bonsaï.
@@ -115,28 +122,37 @@ namespace API_DokiHouse.Services
             return new BonsaiBLL(bonsai.Name, bonsai.Description, 0);
         }
 
-
         #endregion
 
 
         #region STYLE
 
+        /// <summary>
+        /// Convertit un modèle de style en un objet de logique métier style.
+        /// </summary>
+        /// <param name="model">Modèle de style à convertir.</param>
+        /// <returns>Objet de logique métier style.</returns>
         public static StyleBLL StyleModelToBLL(StyleModel model)
         {
-            return new StyleBLL(model.Bunjin, model.Bankan,model.Korabuki,model.Ishituki,model.Perso,0);
+            return new StyleBLL(model.Bunjin, model.Bankan, model.Korabuki, model.Ishituki, model.Perso, 0);
         }
 
         #endregion
-
 
 
         #region NOTE
 
+        /// <summary>
+        /// Convertit un modèle de note en un objet de logique métier note.
+        /// </summary>
+        /// <param name="model">Modèle de note à convertir.</param>
+        /// <returns>Objet de logique métier note.</returns>
         public static NoteBLL NoteModelToBLL(NoteModel model)
         {
-            return new NoteBLL(model.Title, model.Description, DateTime.Now,0);
+            return new NoteBLL(model.Title, model.Description, DateTime.Now, 0);
         }
 
         #endregion
+
     }
 }

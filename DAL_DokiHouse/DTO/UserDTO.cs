@@ -1,7 +1,4 @@
 ﻿
-
-using System.Xml.Linq;
-
 namespace DAL_DokiHouse.DTO
 {
 
@@ -26,7 +23,6 @@ namespace DAL_DokiHouse.DTO
         }
 
 
-
         public int Id { get;  }
         public string Name { get;  }
         public string Email { get;  }
@@ -46,7 +42,6 @@ namespace DAL_DokiHouse.DTO
         public int Id { get; }
         public string Name { get; }
     }
-
 
     public record UserUpMailDTO
     {

@@ -20,7 +20,11 @@ namespace DAL_DokiHouse.Interfaces
         /// <returns>True si la mise à jour a réussi, sinon False.</returns>
         Task<bool> Update(CategoryDTO model);
 
-
+        /// <summary>
+        /// Check en DB si une catégorie est déjà présente pour le bonsai identifié
+        /// </summary>
+        /// <param name="idBonsai">Identifiant de type : 'int'</param>
+        /// <returns></returns>
         Task<bool> NotValide(int idBonsai);
     }
 }

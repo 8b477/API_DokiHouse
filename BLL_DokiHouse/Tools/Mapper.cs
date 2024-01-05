@@ -12,22 +12,14 @@ namespace BLL_DokiHouse.Tools
 
         #region USER
 
-
-
-        /// <summary>
-        /// Convertit un objet de logique métier utilisateur en un objet d'accès aux données pour la création d'utilisateur.
-        /// </summary>
-        /// <param name="user">Objet de logique métier utilisateur à convertir.</param>
-        /// <returns>Objet d'accès aux données pour la création d'utilisateur.</returns>
         public static UserDTO UserBLLToDAL(UserBLL user)
         {
-            return new UserDTO(user.Name,user.Email, user.Passwd, "Visitor");
+            return new UserDTO(user.Name, user.Email, user.Passwd, "Visitor");
         }
-
 
         public static UserUpNameDTO UserUpNameDTOBLLToDAL(int id, UserUpdateNameBLL user)
         {
-            return new UserUpNameDTO( id, user.Name);
+            return new UserUpNameDTO(id, user.Name);
         }
 
         public static UserUpMailDTO UserUpMailDTOBLLToDAL(int id, UserUpdateMailBLL user)
@@ -40,13 +32,10 @@ namespace BLL_DokiHouse.Tools
             return new UserUpPassDTO(id, user.Passwd);
         }
 
-
         public static UserBLL UserDALToBLL(UserDTO user)
         {
             return new UserBLL(user.Name, user.Email, user.Passwd, user.Role);
         }
-
-
 
         #endregion
 
@@ -54,16 +43,10 @@ namespace BLL_DokiHouse.Tools
 
         #region BONSAI
 
-        /// <summary>
-        /// Convertit un objet de logique métier bonsaï en un objet d'accès aux données pour la création de bonsaï.
-        /// </summary>
-        /// <param name="bonsai">Objet de logique métier bonsaï à convertir.</param>
-        /// <returns>Objet d'accès aux données pour la création de bonsaï.</returns>
         public static BonsaiDTO BonsaiBLLToDAL(BonsaiBLL bonsai)
         {
             return new BonsaiDTO(bonsai.Name, bonsai.Description, bonsai.IdUser);
         }
-
 
         #endregion
 
@@ -71,22 +54,16 @@ namespace BLL_DokiHouse.Tools
 
         #region CATEGORY
 
-
-        /// <summary>
-        /// Convertit un objet de logique métier catégorie en un objet d'accès aux données catégorie.
-        /// </summary>
-        /// <param name="cate">Objet de logique métier catégorie à convertir.</param>
-        /// <returns>Objet d'accès aux données catégorie.</returns>
         public static CategoryDTO CategoryBLLToDAL(CategoryBLL cate)
         {
             return new CategoryDTO(
-                        cate.Shohin, cate.Mame, cate.Chokkan,
-                        cate.Moyogi, cate.Shakan, cate.Kengai,
-                        cate.HanKengai, cate.Ikadabuki, cate.Neagari,
-                        cate.Literati, cate.YoseUe, cate.Ishitsuki,
-                        cate.Kabudachi, cate.Kokufu, cate.Yamadori,
-                        cate.Perso, cate.IdBonsai
-                        );
+                cate.Shohin, cate.Mame, cate.Chokkan,
+                cate.Moyogi, cate.Shakan, cate.Kengai,
+                cate.HanKengai, cate.Ikadabuki, cate.Neagari,
+                cate.Literati, cate.YoseUe, cate.Ishitsuki,
+                cate.Kabudachi, cate.Kokufu, cate.Yamadori,
+                cate.Perso, cate.IdBonsai
+            );
         }
 
         #endregion
@@ -98,10 +75,10 @@ namespace BLL_DokiHouse.Tools
         public static StyleDTO StyleBLLToDAL(StyleBLL style)
         {
             return new StyleDTO(
-                         style.Bunjin, style.Bankan,
-                         style.Korabuki,style.Ishituki,
-                         style.Perso,style.IdBonsai
-                         );
+                style.Bunjin, style.Bankan,
+                style.Korabuki, style.Ishituki,
+                style.Perso, style.IdBonsai
+            );
         }
 
         #endregion
@@ -116,6 +93,7 @@ namespace BLL_DokiHouse.Tools
         }
 
         #endregion
+
 
     }
 }

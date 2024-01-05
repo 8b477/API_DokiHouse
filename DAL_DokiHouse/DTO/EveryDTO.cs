@@ -1,6 +1,6 @@
 ﻿namespace DAL_DokiHouse.DTO
 {
-    // Un fichier qui regroupe des classe pour personalisé le map des relations avec Dapper
+    // Un fichier qui regroupe des classe pour personnalisé le map des relations avec Dapper
     public class EveryDTO
     {
         public EveryDTO()
