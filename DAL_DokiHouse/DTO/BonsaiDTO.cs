@@ -20,23 +20,4 @@ namespace DAL_DokiHouse.DTO
         public int IdUser { get;  }
     }
 
-
-
-    //public record BonsaiAndChild
-    //{
-    //    public BonsaiAndChild(){}
-
-    //    public int IdBonsai { get;  }
-    //    public string Name { get;  }
-    //    public string? Description { get;  }
-    //    public int IdUser { get;  }
-
-    //    public BonsaiDTO Bonsai { get;  }
-    //    public CategoryDTO Category { get;  }
-    //    public StyleDTO Style { get;  }
-    //    public NoteDTO Note { get;  }
-    //}
-
-
-
 }
