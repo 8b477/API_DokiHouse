@@ -11,7 +11,7 @@
 
 # <a name="zero"> API_DokiHouse </a> 
 
-Création d'une API sur la gestion d'un Bonsaï :  
+Création d'une API ASP .NET(6) Core sur la gestion d'un Bonsaï :  
 
 - Création d'un profil perso (User).
 - Espace gestion Bonsaï, ajout, suivis, notification.
