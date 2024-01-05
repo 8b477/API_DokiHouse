@@ -179,11 +179,11 @@ Log
 
 # <a name="four"> A savoir </a>
 
-Le projet a un endpoint qui se nomme ADokiHouse, il récupère toutes les données en base de données et build un objet via leurs relations de clé étrangère:
+Le projet a un endpoint qui se nomme ADokiHouse, il récupère toutes les données en base de données et build un objet via leurs relations de clé étrangère:  
 
-Il récupère un User
-Puis la liste des Bonsai possédé par le User
-Enfin la table Catégorie, Style, Note liée au à la table Bonsai
+Il récupère un User.  
+Puis la liste des Bonsai possédé par le User.  
+Enfin la table Catégorie, Style, Note liée au à la table Bonsai.
 
 Résultat : 
 
