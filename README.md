@@ -27,7 +27,7 @@ But à terme de l'api et du front
 # <a name="one"> Utilisation </a>
 
 - Création d'un nouveau User
-- Entrée son mail et mot de passe dans le endpoint Log
+- Entrée son mail et mot de passe dans le endpoint Log  
 => Récupération d'un token personnalisé qui contient (id, role)
 - Insérer le token reçu au dessus a droite dans SwaggerUI 'Authorize'
 
