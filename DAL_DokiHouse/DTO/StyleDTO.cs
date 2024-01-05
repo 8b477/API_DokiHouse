@@ -1,7 +1,7 @@
 ﻿
 namespace DAL_DokiHouse.DTO
 {
-    public class StyleDTO
+    public record StyleDTO
     {
 
         public StyleDTO(){}
@@ -16,13 +16,13 @@ namespace DAL_DokiHouse.DTO
             IdBonsai = idBonsai;
         }
 
-        public int Id { get; set; }
-        public bool Bunjin { get; set; }
-        public bool Bankan { get; set; }
-        public bool Korabuki { get; set; }
-        public bool Ishituki { get; set; }
-        public string? Perso { get; set; }
+        public int Id { get;  }
+        public bool Bunjin { get;  }
+        public bool Bankan { get;  }
+        public bool Korabuki { get;  }
+        public bool Ishituki { get;  }
+        public string? Perso { get;  }
 
-        public int IdBonsai { get; set; } //---> FK
+        public int IdBonsai { get;  } //---> FK
     }
 }

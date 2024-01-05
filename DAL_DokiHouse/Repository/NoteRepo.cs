@@ -36,7 +36,7 @@ namespace DAL_DokiHouse.Repository
         UPDATE [Note]
         SET 
             Title = @Title,
-            Description = @Description,
+            Description = @Description
         WHERE IdBonsai = @IdBonsai";
 
             DynamicParameters parameters = new();
