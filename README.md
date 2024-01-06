@@ -6,7 +6,7 @@
 ### [4. Résulat attendu après suivis un schéma d'insertion basique.](#trois)
 ### [5. À savoir, spécificité.](#four)
 ### [6. Vidéo explicative sur comment publié la base de donnée.](#five)
-### [7. Todo, liste de tâches en cours (évolutif).](#six)
+### [7. Todo, liste  de tâches en cours (évolutives).](#six)
 
 
 # <a name="zero"> API_DokiHouse </a> 
