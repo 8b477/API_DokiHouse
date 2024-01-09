@@ -114,7 +114,7 @@ namespace BLL_DokiHouse.Tools
 
         public static CommentsDTO CommentBLLToDAL(CommentBLL comment)
         {
-            return new(comment.Content, comment.CreatedAt, comment.IdUser);
+            return new(comment.Content, comment.CreatedAt, comment.IdUser,comment.IdPost);
         }
 
         #endregion

@@ -51,7 +51,7 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public virtual async Task<IEnumerable<M>?> GetBy(S name)
+        public virtual async Task<IEnumerable<M>?> GetBy(S name) // --> Remplacer 'Name' par une variable
         {
             string tableName = GetTableName();
             string uppercaseName = name?.ToString()?.ToUpper() ?? "";

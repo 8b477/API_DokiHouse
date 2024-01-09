@@ -19,8 +19,15 @@ namespace DAL_DokiHouse.Repository
         {
             string sql = @"
             INSERT INTO [Comments]
-            (Content, CreateAt, IdUser)
-            VALUES (@Content, @CreateAt, @IdUser)";
+            (Content, CreateAt, IdUser, IdPost)
+            VALUES (@Content, @CreateAt, @IdUser, @IdPost)
+            WHERE IdPost = @IdPost";
+
+            DynamicParameters parameters = new();
+            parameters.Add("@Content", comments.Content);
+            parameters.Add("@CreateAt", comments.CreatedAt);
+            parameters.Add("@IdUser", comments.IdUser);
+            parameters.Add("@IdPost", comments.IdPost);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, comments);
 
@@ -28,20 +35,33 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<bool> Update(CommentsDTO comments)
+        public async Task<bool> Update(int Id, CommentsDTO comments)
         {
             string sql = @"
             UPDATE [Comments]
             SET Content = @Content
-            WHERE IdBonsai = @IdBonsai";
+            WHERE Id = @Id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Content", comments.Content);
-
+            parameters.Add("@Id", Id);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;
+        }
+
+
+        public async Task<bool> NotValide(int idUser)
+        {
+            string sql = @"
+        SELECT TOP 1 1
+        FROM [Comment] 
+        WHERE IdUser = @IdUser";
+
+            int? result = await _connection.QueryFirstOrDefaultAsync<int?>(sql, new { IdUser = idUser });
+
+            return result.HasValue; // Retourne true si une valeur est trouvée, false sinon
         }
     }
 }

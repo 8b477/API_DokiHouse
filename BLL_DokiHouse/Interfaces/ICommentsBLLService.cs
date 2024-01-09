@@ -42,7 +42,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="comment">Les données mises à jour du commentaire.</param>
         /// <returns>Retourne vrai si la mise à jour est réussie, sinon faux.</returns>
-        Task<bool> UpdateComment(CommentBLL comment);
+        Task<bool> UpdateComment(int id, CommentBLL comment);
 
 
         /// <summary>

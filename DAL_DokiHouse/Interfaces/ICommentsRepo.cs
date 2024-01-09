@@ -19,9 +19,14 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="comments">Les données mises à jour du commentaire.</param>
         /// <returns>Retourne vrai si la mise à jour est réussie, sinon faux.</returns>
-        Task<bool> Update(CommentsDTO comments);
+        Task<bool> Update(int id, CommentsDTO comments);
 
-
+        /// <summary>
+        /// Check en base de donnée si un Utilisateur détient déjà un comment
+        /// </summary>
+        /// <param name="idUser"></param>
+        /// <returns></returns>
+        Task<bool> NotValide(int idUser);
     }
 
 }

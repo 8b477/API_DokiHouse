@@ -26,7 +26,7 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Méthode permettant de gérer la requête HTTP POST pour l'authentification d'un utilisateur.
+        /// Méthode permettant de gérer l'authentification d'un utilisateur.
         /// </summary>
         /// <param name="user">Modèle contenant les informations d'authentification de l'utilisateur.</param>
         /// <returns>

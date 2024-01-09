@@ -180,7 +180,7 @@ namespace API_DokiHouse.Services
 
         public static CommentBLL CommentModelToCommentBLL(CommentModel comment)
         {
-            return new CommentBLL(comment.Content, DateTime.Now,0);
+            return new CommentBLL(comment.Content, DateTime.Now,0,0);
         }
 
         #endregion

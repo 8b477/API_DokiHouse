@@ -1,14 +1,9 @@
 ﻿using API_DokiHouse.Models;
 using API_DokiHouse.Services;
 using API_DokiHouse.Tools;
-
 using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models;
-using BLL_DokiHouse.Services;
-
 using DAL_DokiHouse.DTO;
-
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_DokiHouse.Controllers
@@ -25,15 +20,15 @@ namespace API_DokiHouse.Controllers
         #endregion
 
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CommentModel comment)
+        [HttpPost("{idPost}:int")]
+        public async Task<IActionResult> Create([FromBody] CommentModel comment, int idPost)
         {
-
             CommentBLL commentBLL = Mapper.CommentModelToCommentBLL(comment);
 
             int id = _getInfosHTTPContext.GetLoggedInUserId();
 
             commentBLL.IdUser = id;
+            commentBLL.IdPost = idPost;
 
             if (await _commentBllService.CreateComment(commentBLL)) return Ok();
 
@@ -74,13 +69,13 @@ namespace API_DokiHouse.Controllers
         }
 
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] CommentModel comment)
+        [HttpPut("{id}:int")]
+        public async Task<IActionResult> Update([FromBody] CommentModel comment, int id)
         {
 
             CommentBLL commentBLL = Mapper.CommentModelToCommentBLL(comment);
 
-            if (await _commentBllService.UpdateComment(commentBLL))
+            if (await _commentBllService.UpdateComment(id,commentBLL))
                 return Ok();
 
             return BadRequest();

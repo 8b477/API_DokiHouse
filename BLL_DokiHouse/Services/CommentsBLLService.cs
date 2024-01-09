@@ -30,11 +30,11 @@ namespace BLL_DokiHouse.Services
             return await _repoComments.Delete(id);
         }
 
-        public async Task<bool> UpdateComment(CommentBLL comment)
+        public async Task<bool> UpdateComment(int id, CommentBLL comment)
         {
             CommentsDTO commentDTO = Mapper.CommentBLLToDAL(comment);
 
-            return await _repoComments.Update(commentDTO);
+            return await _repoComments.Update(id, commentDTO);
         }
 
 

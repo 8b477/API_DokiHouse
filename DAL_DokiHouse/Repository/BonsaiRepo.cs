@@ -48,9 +48,9 @@ namespace DAL_DokiHouse.Repository
 
         public async Task<IEnumerable<BonsaiDTO>?> GetOwnBonsai(int id)
         {
-            string sql = @"SELECT * [Bonsai] WHERE IdUser = @id";
+            string sql = @"SELECT * FROM [Bonsai] WHERE IdUser = @idParam";
 
-            IEnumerable<BonsaiDTO> bonsaiCollection = await _connection.QueryAsync<BonsaiDTO>(sql, new {IdUser = id});
+            IEnumerable<BonsaiDTO> bonsaiCollection = await _connection.QueryAsync<BonsaiDTO>(sql, new {idParam = id});
 
             return bonsaiCollection;
         }
