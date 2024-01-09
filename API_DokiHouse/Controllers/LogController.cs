@@ -45,7 +45,7 @@ namespace API_DokiHouse.Controllers
             {
                 string token = _jwtService.GenerateToken(result.Id.ToString(), result.Role);
 
-                return Ok(token); //--> peut être envoyé sous forme d'objet au Front `Ok(new {token})`
+                return Ok(token); // --> peut être envoyé sous forme d'objet au Front `Ok(new {token})`
             }
 
             return BadRequest("Infos non valide !");

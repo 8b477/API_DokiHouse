@@ -18,7 +18,7 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<bool> Update(CategoryBLL model)
+        public async Task<bool> UpdateCategory(CategoryBLL model)
         {
             CategoryDTO categoryDTO = Mapper.CategoryBLLToDAL(model); 
 
@@ -26,7 +26,7 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<bool> Create(int idBonsai, CategoryBLL model)
+        public async Task<bool> CreateCategory(int idBonsai, CategoryBLL model)
         {
             if (await _repoCategory.NotValide(model.IdBonsai))
                 throw new BusinessException("Le Bonsai possède déjà une Catégorie, update le !");

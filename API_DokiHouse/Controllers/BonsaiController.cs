@@ -46,7 +46,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<BonsaiDTO>? result = await _bonsaiService.Get();
+            IEnumerable<BonsaiDTO?> result = await _bonsaiService.GetBonsais();
 
             return
                 result is not null
@@ -74,7 +74,7 @@ namespace API_DokiHouse.Controllers
 
             if (idUser == 0) return Unauthorized();
 
-            IEnumerable<BonsaiDTO>? result = await _bonsaiService.Get(idUser);
+            IEnumerable<BonsaiDTO?> result = await _bonsaiService.GetOwnBonsai(idUser);
 
             return 
                 result is not null 
@@ -98,7 +98,7 @@ namespace API_DokiHouse.Controllers
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
 
-            BonsaiDTO? bonsai = await _bonsaiService.GetByID(id);
+            BonsaiDTO? bonsai = await _bonsaiService.GetBonsaiByID(id);
 
             return 
                 bonsai is not null 
@@ -121,7 +121,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetByName([FromRoute] string name)
         {
-            IEnumerable<BonsaiDTO>? bonsai = await _bonsaiService.GetByName(name);
+            IEnumerable<BonsaiDTO>? bonsai = await _bonsaiService.GetBonsaiByName(name);
             return 
                 bonsai is not null 
                 ? Ok(bonsai) 
@@ -156,7 +156,7 @@ namespace API_DokiHouse.Controllers
             bonsaiDTO.IdUser = idToken;
 
 
-            if(await _bonsaiService.Create(bonsaiDTO))
+            if(await _bonsaiService.CreateBonsai(bonsaiDTO))
             {
                 return CreatedAtAction(nameof(Create), model);
             }
@@ -187,7 +187,7 @@ namespace API_DokiHouse.Controllers
             BonsaiDTO bonsaiDTO = new(model.Name, model.Description, idToken);
 
             return 
-                await _bonsaiService.Update(bonsaiDTO) 
+                await _bonsaiService.UpdateBonsai(bonsaiDTO) 
                 ? Ok() 
                 : BadRequest();
         }
@@ -208,7 +208,7 @@ namespace API_DokiHouse.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             return 
-                await _bonsaiService.Delete(id) 
+                await _bonsaiService.DeleteBonsai(id) 
                 ? NoContent() 
                 : BadRequest();
         }

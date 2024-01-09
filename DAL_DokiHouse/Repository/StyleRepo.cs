@@ -51,12 +51,7 @@ namespace DAL_DokiHouse.Repository
             return rowsAffected > 0;
         }
 
-
-        /// <summary>
-        /// Check en DB si un style à déjà été créé et associé à un Bonsai
-        /// </summary>
-        /// <param name="idBonsai">Identifiant de type 'int'</param>
-        /// <returns>Retourne True si un style a été trouver si non retourne false</returns>
+  
         public async Task<bool> NotValide(int idBonsai)
         {
             string sql = @"

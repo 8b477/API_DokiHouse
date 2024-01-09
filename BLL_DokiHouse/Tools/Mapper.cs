@@ -37,6 +37,11 @@ namespace BLL_DokiHouse.Tools
             return new UserBLL(user.Name, user.Email, user.Passwd, user.Role);
         }
 
+        public static UserDTO UserUpdateBLLToDAL(UserUpdateBLL user)
+        {
+            return new(user.Name, user.Email, user.Passwd, user.Role);
+        }
+
         #endregion
 
 
@@ -95,5 +100,23 @@ namespace BLL_DokiHouse.Tools
         #endregion
 
 
+        #region POST
+
+        public static PostDTO PostBLLToDAL(PostBLL post)
+        {
+            return new(post.Title, post.Description, post.Content, post.CreateAt,post.IdUser);
+        }
+
+        #endregion
+
+
+        #region COMMENTS
+
+        public static CommentsDTO CommentBLLToDAL(CommentBLL comment)
+        {
+            return new(comment.Content, comment.CreatedAt, comment.IdUser);
+        }
+
+        #endregion
     }
 }

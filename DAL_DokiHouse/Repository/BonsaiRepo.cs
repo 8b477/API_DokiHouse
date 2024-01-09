@@ -12,7 +12,7 @@ namespace DAL_DokiHouse.Repository
     {
 
         #region Injection
-        public BonsaiRepo(IDbConnection connection) : base(connection){}
+        public BonsaiRepo(IDbConnection connection) : base(connection) { }
         #endregion
 
 
@@ -25,12 +25,10 @@ namespace DAL_DokiHouse.Repository
             @Name, @Description, @IdUser
         )";
 
-            // Exécute la requête et récupère le nombre de lignes affectées
             int rowAffected = await _connection.ExecuteAsync(sql, model);
 
             return rowAffected > 0;
         }
-
 
 
         public async Task<bool> Update(BonsaiDTO bonsai)
@@ -48,19 +46,14 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-
-        public async Task<IEnumerable<BonsaiDTO>> Get(int idUser)
+        public async Task<IEnumerable<BonsaiDTO>?> GetOwnBonsai(int id)
         {
-            string sql = @"
-        SELECT *
-        FROM [Bonsai]
-        WHERE IdUser = @id";
+            string sql = @"SELECT * [Bonsai] WHERE IdUser = @id";
 
-            IEnumerable<BonsaiDTO> BonsaiCollections = await _connection.QueryAsync<BonsaiDTO>(sql, new { id = idUser });
+            IEnumerable<BonsaiDTO> bonsaiCollection = await _connection.QueryAsync<BonsaiDTO>(sql, new {IdUser = id});
 
-            return BonsaiCollections;
+            return bonsaiCollection;
         }
-
 
     }
 }

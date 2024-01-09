@@ -58,8 +58,6 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Perso", category.Perso);
             parameters.Add("@IdBonsai", category.IdBonsai);
 
-
-            // Exécute la requête et récupère le nombre de lignes affectées
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;

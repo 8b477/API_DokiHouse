@@ -29,7 +29,6 @@ namespace DAL_DokiHouse.Repository
             return rowsAffected > 0;
         }
 
-
         public async Task<bool> Update(NoteDTO model)
         {
             string sql = @"
@@ -49,6 +48,14 @@ namespace DAL_DokiHouse.Repository
             return rowsAffected > 0;
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            string query = $"DELETE FROM [Note] WHERE ID = @Id";
+
+            int rowsAffected = await _connection.ExecuteAsync(query, new { Id = id });
+
+            return rowsAffected > 0;
+        }
 
         public async Task<bool> NotValide(int idBonsai)
         {

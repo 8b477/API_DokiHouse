@@ -4,6 +4,8 @@ using BLL_DokiHouse.Tools;
 using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
 
+using System.Collections.Generic;
+
 namespace BLL_DokiHouse.Services
 {
     public class BonsaiBLLService : IBonsaiBLLService
@@ -17,7 +19,7 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<bool> Create(BonsaiBLL model)
+        public async Task<bool> CreateBonsai(BonsaiBLL model)
         {
             BonsaiDTO bonsaiDTO = Mapper.BonsaiBLLToDAL(model);
 
@@ -25,37 +27,37 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<IEnumerable<BonsaiDTO>> Get()
+        public async Task<IEnumerable<BonsaiDTO>> GetBonsais()
         {
             return await _bonsaiRepo.Get();
         }
 
-
-        public async Task<IEnumerable<BonsaiDTO>> Get(int idUser)
+        public async Task<IEnumerable<BonsaiDTO?>> GetOwnBonsai(int id)
         {
-            return await _bonsaiRepo.Get(idUser);
+            return await _bonsaiRepo.GetOwnBonsai(id);
+        }
+
+        public async Task<BonsaiDTO?> GetBonsaiByID(int id)
+        {
+            BonsaiDTO? bonsai = await _bonsaiRepo.GetBy(id);
+
+            return bonsai is not null ? bonsai : null;
         }
 
 
-        public async Task<BonsaiDTO?> GetByID(int id)
-        {
-            return await _bonsaiRepo.GetBy(id);
-        }
-
-
-        public async Task<IEnumerable<BonsaiDTO>?> GetByName(string name)
+        public async Task<IEnumerable<BonsaiDTO>?> GetBonsaiByName(string name)
         {
             return await _bonsaiRepo.GetBy(name);
         }
 
 
-        public async Task<bool> Update(BonsaiDTO model)
+        public async Task<bool> UpdateBonsai(BonsaiDTO model)
         {
             return await _bonsaiRepo.Update(model);
         }
 
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteBonsai(int id)
         {
             return await _bonsaiRepo.Delete(id);
         }

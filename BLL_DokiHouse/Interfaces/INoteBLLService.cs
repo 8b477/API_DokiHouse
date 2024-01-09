@@ -20,6 +20,13 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="model">Objet de logique métier note à mettre à jour.</param>
         /// <returns>Une tâche asynchrone indiquant si la mise à jour a réussi (true) ou échoué (false).</returns>
         Task<bool> UpdateNote(NoteBLL model);
+
+        /// <summary>
+        /// Supprime une note en utilisant son identifiant.
+        /// </summary>
+        /// <param name="id">L'identifiant de la note à supprimer.</param>
+        /// <returns>Retourne vrai si la suppression est réussie, sinon faux.</returns>
+        Task<bool> DeleteNote(int id);
     }
 
 }

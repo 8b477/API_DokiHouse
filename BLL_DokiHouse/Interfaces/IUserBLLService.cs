@@ -20,7 +20,7 @@ namespace BLL_DokiHouse.Interfaces
         /// Récupère les user en base de donnée
         /// </summary>
         /// <returns>Retourne la liste des user</returns>
-        Task<IEnumerable<UserDTO?>> Get();
+        Task<IEnumerable<UserDTO?>> GetUsers();
 
 
 
@@ -29,7 +29,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="id">identifiant de type 'string'</param>
         /// <returns>Retourne le User qui correspond a la recherche ou si non retourne null</returns>
-        Task<IEnumerable<UserDTO?>> GetByName(string name);
+        Task<IEnumerable<UserDTO?>> GetUsersByName(string name);
 
 
 
@@ -38,8 +38,15 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="id">identifiant de type 'int'</param>
         /// <returns>Retourne le User qui correspond a la recherche ou si non retourne null</returns>
-        Task<UserDTO?> GetByID(int id);
+        Task<UserDTO?> GetUserByID(int id);
 
+
+        /// <summary>
+        /// Met à jour le nom d'un utilisateur existant avec les données fournies dans le modèle.
+        /// </summary>
+        /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
+        /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
+        Task<bool> UpdateUser(int id, UserUpdateBLL model);
 
 
         /// <summary>

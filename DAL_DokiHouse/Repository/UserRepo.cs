@@ -1,7 +1,6 @@
 ﻿using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Repository;
 using Entities_DokiHouse.Entities;
-
 using Dapper;
 using System.Data;
 
@@ -105,7 +104,7 @@ namespace DAL_DokiHouse
 
                     UserDTO? user = await _connection.QueryFirstOrDefaultAsync<UserDTO>(query2, new { EmailParam = email });
 
-                    if(user is not null)
+                    if (user is not null)
                         return user;
                 }
             }
@@ -124,5 +123,24 @@ namespace DAL_DokiHouse
         }
 
 
-    }
+        public async Task<bool> Update(UserDTO model)
+        {
+            string sql = @"
+                UPDATE [User]
+                SET Name = @Name, Email = @Email, Passwd = @Passwd, Role = @Role
+                WHERE Id = @id";
+
+            DynamicParameters parameters = new();
+            parameters.Add("@Name", model.Name);
+            parameters.Add("@Email", model.Email);
+            parameters.Add("@Passwd", model.Passwd);
+            parameters.Add("@Role", model.Role);
+            parameters.Add("@id", model.Id);
+
+            int result = await _connection.ExecuteAsync(sql, parameters);
+
+            return result > 0;
+        } 
+
+    }     
 }

@@ -22,6 +22,17 @@ namespace API_DokiHouse.Services
 
 
         /// <summary>
+        /// Convertit un modèle de création d'utilisateur en un objet de logique métier utilisateur.
+        /// </summary>
+        /// <param name="user">Modèle de création d'utilisateur à convertir.</param>
+        /// <returns>Objet de logique métier utilisateur.</returns>
+        public static UserUpdateBLL UserUpdateModelToBLL(UserUpdateModel user)
+        {
+            return new UserUpdateBLL(user.Name, user.Email, user.Passwd, user.Role);
+        }
+
+
+        /// <summary>
         /// Convertit un modèle de mise à jour d'utilisateur en un objet de logique métier utilisateur.
         /// </summary>
         /// <param name="user">Modèle de mise à jour d'utilisateur à convertir.</param>
@@ -154,5 +165,24 @@ namespace API_DokiHouse.Services
 
         #endregion
 
+
+        #region POST
+
+        public static PostBLL PostModelToPostBLL(PostModel post)
+        {
+            return new PostBLL(post.Title, post.Description, post.Content, DateTime.Now, 0);
+        }
+
+        #endregion
+
+
+        #region COMMENTS
+
+        public static CommentBLL CommentModelToCommentBLL(CommentModel comment)
+        {
+            return new CommentBLL(comment.Content, DateTime.Now,0);
+        }
+
+        #endregion
     }
 }
