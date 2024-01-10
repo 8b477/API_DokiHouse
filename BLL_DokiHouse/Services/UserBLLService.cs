@@ -22,14 +22,13 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<IEnumerable<UserDTO>> Get()
+        public async Task<IEnumerable<UserDTO>> GetUsers()
         {
             return await _userRepo.Get();
         }
 
 
-
-        public async Task<UserDTO?> GetByID(int id)
+        public async Task<UserDTO?> GetUserByID(int id)
         {
             UserDTO? result = await _userRepo.GetBy(id);
 
@@ -40,17 +39,15 @@ namespace BLL_DokiHouse.Services
         }
 
 
-
-        public async Task<IEnumerable<UserDTO>?> GetByName(string name)
+        public async Task<IEnumerable<UserDTO>?> GetUsersByName(string name, string stringIdentifiant)
         {
-            IEnumerable<UserDTO>? result = await _userRepo.GetBy(name);
+            IEnumerable<UserDTO>? result = await _userRepo.GetBy(name, stringIdentifiant);
 
             if (result is not null)
                 return result;
 
             return null;
         }
-
 
 
         public async Task<bool> CreateUser(UserBLL model)
@@ -77,7 +74,6 @@ namespace BLL_DokiHouse.Services
                 throw new Exception(ex.Message);
             }
         }
-
 
 
         public async Task<bool> UpdateUserName(int id, UserUpdateNameBLL model)
@@ -123,6 +119,11 @@ namespace BLL_DokiHouse.Services
         }
 
 
+        public Task<bool> UpdateProfilPicture(int idPicture, int idUser)
+        {
+            return _userRepo.UpdateProfilPicture(idPicture, idUser);
+        }
+
 
         public async Task<UserDTO?> Login(string email, string passwd)
         {
@@ -135,10 +136,11 @@ namespace BLL_DokiHouse.Services
         }
 
 
-
-        public Task<bool> UpdateProfilPicture(int idPicture, int idUser)
+        public Task<bool> UpdateUser(int id,  UserUpdateBLL model)
         {
-            return _userRepo.UpdateProfilPicture(idPicture, idUser);
+            UserDTO userDTO = Mapper.UserUpdateBLLToDAL(model);
+
+            return _userRepo.Update(userDTO);
         }
     }
 }

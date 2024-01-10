@@ -7,7 +7,8 @@ namespace Entities_DokiHouse.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime CreateAt { get; set; }
-        public int IdBonsai { get; set; } // ---> FK
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
+        public int IdUser { get; set; } // ---> FK
     }
 }

@@ -73,7 +73,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<UserDTO?> result = await _userService.Get();
+            IEnumerable<UserDTO?> result = await _userService.GetUsers();
 
             if (result is not null)
                 return Ok(Mapper.UserBLLToFormatDisplay(result));
@@ -100,7 +100,7 @@ namespace API_DokiHouse.Controllers
 
             if (idUser == 0) return Unauthorized();
 
-            UserDTO? result = await _userService.GetByID(idUser);
+            UserDTO? result = await _userService.GetUserByID(idUser);
 
             if (result is not null)
                 return Ok(Mapper.UserBLLToFormatDisplay(result));
@@ -117,14 +117,15 @@ namespace API_DokiHouse.Controllers
         /// Cette méthode permet de récupérer une liste d'utilisateurs en utilisant leur nom.
         /// </remarks>
         /// <param name="name">Le nom de l'utilisateur.</param>
+        /// <param name="stringIdentifiant">Le nom de la colonne en DB a comparé avec la recherche, par défaut ça valeur est : 'Name'.</param>
         /// <response code="200">Retourne la liste des utilisateurs trouvés.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserModelDisplay>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> GetByName([FromRoute] string name)
+        public async Task<IActionResult> GetByName([FromRoute] string name, string stringIdentifiant = "Name")
         {
-            IEnumerable<UserDTO?> result = await _userService.GetByName(name);
+            IEnumerable<UserDTO?> result = await _userService.GetUsersByName(name,stringIdentifiant);
 
             if (result is not null)
                 return Ok(Mapper.UserBLLToFormatDisplay(result));
@@ -132,6 +133,32 @@ namespace API_DokiHouse.Controllers
             return NoContent();
         }
 
+
+        /// <summary>
+        /// Met à jour le profil d'un utilisateur.
+        /// </summary>
+        /// <remarks>
+        /// Cette méthode permet de mettre à jour le nom d'un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
+        /// </remarks>
+        /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
+        /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
+        /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update([FromBody] UserUpdateModel model)
+        {
+            int idUser = _httpContextService.GetLoggedInUserId();
+
+            if (idUser == 0) return Unauthorized();
+
+            UserUpdateBLL user = Mapper.UserUpdateModelToBLL(model);
+
+            if (await _userService.UpdateUser(idUser, user))
+                return Ok();
+
+            return BadRequest();
+        }
 
 
         /// <summary>

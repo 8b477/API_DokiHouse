@@ -84,8 +84,7 @@ namespace DAL_DokiHouse.Repository
                         {
                             NoteId = note.NoteId,
                             Title = note.Title,
-                            NoteDescription = note.NoteDescription,
-                            CreateAt = note.CreateAt
+                            NoteDescription = note.NoteDescription
                         } : null
                     };
                     return every;
@@ -169,8 +168,7 @@ namespace DAL_DokiHouse.Repository
                         {
                             NoteId = note.NoteId,
                             Title = note.Title,
-                            NoteDescription = note.NoteDescription,
-                            CreateAt = note.CreateAt
+                            NoteDescription = note.NoteDescription
                         } : null
                     };
                     return every;
@@ -181,6 +179,92 @@ namespace DAL_DokiHouse.Repository
             ;
             return fullInfosUser;
         }
+
+
+
+
+        public async Task<IEnumerable<object>?> InfosTest(CancellationToken cancellationToken)
+        {
+            string sql = @"
+        SELECT 
+            u.Id AS UserId, u.Name AS UserName, u.Role, u.IdPictureProfil, 
+            p.Id AS IdPost, p.Title AS PostTitle, p.Description AS PostDescription, p.Content AS PostContent,
+            p.CreateAt AS PostCreatedAt, p.ModifiedAt AS PostModifiedAt, p.IdUser,
+            c.Id AS IdComment, c.Content AS CommentContent, c.CreatedAt AS CommentCreatedAt, c.ModifiedAt AS CommentModifiedAt, c.IdPost      
+        FROM [dbo].[User] u
+        LEFT JOIN [dbo].[Post] p ON u.Id = p.IdUser
+        LEFT JOIN [dbo].[Comments] c ON p.Id = c.IdPost
+        ORDER BY u.Id";
+
+            var blogDTOCollection = new Dictionary<int, BlogDTO>();
+
+            var result = await _connection.QueryAsync<UserJoinDTO, PostJoinDTO, CommentsJoinDTO, BlogDTO>(
+                sql,
+                (u, p, c) =>
+                {
+                    if (!blogDTOCollection.TryGetValue(u.UserId, out var existingBlogDTO))
+                    {
+                        existingBlogDTO = new BlogDTO
+                        {
+                            User = new UserJoinDTO
+                            {
+                                UserId = u.UserId,
+                                UserName = u.UserName,
+                                Role = u.Role,
+                                IdPictureProfil = u.IdPictureProfil
+                            },
+                            Post = new List<PostJoinDTO?>(),
+                            Comment = new List<CommentsJoinDTO?>()
+                        };
+
+                        blogDTOCollection.Add(u.UserId, existingBlogDTO);
+                    }
+
+                    if (p != null && !existingBlogDTO.Post.Any(post => post?.IdPost == p.IdPost))
+                    {
+                        existingBlogDTO.Post.Add(new PostJoinDTO
+                        {
+                            IdPost = p.IdPost,
+                            PostTitle = p.PostTitle,
+                            PostDescription = p.PostDescription,
+                            PostContent = p.PostContent,
+                            PostCreatedAt = p.PostCreatedAt,
+                            PostModifiedAt = p.PostModifiedAt
+                        });
+                    }
+
+                    if (c != null)
+                    {
+                        existingBlogDTO.Comment.Add(new CommentsJoinDTO
+                        {
+                            IdComment = c.IdComment,
+                            CommentContent = c.CommentContent,
+                            CommentCreatedAt = c.CommentCreatedAt,
+                            CommentModifiedAt = c.CommentModifiedAt,
+                            IdPost = c.IdPost
+                        });
+                    }
+
+                    return existingBlogDTO;
+                },
+                splitOn: "IdPost,IdComment"
+            );
+
+            // Convertir le dictionnaire en liste pour obtenir la structure souhaitée
+            var blogDTOList = blogDTOCollection.Values.Select(blogDTO =>
+                new
+                {
+                    user = blogDTO.User,
+                    post = blogDTO.Post,
+                    comment = blogDTO.Comment.GroupBy(comment => comment?.IdPost)
+                                            .Select(group => group.ToList())
+                                            .ToList()
+                }
+            ).ToList();
+
+            return blogDTOList;
+        }
+
 
     }
 }

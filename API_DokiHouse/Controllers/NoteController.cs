@@ -29,7 +29,7 @@ namespace API_DokiHouse.Controllers
         /// <returns>
         /// Retourne une action HTTP indiquant le succès ou l'échec de la création de la note.
         /// </returns>
-        [HttpPost("{idBonsai}:int")]
+        [HttpPost]
         public async Task<IActionResult> Create(int idBonsai, NoteModel model)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -67,6 +67,18 @@ namespace API_DokiHouse.Controllers
                 await _noteService.UpdateNote(note)
                 ? Ok()
                 : BadRequest();
+        }
+
+
+        /// <summary>
+        /// Supprime une note sur base de son identifiant
+        /// </summary>
+        /// <param name="id">Son identifiant de type : 'int'</param>
+        /// <returns>Retourne True si la suppression à réussie si non retourne False</returns>
+        [HttpDelete("{id}:int")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return await _noteService.DeleteNote(id) ? NoContent() : BadRequest("La suppression de la note à échouer");
         }
     }
 }

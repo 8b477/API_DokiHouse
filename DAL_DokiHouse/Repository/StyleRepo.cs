@@ -24,11 +24,21 @@ namespace DAL_DokiHouse.Repository
         {
             string sql = @"
         INSERT INTO [Style] 
-            (Bunjin,Bankan,Korabuki,Ishituki,Perso, IdBonsai)
+            (Bunjin,Bankan,Korabuki,Ishituki,Perso, IdBonsai, CreateAt, ModifiedAt)
         VALUES 
-            (@Bunjin,@Bankan,@Korabuki,@Ishituki,@Perso, @IdBonsai)";
+            (@Bunjin,@Bankan,@Korabuki,@Ishituki,@Perso, @IdBonsai, @CreateAt, @ModifiedAt)";
 
-            int rowsAffected = await _connection.ExecuteAsync(sql, style);
+            DynamicParameters parameters = new();
+            parameters.Add("@Bunjin",style.Bunjin);
+            parameters.Add("@Bankan", style.Bankan);
+            parameters.Add("@Korabuki", style.Korabuki);
+            parameters.Add("@Ishituki", style.Ishituki);
+            parameters.Add("@Perso", style.Perso);
+            parameters.Add("@IdBonsai", style.IdBonsai);
+            parameters.Add("@CreateAt", style.CreatedAt);
+            parameters.Add("@ModifiedAt", style.ModifiedAt);
+
+            int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;
         }
@@ -51,12 +61,7 @@ namespace DAL_DokiHouse.Repository
             return rowsAffected > 0;
         }
 
-
-        /// <summary>
-        /// Check en DB si un style à déjà été créé et associé à un Bonsai
-        /// </summary>
-        /// <param name="idBonsai">Identifiant de type 'int'</param>
-        /// <returns>Retourne True si un style a été trouver si non retourne false</returns>
+  
         public async Task<bool> NotValide(int idBonsai)
         {
             string sql = @"

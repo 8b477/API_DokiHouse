@@ -26,7 +26,7 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Méthode permettant de gérer la requête HTTP POST pour l'authentification d'un utilisateur.
+        /// Méthode permettant de gérer l'authentification d'un utilisateur.
         /// </summary>
         /// <param name="user">Modèle contenant les informations d'authentification de l'utilisateur.</param>
         /// <returns>
@@ -45,7 +45,7 @@ namespace API_DokiHouse.Controllers
             {
                 string token = _jwtService.GenerateToken(result.Id.ToString(), result.Role);
 
-                return Ok(token); //--> peut être envoyé sous forme d'objet au Front `Ok(new {token})`
+                return Ok(token); // --> peut être envoyé sous forme d'objet au Front `Ok(new {token})`
             }
 
             return BadRequest("Infos non valide !");

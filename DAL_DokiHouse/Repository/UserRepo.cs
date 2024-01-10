@@ -1,7 +1,6 @@
 ﻿using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Repository;
 using Entities_DokiHouse.Entities;
-
 using Dapper;
 using System.Data;
 
@@ -22,13 +21,22 @@ namespace DAL_DokiHouse
         {
             string sql = @"
         INSERT INTO [User] (
-            Name, Email, Passwd, Role, IdPictureProfil
+            Name, Email, Passwd, Role, IdPictureProfil, CreateAt, ModifiedAt
         ) VALUES (
-            @Name, @Email, @Passwd, @Role, @IdPictureProfil
+            @Name, @Email, @Passwd, @Role, @IdPictureProfil, @CreateAt, @ModifiedAt
         )";
 
+            DynamicParameters parameters = new();
+            parameters.Add("@Name", model.Name);
+            parameters.Add("@Email", model.Email);
+            parameters.Add("@Passwd", model.Passwd);
+            parameters.Add("@Role", model.Role);
+            parameters.Add("@IdPictureProfil", model.IdPictureProfil);
+            parameters.Add("@CreateAt", model.CreatedAt);
+            parameters.Add("@ModifiedAt", model.ModifiedAt);
+
             // Exécute la requête et récupère le nombre de lignes affectées
-            int rowAffected = await _connection.ExecuteAsync(sql, model);
+            int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowAffected > 0;
         }
@@ -105,7 +113,7 @@ namespace DAL_DokiHouse
 
                     UserDTO? user = await _connection.QueryFirstOrDefaultAsync<UserDTO>(query2, new { EmailParam = email });
 
-                    if(user is not null)
+                    if (user is not null)
                         return user;
                 }
             }
@@ -124,5 +132,24 @@ namespace DAL_DokiHouse
         }
 
 
-    }
+        public async Task<bool> Update(UserDTO model)
+        {
+            string sql = @"
+                UPDATE [User]
+                SET Name = @Name, Email = @Email, Passwd = @Passwd, Role = @Role
+                WHERE Id = @id";
+
+            DynamicParameters parameters = new();
+            parameters.Add("@Name", model.Name);
+            parameters.Add("@Email", model.Email);
+            parameters.Add("@Passwd", model.Passwd);
+            parameters.Add("@Role", model.Role);
+            parameters.Add("@id", model.Id);
+
+            int result = await _connection.ExecuteAsync(sql, parameters);
+
+            return result > 0;
+        } 
+
+    }     
 }

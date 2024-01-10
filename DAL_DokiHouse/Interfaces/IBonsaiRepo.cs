@@ -22,10 +22,10 @@ namespace DAL_DokiHouse.Interfaces
         Task<bool> Update(BonsaiDTO bonsai);
 
         /// <summary>
-        /// Vas chercher en base de donnée tout les bonsai associé à un Utilsateur
+        /// Récupère la liste des bonsai associé à l'identifiant d'un Utilisateur
         /// </summary>
-        /// <param name="idUser">Identifiant de type : 'int'</param>
-        /// <returns>Retourne une liste de bonsai, ou une liste vide si pas de bonsai trouver</returns>
-        Task<IEnumerable<BonsaiDTO>> Get(int idUser);
+        /// <param name="idUser">L'identifiant sur le quelle la recherche se base</param>
+        /// <returns>Retourne une liste de bonsai, si pas de bonsai associé retrouver retourne null</returns>
+        Task<IEnumerable<BonsaiDTO>?> GetOwnBonsai(int idUser);
     }
 }

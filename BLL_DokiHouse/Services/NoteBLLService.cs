@@ -28,6 +28,10 @@ namespace BLL_DokiHouse.Services
             return await _noteRepo.Create(note);
         }
 
+        public Task<bool> DeleteNote(int id)
+        {
+            return _noteRepo.Delete(id);
+        }
 
         public async Task<bool> UpdateNote(NoteBLL model)
         {

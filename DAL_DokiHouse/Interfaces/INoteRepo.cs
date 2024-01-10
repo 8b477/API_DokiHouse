@@ -20,6 +20,13 @@ namespace DAL_DokiHouse.Interfaces
         Task<bool> Update(NoteDTO model);
 
         /// <summary>
+        /// Supprime une note en base de donnée sur base d'un identifiant
+        /// </summary>
+        /// <param name="id">identifiant de type : 'int'</param>
+        /// <returns>Retourne True si la suppression à réussie si non retourne False</returns>
+        Task<bool> Delete(int id);
+
+        /// <summary>
         /// Marque une note comme non valide en fonction de l'identifiant du bonsaï associé.
         /// </summary>
         /// <param name="idBonsai">Identifiant du bonsaï associé à la note.</param>

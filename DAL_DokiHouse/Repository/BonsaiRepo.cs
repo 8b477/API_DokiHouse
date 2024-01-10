@@ -12,7 +12,7 @@ namespace DAL_DokiHouse.Repository
     {
 
         #region Injection
-        public BonsaiRepo(IDbConnection connection) : base(connection){}
+        public BonsaiRepo(IDbConnection connection) : base(connection) { }
         #endregion
 
 
@@ -20,17 +20,23 @@ namespace DAL_DokiHouse.Repository
         {
             string sql = @"
         INSERT INTO [Bonsai] (
-            Name, Description, IdUser
+            Name, Description, IdUser, CreateAt, ModifiedAt
         ) VALUES (
-            @Name, @Description, @IdUser
+            @Name, @Description, @IdUser, @CreateAt, @ModifiedAt
         )";
 
-            // Exécute la requête et récupère le nombre de lignes affectées
-            int rowAffected = await _connection.ExecuteAsync(sql, model);
+            DynamicParameters parameters = new();
+            parameters.Add("@Name",model.Name);
+            parameters.Add("@Description", model.Description);
+            parameters.Add("@IdUser", model.IdUser);
+            parameters.Add("@CreateAt", model.CreatedAt);
+            parameters.Add("@ModifiedAt", model.ModifiedAt);
+
+
+            int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowAffected > 0;
         }
-
 
 
         public async Task<bool> Update(BonsaiDTO bonsai)
@@ -48,19 +54,14 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-
-        public async Task<IEnumerable<BonsaiDTO>> Get(int idUser)
+        public async Task<IEnumerable<BonsaiDTO>?> GetOwnBonsai(int id)
         {
-            string sql = @"
-        SELECT *
-        FROM [Bonsai]
-        WHERE IdUser = @id";
+            string sql = @"SELECT * FROM [Bonsai] WHERE IdUser = @idParam";
 
-            IEnumerable<BonsaiDTO> BonsaiCollections = await _connection.QueryAsync<BonsaiDTO>(sql, new { id = idUser });
+            IEnumerable<BonsaiDTO> bonsaiCollection = await _connection.QueryAsync<BonsaiDTO>(sql, new {idParam = id});
 
-            return BonsaiCollections;
+            return bonsaiCollection;
         }
-
 
     }
 }

@@ -6,6 +6,8 @@ CREATE TABLE [dbo].[User]
 	Email VARCHAR(150) NOT NULL UNIQUE,
 	Passwd VARCHAR(200) NOT NULL,
 	Role VARCHAR(20) DEFAULT 'Visitor',
+	[CreateAt] DATETIME NOT NULL,
+	[ModifiedAt] DATETIME NOT NULL,
 	[IdPictureProfil] INT
 	FOREIGN KEY (IdPictureProfil) REFERENCES [PictureProfil](Id)
 )

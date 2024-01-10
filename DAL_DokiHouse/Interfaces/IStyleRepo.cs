@@ -27,7 +27,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="idBonsai">Identifiant du bonsaï associé au style.</param>
         /// <returns>Une tâche asynchrone qui indique si l'opération a réussi.</returns>
-        Task<bool> NotValide(int idBonsai);
+        Task<bool> NotValide(int idBonsai);                                                                                                                                                                               
 
     }
 }

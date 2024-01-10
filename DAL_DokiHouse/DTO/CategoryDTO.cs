@@ -7,7 +7,7 @@ namespace DAL_DokiHouse.DTO
         public CategoryDTO() { }
 
 
-        public CategoryDTO(bool shohin, bool mame, bool chokkan, bool moyogi, bool shakan, bool kengai, bool hanKengai, bool ikadabuki, bool neagari, bool literati, bool yoseUe, bool ishitsuki, bool kabudachi, bool kokufu, bool yamadori, string? perso, int idBonsai)
+        public CategoryDTO(bool shohin, bool mame, bool chokkan, bool moyogi, bool shakan, bool kengai, bool hanKengai, bool ikadabuki, bool neagari, bool literati, bool yoseUe, bool ishitsuki, bool kabudachi, bool kokufu, bool yamadori, string? perso, DateTime createdAt, DateTime modifiedAt, int idBonsai)
         {
             Shohin = shohin;
             Mame = mame;
@@ -25,6 +25,8 @@ namespace DAL_DokiHouse.DTO
             Kokufu = kokufu;
             Yamadori = yamadori;
             Perso = perso;
+            CreatedAt = createdAt;
+            ModifiedAt = modifiedAt;
             IdBonsai = idBonsai;
         }
 
@@ -46,7 +48,8 @@ namespace DAL_DokiHouse.DTO
         public bool Kokufu { get;  }
         public bool Yamadori { get;  }
         public string? Perso { get;  }
-
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
         public int IdBonsai { get;  } // ---> FK
     }
 

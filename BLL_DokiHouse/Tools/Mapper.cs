@@ -14,27 +14,32 @@ namespace BLL_DokiHouse.Tools
 
         public static UserDTO UserBLLToDAL(UserBLL user)
         {
-            return new UserDTO(user.Name, user.Email, user.Passwd, "Visitor");
+            return new UserDTO(user.Name, user.Email, user.Passwd, DateTime.Now, DateTime.Now, "Visitor");
         }
 
         public static UserUpNameDTO UserUpNameDTOBLLToDAL(int id, UserUpdateNameBLL user)
         {
-            return new UserUpNameDTO(id, user.Name);
+            return new UserUpNameDTO(id, user.Name, DateTime.Now);
         }
 
         public static UserUpMailDTO UserUpMailDTOBLLToDAL(int id, UserUpdateMailBLL user)
         {
-            return new UserUpMailDTO(id, user.Email);
+            return new UserUpMailDTO(id, user.Email, DateTime.Now);
         }
 
         public static UserUpPassDTO UserUpPassBLLToDAL(int id, UserUpdatePassBLL user)
         {
-            return new UserUpPassDTO(id, user.Passwd);
+            return new UserUpPassDTO(id, user.Passwd, DateTime.Now);
         }
 
-        public static UserBLL UserDALToBLL(UserDTO user)
+        //public static UserBLL UserDALToBLL(UserDTO user)
+        //{
+        //    return new UserBLL(user.Name, user.Email, user.Passwd, user.Role);
+        //}
+
+        public static UserDTO UserUpdateBLLToDAL(UserUpdateBLL user)
         {
-            return new UserBLL(user.Name, user.Email, user.Passwd, user.Role);
+            return new(user.Name, user.Email, user.Passwd, user.Role, DateTime.Now);
         }
 
         #endregion
@@ -45,7 +50,7 @@ namespace BLL_DokiHouse.Tools
 
         public static BonsaiDTO BonsaiBLLToDAL(BonsaiBLL bonsai)
         {
-            return new BonsaiDTO(bonsai.Name, bonsai.Description, bonsai.IdUser);
+            return new BonsaiDTO(bonsai.Name, bonsai.Description, DateTime.Now, DateTime.Now, bonsai.IdUser);
         }
 
         #endregion
@@ -62,7 +67,7 @@ namespace BLL_DokiHouse.Tools
                 cate.HanKengai, cate.Ikadabuki, cate.Neagari,
                 cate.Literati, cate.YoseUe, cate.Ishitsuki,
                 cate.Kabudachi, cate.Kokufu, cate.Yamadori,
-                cate.Perso, cate.IdBonsai
+                cate.Perso, DateTime.Now, DateTime.Now, cate.IdBonsai
             );
         }
 
@@ -77,7 +82,7 @@ namespace BLL_DokiHouse.Tools
             return new StyleDTO(
                 style.Bunjin, style.Bankan,
                 style.Korabuki, style.Ishituki,
-                style.Perso, style.IdBonsai
+                style.Perso,DateTime.Now,DateTime.Now, style.IdBonsai
             );
         }
 
@@ -89,11 +94,29 @@ namespace BLL_DokiHouse.Tools
 
         public static NoteDTO NoteBLLToDAL(NoteBLL model)
         {
-            return new NoteDTO(model.Title, model.Description, model.CreateAt, model.IdBonsai);
+            return new NoteDTO(model.Title, model.Description, DateTime.Now,DateTime.Now, model.IdBonsai);
         }
 
         #endregion
 
 
+        #region POST
+
+        public static PostDTO PostBLLToDAL(PostBLL post)
+        {
+            return new(post.Title, post.Description, post.Content, DateTime.Now, DateTime.Now, post.IdUser);
+        }
+
+        #endregion
+
+
+        #region COMMENTS
+
+        public static CommentsDTO CommentBLLToDAL(CommentBLL comment)
+        {
+            return new(comment.Content, DateTime.Now, DateTime.Now, comment.IdUser,comment.IdPost);
+        }
+
+        #endregion
     }
 }

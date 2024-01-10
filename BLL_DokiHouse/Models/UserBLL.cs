@@ -56,4 +56,20 @@ namespace BLL_DokiHouse.Models
 
         public string Email { get; set; }
     }
+
+    public class UserUpdateBLL
+    {
+        public UserUpdateBLL(string name, string email, string passwd, string role)
+        {
+            Name = name;
+            Email = email;
+            Passwd = passwd;
+            Role = role;
+        }
+
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Passwd { get; set; }
+        public string Role { get; set; }
+    }
 }

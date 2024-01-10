@@ -21,7 +21,8 @@ namespace Entities_DokiHouse.Entities
         public bool Kokufu { get; set; }
         public bool Yamadori { get; set; }
         public string? Perso { get; set; }
-
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
         public int IdBonsai { get; set; } // ---> FK
 
     }
