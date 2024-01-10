@@ -10,7 +10,7 @@ namespace DAL_DokiHouse.Interfaces
     {
         Task<IEnumerable<M>> Get();
         Task<M?> GetBy(U id); // retourne un élément par son identifiant en int par exemple 'id'
-        Task<IEnumerable<M>?> GetBy(S id); // retourne un élément par son identifiant en string par exemple 'nom'
+        Task<IEnumerable<M>?> GetBy(S id, S stringIdentifiant); // retourne un élément par son identifiant en string par exemple 'nom', je peux aussi préciser sur quelle nom de colonne
         Task<bool> Delete(U id);
     }
 }

@@ -30,11 +30,19 @@ namespace BLL_DokiHouse.Interfaces
 
 
         /// <summary>
+        /// Récupère les posts sur base l'identifiant de l'utilisateur connecter.
+        /// </summary>
+        /// <param name="idUser">L'identifiant du post à récupérer.</param>
+        /// <returns>Retourne le post correspondant à l'identifiant.</returns>
+        Task<IEnumerable<PostDTO>?> GetOwnPosts(int idUser);
+
+
+        /// <summary>
         /// Récupère la liste des posts par nom.
         /// </summary>
         /// <param name="name">Le nom à utiliser pour la recherche des posts.</param>
         /// <returns>Retourne la liste des posts correspondant au nom.</returns>
-        Task<IEnumerable<PostDTO>?> GetPostsByName(string name);
+        Task<IEnumerable<PostDTO>?> GetPostsByName(string name, string stringIdentifiant);
 
 
         /// <summary>

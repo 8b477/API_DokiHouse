@@ -117,14 +117,15 @@ namespace API_DokiHouse.Controllers
         /// Cette méthode permet de récupérer une liste d'utilisateurs en utilisant leur nom.
         /// </remarks>
         /// <param name="name">Le nom de l'utilisateur.</param>
+        /// <param name="stringIdentifiant">Le nom de la colonne en DB a comparé avec la recherche, par défaut ça valeur est : 'Name'.</param>
         /// <response code="200">Retourne la liste des utilisateurs trouvés.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserModelDisplay>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> GetByName([FromRoute] string name)
+        public async Task<IActionResult> GetByName([FromRoute] string name, string stringIdentifiant = "Name")
         {
-            IEnumerable<UserDTO?> result = await _userService.GetUsersByName(name);
+            IEnumerable<UserDTO?> result = await _userService.GetUsersByName(name,stringIdentifiant);
 
             if (result is not null)
                 return Ok(Mapper.UserBLLToFormatDisplay(result));

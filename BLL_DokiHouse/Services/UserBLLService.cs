@@ -39,9 +39,9 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<IEnumerable<UserDTO>?> GetUsersByName(string name)
+        public async Task<IEnumerable<UserDTO>?> GetUsersByName(string name, string stringIdentifiant)
         {
-            IEnumerable<UserDTO>? result = await _userRepo.GetBy(name);
+            IEnumerable<UserDTO>? result = await _userRepo.GetBy(name, stringIdentifiant);
 
             if (result is not null)
                 return result;
@@ -134,6 +134,7 @@ namespace BLL_DokiHouse.Services
                 ? user 
                 : null;
         }
+
 
         public Task<bool> UpdateUser(int id,  UserUpdateBLL model)
         {

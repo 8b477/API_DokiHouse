@@ -20,12 +20,20 @@ namespace DAL_DokiHouse.Repository
         {
             string sql = @"
         INSERT INTO [Bonsai] (
-            Name, Description, IdUser
+            Name, Description, IdUser, CreateAt, ModifiedAt
         ) VALUES (
-            @Name, @Description, @IdUser
+            @Name, @Description, @IdUser, @CreateAt, @ModifiedAt
         )";
 
-            int rowAffected = await _connection.ExecuteAsync(sql, model);
+            DynamicParameters parameters = new();
+            parameters.Add("@Name",model.Name);
+            parameters.Add("@Description", model.Description);
+            parameters.Add("@IdUser", model.IdUser);
+            parameters.Add("@CreateAt", model.CreatedAt);
+            parameters.Add("@ModifiedAt", model.ModifiedAt);
+
+
+            int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowAffected > 0;
         }

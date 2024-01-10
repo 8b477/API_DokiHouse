@@ -6,6 +6,7 @@ namespace BLL_DokiHouse.Interfaces
 {
     public interface ICommentsBLLService
     {
+
         /// <summary>
         /// Crée un nouveau commentaire.
         /// </summary>
@@ -22,6 +23,14 @@ namespace BLL_DokiHouse.Interfaces
 
 
         /// <summary>
+        /// Récupère la liste complète des commentaires liée à l'utilisateur identifié.
+        /// </summary>
+        /// <param name="idUser">L'identifiant utilisateur de type : 'int'.</param>
+        /// <returns>Retourne la liste des commentaires.</returns>
+        Task<IEnumerable<CommentsDTO>?> GetOwnComments(int idUser);
+
+
+        /// <summary>
         /// Récupère un commentaire en utilisant son identifiant.
         /// </summary>
         /// <param name="id">L'identifiant du commentaire à récupérer.</param>
@@ -34,7 +43,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="name">Le nom à utiliser pour la recherche des commentaires.</param>
         /// <returns>Retourne la liste des commentaires correspondant au nom.</returns>
-        Task<IEnumerable<CommentsDTO>?> GetCommentsByName(string name);
+        Task<IEnumerable<CommentsDTO>?> GetCommentsByName(string name, string stringIdentifiant);
 
 
         /// <summary>

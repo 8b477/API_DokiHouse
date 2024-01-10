@@ -18,18 +18,18 @@ namespace DAL_DokiHouse.Repository
         public async Task<bool> Create(CommentsDTO comments)
         {
             string sql = @"
-            INSERT INTO [Comments]
-            (Content, CreateAt, IdUser, IdPost)
-            VALUES (@Content, @CreateAt, @IdUser, @IdPost)
-            WHERE IdPost = @IdPost";
+        INSERT INTO [Comments]
+            (Content, IdUser, IdPost, CreatedAt, ModifiedAt)
+        VALUES (@Content, @IdUser, @IdPost, @CreatedAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
             parameters.Add("@Content", comments.Content);
-            parameters.Add("@CreateAt", comments.CreatedAt);
             parameters.Add("@IdUser", comments.IdUser);
             parameters.Add("@IdPost", comments.IdPost);
+            parameters.Add("@CreatedAt", comments.CreatedAt);
+            parameters.Add("@ModifiedAt", comments.ModifiedAt);
 
-            int rowsAffected = await _connection.ExecuteAsync(sql, comments);
+            int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;
         }
@@ -49,6 +49,16 @@ namespace DAL_DokiHouse.Repository
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;
+        }
+
+
+        public async Task<IEnumerable<CommentsDTO>?> GetOwnComments(int id)
+        {
+            string sql = @"SELECT * FROM [Comments] WHERE IdUser = @idParam";
+
+            IEnumerable<CommentsDTO> CommentsCollection = await _connection.QueryAsync<CommentsDTO>(sql, new { idParam = id });
+
+            return CommentsCollection;
         }
 
 

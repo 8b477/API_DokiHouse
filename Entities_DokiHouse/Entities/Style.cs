@@ -12,7 +12,8 @@ namespace Entities_DokiHouse.Entities
         public bool Korabuki { get; set; }
         public bool Ishituki { get; set; }
         public string? Perso { get; set; }
-
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
         public int IdBonsai { get; set; } //---> FK
     }
 

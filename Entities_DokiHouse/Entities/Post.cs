@@ -10,6 +10,7 @@ namespace Entities_DokiHouse.Entities
         public string Description { get; set; }
         public string Content { get; set; }
         public DateTime CreateAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
         public int IdUser { get; set; } // --> FK
 
 	}

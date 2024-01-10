@@ -8,9 +8,6 @@ using Dapper;
 using Entities_DokiHouse.Entities;
 
 using System.Data;
-using System.Data.Common;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace DAL_DokiHouse.Repository
 {
@@ -26,20 +23,29 @@ namespace DAL_DokiHouse.Repository
         {
             string sql = @"
         INSERT INTO [Post]
-        VALUES (Description, Content, CreateAt, IdUser)
-        VALUES ( @Description, @Content, @CreateAt, @IdUser )";
-
+        (Title, Description, Content, IdUser, CreateAt, ModifiedAt)
+        VALUES (@Title, @Description, @Content, @IdUser, @CreateAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
+            parameters.Add("@Title", post.Title);
             parameters.Add("@Description", post.Description);
             parameters.Add("@Content", post.Content);
-            parameters.Add("@CreateAt", post.CreateAt);
             parameters.Add("@IdUser", post.IdUser);
-
+            parameters.Add("@CreateAt", post.CreateAt);
+            parameters.Add("@ModifiedAt", post.ModifiedAt);
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowAffected > 0;
+        }
+
+        public async Task<IEnumerable<PostDTO>?> GetOwnPosts(int idUser)
+        {
+            string sql = @"SELECT * FROM [Post] WHERE IdUser = @idUserParam";
+
+            IEnumerable<PostDTO>? postCollection = await _connection.QueryAsync<PostDTO>(sql, new { idUserParam = idUser});
+
+            return postCollection;
         }
 
         public async Task<bool> Update(PostDTO post)

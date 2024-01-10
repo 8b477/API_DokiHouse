@@ -1,12 +1,6 @@
-﻿
-
-using DAL_DokiHouse.DTO;
-
-using Dapper;
-
+﻿using DAL_DokiHouse.DTO;
 using Entities_DokiHouse.Entities;
 
-using System.Data.Common;
 
 namespace DAL_DokiHouse.Interfaces
 {
@@ -25,5 +19,12 @@ namespace DAL_DokiHouse.Interfaces
         /// <param name="post">modèle sur le quelle se base la mise à jour</param>
         /// <returns>Retourne true si la mise à jour à réussi si non retourne False</returns>
         Task<bool> Update(PostDTO post);
+
+        /// <summary>
+        /// Récupère la liste des commentaires associé à l'identifiant d'un Utilisateur
+        /// </summary>
+        /// <param name="idUser">L'identifiant sur le quelle la recherche se base</param>
+        /// <returns>Retourne une liste de commentaires, si pas de commentaire associé retrouver retourne null</returns>
+        Task<IEnumerable<PostDTO>?> GetOwnPosts(int idUser);
     }
 }

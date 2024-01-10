@@ -30,6 +30,7 @@ namespace BLL_DokiHouse.Services
             return await _repoComments.Delete(id);
         }
 
+
         public async Task<bool> UpdateComment(int id, CommentBLL comment)
         {
             CommentsDTO commentDTO = Mapper.CommentBLLToDAL(comment);
@@ -44,15 +45,21 @@ namespace BLL_DokiHouse.Services
         }
 
 
+        public async Task<IEnumerable<CommentsDTO>?> GetOwnComments(int idUser)
+        {
+            return await _repoComments.GetOwnComments(idUser);
+        }
+
+
         public async Task<CommentsDTO?> GetCommentById(int id)
         {
             return await _repoComments.GetBy(id);
         }
 
 
-        public async Task<IEnumerable<CommentsDTO>?> GetCommentsByName(string name)
+        public async Task<IEnumerable<CommentsDTO>?> GetCommentsByName(string name, string stringIdentifiant)
         {
-            return await _repoComments.GetBy(name);
+            return await _repoComments.GetBy(name, stringIdentifiant);
         }
     }
 }

@@ -22,6 +22,14 @@ namespace DAL_DokiHouse.Interfaces
         Task<bool> Update(int id, CommentsDTO comments);
 
         /// <summary>
+        /// Récupère la liste des commentaires associé à l'identifiant d'un Utilisateur
+        /// </summary>
+        /// <param name="idUser">L'identifiant sur le quelle la recherche se base</param>
+        /// <returns>Retourne une liste de commentaires, si pas de commentaire associé retrouver retourne null</returns>
+        Task<IEnumerable<CommentsDTO>?> GetOwnComments(int id);
+
+
+        /// <summary>
         /// Check en base de donnée si un Utilisateur détient déjà un comment
         /// </summary>
         /// <param name="idUser"></param>

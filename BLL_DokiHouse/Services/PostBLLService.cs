@@ -37,6 +37,11 @@ namespace BLL_DokiHouse.Services
             return await _postRepo.Get();
         }
 
+        public async Task<IEnumerable<PostDTO>?> GetOwnPosts(int idUser)
+        {
+            return await _postRepo.GetOwnPosts(idUser);
+        }
+
 
         public async Task<PostDTO?> GetPostById(int id)
         {
@@ -44,9 +49,9 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<IEnumerable<PostDTO>?> GetPostsByName(string name)
+        public async Task<IEnumerable<PostDTO>?> GetPostsByName(string name, string stringIdentifiant)
         {
-            return await _postRepo.GetBy(name);
+            return await _postRepo.GetBy(name, stringIdentifiant);
         }
 
 

@@ -44,7 +44,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="name">Le nom à rechercher.</param>
         /// <returns>Une collection de bonsaïs correspondant au nom donné.</returns>
-        Task<IEnumerable<BonsaiDTO>?> GetBonsaiByName(string name);
+        Task<IEnumerable<BonsaiDTO>?> GetBonsaiByName(string name, string stringIdentifiant);
 
 
         /// <summary>

@@ -71,12 +71,12 @@ namespace DAL_DokiHouse.Repository
             Shohin, Mame, Chokkan, Moyogi, Shakan,
             Kengai, HanKengai, Ikadabuki, Neagari, Literati,
             YoseUe, Ishitsuki, Kabudachi, Kokufu, Yamadori,
-            Perso, IdBonsai
+            Perso, IdBonsai, CreateAt, ModifiedAt
         ) VALUES (
             @Shohin, @Mame, @Chokkan, @Moyogi, @Shakan,
             @Kengai, @HanKengai, @Ikadabuki, @Neagari, @Literati,
             @YoseUe, @Ishitsuki, @Kabudachi, @Kokufu, @Yamadori,
-            @Perso, @IdBonsai
+            @Perso, @IdBonsai, @CreateAt, @ModifiedAt
         )";
 
             var parameters = new DynamicParameters();
@@ -97,6 +97,8 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Yamadori", category.Yamadori);
             parameters.Add("@Perso", category.Perso);
             parameters.Add("@IdBonsai", category.IdBonsai);
+            parameters.Add("@CreateAt", category.CreatedAt);
+            parameters.Add("@ModifiedAt", category.ModifiedAt);
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 

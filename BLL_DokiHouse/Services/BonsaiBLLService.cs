@@ -45,9 +45,9 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<IEnumerable<BonsaiDTO>?> GetBonsaiByName(string name)
+        public async Task<IEnumerable<BonsaiDTO>?> GetBonsaiByName(string name, string stringIdentifiant)
         {
-            return await _bonsaiRepo.GetBy(name);
+            return await _bonsaiRepo.GetBy(name, stringIdentifiant);
         }
 
 

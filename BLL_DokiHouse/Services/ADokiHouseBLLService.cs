@@ -23,5 +23,11 @@ namespace BLL_DokiHouse.Services
         {
             return _dokiHouseRepo.InfosPaginated(startIndex, pageSize, cancellationToken);
         }
+
+
+        public async Task<IEnumerable<object>?> InfosTest(CancellationToken cancellationToken)
+        {
+            return await _dokiHouseRepo.InfosTest(cancellationToken);
+        }
     }
 }

@@ -5,18 +5,21 @@ using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models;
 using DAL_DokiHouse.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
+
 
 namespace API_DokiHouse.Controllers
 {
     [Route("api/[controller]")]
+    [ServiceFilter(typeof(JwtUserIdentifiantFilter))]
     [ApiController]
     public class PostController : ControllerBase
     {
         #region Injection
         private readonly IPostBLLService _postBLLService;
-        private readonly GetInfosHTTPContext _getInfosHTTPContext;
-        public PostController(IPostBLLService postBLLService, GetInfosHTTPContext getInfosHTTPContext)
-            => (_postBLLService, _getInfosHTTPContext) = (postBLLService, getInfosHTTPContext);
+        private readonly GetInfosHTTPContext _httpContextService;
+        public PostController(IPostBLLService postBLLService, GetInfosHTTPContext httpContextService)
+            => (_postBLLService, _httpContextService) = (postBLLService, httpContextService);
         #endregion
 
 
@@ -30,10 +33,15 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreatePost([FromBody] PostModel post)
         {
+            if (!ModelState.IsValid) return BadRequest();
+
+            int idToken = _httpContextService.GetLoggedInUserId();
+
+            if (idToken == 0) return Unauthorized();
+
             PostBLL postDTO = Mapper.PostModelToPostBLL(post);
 
-            int id = _getInfosHTTPContext.GetLoggedInUserId();
-            postDTO.IdUser = id;
+            postDTO.IdUser = idToken;
 
             if (await _postBLLService.CreatePost(postDTO))
                 return Ok();
@@ -52,6 +60,27 @@ namespace API_DokiHouse.Controllers
         public async Task<IActionResult> GetPosts()
         {
             IEnumerable<PostDTO>? result = await _postBLLService.GetPosts();
+
+            return result is not null
+                ? Ok(result)
+                : NoContent();
+        }
+
+
+        /// <summary>
+        /// Récupère la liste complète des posts qui sont lié à l'utilisateur connecter.
+        /// </summary>
+        /// <returns>Retourne la liste des posts ou null si aucun post n'est trouver.</returns>
+        [HttpGet(nameof(GetOwnPosts))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> GetOwnPosts()
+        {
+            int idToken = _httpContextService.GetLoggedInUserId();
+
+            if (idToken == 0) return Unauthorized();
+
+            IEnumerable<PostDTO>? result = await _postBLLService.GetOwnPosts(idToken);
 
             return result is not null
                 ? Ok(result)
@@ -81,13 +110,14 @@ namespace API_DokiHouse.Controllers
         /// Récupère la liste des posts par nom.
         /// </summary>
         /// <param name="name">Le nom à utiliser pour la recherche des posts.</param>
+        /// <param name="stringIdentifiant">Le nom de la colonne en DB a comparé avec la recherche, par défaut ça valeur est : 'Name'.</param>
         /// <returns>Retourne la liste des posts correspondant au nom.</returns>
         [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> GetPostsByName(string name)
+        public async Task<IActionResult> GetPostsByName(string name, string stringIdentifiant = "Name")
         {
-            IEnumerable<PostDTO>? result = await _postBLLService.GetPostsByName(name);
+            IEnumerable<PostDTO>? result = await _postBLLService.GetPostsByName(name, stringIdentifiant);
 
             return result is not null
                 ? Ok(result)

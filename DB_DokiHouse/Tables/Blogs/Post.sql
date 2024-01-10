@@ -5,6 +5,7 @@
 	[Description] VARCHAR(200) NOT NULL,
 	[Content] VARCHAR(MAX) NOT NULL,
 	[CreateAt] DATETIME NOT NULL,
+	[ModifiedAt] DATETIME NOT NULL,
 	[IdUser] INT NOT NULL
 	FOREIGN KEY(IdUSer) REFERENCES [User](Id)
 )

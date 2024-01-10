@@ -20,5 +20,7 @@ namespace BLL_DokiHouse.Interfaces
         /// <returns>Retourne la liste des users + leur relations</returns>
         Task<IEnumerable<EveryDTO>?> GetInfosPaginated(int startIndex, int pageSize, CancellationToken cancellationToken);
 
+
+        Task<IEnumerable<object>?> InfosTest(CancellationToken cancellationToken);
     }
 }

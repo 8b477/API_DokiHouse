@@ -28,6 +28,16 @@ namespace DAL_DokiHouse.Repository
             return typeof(E).Name;
         }
 
+        private string FirstCharSubstring(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return string.Empty;
+            }
+            string inputToLower = input.ToLower();
+
+            return $"{inputToLower[0].ToString().ToUpper()}{input.Substring(1)}";
+        }
 
         public virtual async Task<IEnumerable<M>> Get()
         {
@@ -51,11 +61,12 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public virtual async Task<IEnumerable<M>?> GetBy(S name) // --> Remplacer 'Name' par une variable
+        public virtual async Task<IEnumerable<M>?> GetBy(S name, S stringIdentifiant)
         {
             string tableName = GetTableName();
             string uppercaseName = name?.ToString()?.ToUpper() ?? "";
-            string query = $"SELECT * FROM [{tableName}] WHERE UPPER([Name]) = @UppercaseName";
+            string reFormatStringIdentifiant = FirstCharSubstring(stringIdentifiant.ToString() ?? "Name"); // --> je m'assure que le stringIdentifiant est sous le bon format
+            string query = $"SELECT * FROM [{tableName}] WHERE UPPER([{reFormatStringIdentifiant}]) = @UppercaseName";
             var result = await _connection.QueryAsync<M>(query,new { UppercaseName = uppercaseName });
 
             if (result != null && result.Any())

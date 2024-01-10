@@ -21,13 +21,22 @@ namespace DAL_DokiHouse
         {
             string sql = @"
         INSERT INTO [User] (
-            Name, Email, Passwd, Role, IdPictureProfil
+            Name, Email, Passwd, Role, IdPictureProfil, CreateAt, ModifiedAt
         ) VALUES (
-            @Name, @Email, @Passwd, @Role, @IdPictureProfil
+            @Name, @Email, @Passwd, @Role, @IdPictureProfil, @CreateAt, @ModifiedAt
         )";
 
+            DynamicParameters parameters = new();
+            parameters.Add("@Name", model.Name);
+            parameters.Add("@Email", model.Email);
+            parameters.Add("@Passwd", model.Passwd);
+            parameters.Add("@Role", model.Role);
+            parameters.Add("@IdPictureProfil", model.IdPictureProfil);
+            parameters.Add("@CreateAt", model.CreatedAt);
+            parameters.Add("@ModifiedAt", model.ModifiedAt);
+
             // Exécute la requête et récupère le nombre de lignes affectées
-            int rowAffected = await _connection.ExecuteAsync(sql, model);
+            int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowAffected > 0;
         }

@@ -6,9 +6,12 @@ using BLL_DokiHouse.Models;
 using DAL_DokiHouse.DTO;
 using Microsoft.AspNetCore.Mvc;
 
+using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
+
 namespace API_DokiHouse.Controllers
 {
     [Route("api/[controller]")]
+    [ServiceFilter(typeof(JwtUserIdentifiantFilter))]
     [ApiController]
     public class CommentsController : ControllerBase
     {
@@ -32,7 +35,7 @@ namespace API_DokiHouse.Controllers
 
             if (await _commentBllService.CreateComment(commentBLL)) return Ok();
 
-            return BadRequest("L'insertion d'un nouveau post à échoué");
+            return BadRequest("L'insertion d'un nouveau commentaire à échoué");
         }
 
 
@@ -40,6 +43,21 @@ namespace API_DokiHouse.Controllers
         public async Task<IActionResult> Get()
         {
             IEnumerable<CommentsDTO>? result = await _commentBllService.GetComments();
+
+            return result is not null
+            ? Ok(result)
+            : NoContent();
+        }
+
+
+        [HttpGet(nameof(GetOwnComments))]
+        public async Task<IActionResult> GetOwnComments()
+        {
+            int idToken = _getInfosHTTPContext.GetLoggedInUserId();
+
+            if (idToken == 0) return Unauthorized();
+
+            IEnumerable<CommentsDTO>? result = await _commentBllService.GetOwnComments(idToken);
 
             return result is not null
             ? Ok(result)
@@ -57,16 +75,6 @@ namespace API_DokiHouse.Controllers
             : NoContent();
         }
 
-
-        [HttpGet("{name}")]
-        public async Task<IActionResult> GetByName(string name)
-        {
-            IEnumerable<CommentsDTO>? result = await _commentBllService.GetCommentsByName(name);
-
-            return result is not null
-                ? Ok(result)
-                : NoContent();
-        }
 
 
         [HttpPut("{id}:int")]
@@ -90,6 +98,17 @@ namespace API_DokiHouse.Controllers
                 ? NoContent()
                 : BadRequest();
         }
+
+
+        //[HttpGet("{name}")]
+        //public async Task<IActionResult> GetByName(string name, string stringIdentifiant)
+        //{
+        //    IEnumerable<CommentsDTO>? result = await _commentBllService.GetCommentsByName(name,stringIdentifiant);
+
+        //    return result is not null
+        //        ? Ok(result)
+        //        : NoContent();
+        //}
 
     }
 }

@@ -160,7 +160,7 @@ namespace API_DokiHouse.Services
         /// <returns>Objet de logique métier note.</returns>
         public static NoteBLL NoteModelToBLL(NoteModel model)
         {
-            return new NoteBLL(model.Title, model.Description, DateTime.Now, 0);
+            return new NoteBLL(model.Title, model.Description, 0);
         }
 
         #endregion
@@ -170,7 +170,7 @@ namespace API_DokiHouse.Services
 
         public static PostBLL PostModelToPostBLL(PostModel post)
         {
-            return new PostBLL(post.Title, post.Description, post.Content, DateTime.Now, 0);
+            return new PostBLL(post.Title, post.Description, post.Content,  0);
         }
 
         #endregion
