@@ -4,7 +4,10 @@ namespace DAL_DokiHouse.DTO
 
     public record BonsaiDTO
     {
-
+        public BonsaiDTO()
+        {
+            
+        }
         public BonsaiDTO(string name, string? description, DateTime modifiedAt, int idUser)
         {
             Name = name;

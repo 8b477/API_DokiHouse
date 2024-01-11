@@ -2,14 +2,9 @@
 {
 
     // Un fichier qui regroupe des classe pour personnalisé le map des relations avec Dapper
-    public class EveryDTO
+    public class FullJoinDTO
     {
-        public EveryDTO()
-        {
-
-        }
-
-        public UserJoinDTO User { get; set; }
+        public UserJoinDTO User { get; set; } // -> peut être mettre direct les fields du user au lieu de référé son objet ?
         public BonsaiJoinDTO? Bonsai { get; set; }
         public CategoryJoinDTO? Category { get; set; }
         public StyleJoinDTO? Style { get; set; }
@@ -19,14 +14,9 @@
 
     public class UserJoinDTO
     {
-        public UserJoinDTO()
-        {
-
-        }
-
         public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string Role { get; set; }
+        public string UserName { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
         public int? IdPictureProfil { get; set; }
         public DateTime UserCreateAt { get; set; }
         public DateTime UserModifiedAt { get; set; }
@@ -35,10 +25,8 @@
 
     public class BonsaiJoinDTO
     {
-        public BonsaiJoinDTO() { }
-
         public int BonsaiId { get; set; }
-        public string BonsaiName { get; set; }
+        public string BonsaiName { get; set; } = string.Empty;
         public string? BonsaiDescription { get; set; }
         public int BonsaiUserId { get; set; }
         public DateTime BonsaiCreateAt { get; set; }
@@ -48,9 +36,6 @@
 
     public class CategoryJoinDTO
     {
-
-        public CategoryJoinDTO() { }
-
         public int CategoryId { get; set; }
         public bool Shohin { get; set; }
         public bool Mame { get; set; }
@@ -74,12 +59,7 @@
 
 
     public class StyleJoinDTO
-    {
-        public StyleJoinDTO()
-        {
-
-        }
-
+    { 
         public int StyleId { get; set; }
         public bool Bunjin { get; set; }
         public bool Bankan { get; set; }
@@ -93,14 +73,9 @@
 
     public class NoteJoinDTO
     {
-        public NoteJoinDTO()
-        {
-
-        }
-
         public int NoteId { get; set; }
-        public string Title { get; set; }
-        public string NoteDescription { get; set; }
+        public string NoteTitle { get; set; } = string.Empty;
+        public string NoteDescription { get; set; } = string.Empty;
         public DateTime NoteCreateAt { get; set; }
         public DateTime NoteModifiedAt { get; set; }
     }
@@ -108,34 +83,32 @@
 
     public class BlogDTO
     {
-        public BlogDTO() { }
-
-        public UserJoinDTO User { get; set; }
-        public List<PostJoinDTO?> Post { get; set; }
-        public List<CommentsJoinDTO?> Comment { get; set; }
+        public UserJoinDTO User { get; set; } = new();
+        public List<PostJoinDTO>? Post { get; set; }
+        public List<CommentsJoinDTO>? Comment { get; set; }
     }
 
 
     public class PostJoinDTO
     {
-        public PostJoinDTO() { }
-
         public int IdPost { get; set; }
-        public string PostTitle { get; set; }
-        public string PostDescription { get; set; }
-        public string PostContent { get; set; }
-        public DateTime PostCreatedAt { get; set; }
+        public int IdUser { get; set; }
+        public string PostTitle { get; set; } = string.Empty;
+        public string PostDescription { get; set; } = string.Empty;
+        public string PostContent { get; set; } = string.Empty;
+        public DateTime PostCreateAt { get; set; }
         public DateTime PostModifiedAt { get; set; }
+        public List<CommentsJoinDTO>? Comments { get; set; }
     }
 
     public class CommentsJoinDTO
     {
-        public CommentsJoinDTO() { }
         public int IdComment { get; set; }
-        public string CommentContent { get; set; }
-        public DateTime CommentCreatedAt { get; set; }
-        public DateTime CommentModifiedAt { get; set; }
         public int IdPost { get; set; }
+        public int IdUser { get; set; }
+        public string CommentContent { get; set; } = string.Empty;
+        public DateTime CommentCreateAt { get; set; }
+        public DateTime CommentModifiedAt { get; set; }
     }
 
 
