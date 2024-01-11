@@ -29,14 +29,14 @@ namespace API_DokiHouse.Controllers
         /// Obtient les informations complètes sur les utilisateurs avec leurs bonsaïs, catégories, styles et notes associés.
         /// </summary>
         /// <param name="cancellationToken">Token d'annulation pour arrêter la requête de manière asynchrone si nécessaire.</param>
-        /// <returns>Retourne une liste d'objets <see cref="EveryDTO"/> contenant les informations complètes.</returns>
+        /// <returns>Retourne une liste d'objets <see cref="JoinDTO"/> contenant les informations complètes.</returns>
         [HttpGet(nameof(GetUsersAndBonsaisDetails))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EveryDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<FullJoinDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetUsersAndBonsaisDetails(CancellationToken cancellationToken)
         {
-            IEnumerable<EveryDTO>? result = await _dokiHouseBLLService.GetInfos(cancellationToken);
+            IEnumerable<FullJoinDTO>? result = await _dokiHouseBLLService.GetInfos(cancellationToken);
 
             return
                 result is not null
@@ -52,19 +52,19 @@ namespace API_DokiHouse.Controllers
         /// <param name="startIndex">Index de départ pour la pagination si pas renseignée valeur par défaut => '1'.</param>
         /// <param name="pageSize">Taille de la page pour la pagination si pas renseignée valeur par défaut => '12'.</param>
         /// <param name="cancellationToken">Token d'annulation pour arrêter la requête de manière asynchrone si nécessaire.</param>
-        /// <returns>Retourne une liste paginée d'objets <see cref="EveryDTO"/> contenant les informations complètes.</returns>
-        [HttpGet(nameof(GetBonsaispaginated))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EveryDTO>))]
+        /// <returns>Retourne une liste paginée d'objets <see cref="JoinDTO"/> contenant les informations complètes.</returns>
+        [HttpGet(nameof(GetBonsaisPaginated))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<FullJoinDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetBonsaispaginated(CancellationToken cancellationToken, [FromQuery] int startIndex = 1, [FromQuery] int pageSize = 12)
+        public async Task<IActionResult> GetBonsaisPaginated(CancellationToken cancellationToken, [FromQuery] int startIndex = 1, [FromQuery] int pageSize = 12)
         {
             if (startIndex < 1 || pageSize < 1)
                 return BadRequest("La page et la taille de la page doivent être des valeurs positives.");
 
             startIndex--;
 
-            IEnumerable<EveryDTO>? result = await _dokiHouseBLLService.GetInfosPaginated(startIndex, pageSize, cancellationToken);
+            IEnumerable<FullJoinDTO>? result = await _dokiHouseBLLService.GetInfosPaginated(startIndex, pageSize, cancellationToken);
 
             return
                 result is not null
@@ -76,16 +76,48 @@ namespace API_DokiHouse.Controllers
         /// <summary>
         /// Obtient les informations complètes sur les utilisateurs avec leurs Posts et commentaires associés.
         /// </summary>
-        /// <param name="cancellationToken">Token d'annulation pour arrêter la requête de manière asynchrone si nécessaire.</param>
+        /// <param name="idUser">Identifiant de l'utilisateur de type : 'int'.</param>
         /// <returns>Retourne une liste d'objets <see cref="BlogDTO"/> contenant les informations complètes.</returns>
         [AllowAnonymous]
-        [HttpGet(nameof(GetBlogs))]
+        [HttpGet("{idUser}:int")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BlogDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetBlogs(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBlogs([FromRoute] int idUser)
         {
-            var result = await _dokiHouseBLLService.InfosTest(cancellationToken);
+            var result = await _dokiHouseBLLService.GetUserInfosWithOwnPostsAndComments(idUser);
+
+            return
+                result is not null
+                ? Ok(result)
+                : NoContent();
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet(nameof(OwnPostsAndComments) + "/{idUser}:int")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BlogDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> OwnPostsAndComments([FromRoute] int idUser)
+        {
+            var result = await _dokiHouseBLLService.GetUserInfosWithOwnPostsAndComments(idUser);
+
+            return
+                result is not null
+                ? Ok(result)
+                : NoContent();
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet(nameof(OwnBonsaisAndDetails) + "{idUser}:int")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BlogDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> OwnBonsaisAndDetails([FromRoute] int idUser, int startIndex, int pageSize)
+        {
+            var result = await _dokiHouseBLLService.GetInfosUserWithOwnBonsaisAndDetails(startIndex, pageSize,idUser);
 
             return
                 result is not null
