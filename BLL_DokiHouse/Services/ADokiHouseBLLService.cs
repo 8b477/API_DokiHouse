@@ -15,19 +15,15 @@ namespace BLL_DokiHouse.Services
         public ADokiHouseBLLService(IADokiHouseRepo dokiHouseRepo) => _dokiHouseRepo = dokiHouseRepo;
         #endregion
 
-        public Task<IEnumerable<FullJoinDTO>?> GetInfos(CancellationToken cancellationToken)
+
+        public async Task<UserTest?> GetInfosUserWithOwnBonsaisAndDetails(int startIndex, int pageSize)
         {
-            return _dokiHouseRepo.Infos(cancellationToken);
+            return await _dokiHouseRepo.GetInfosUserWithOwnBonsaisAndDetails(startIndex, pageSize);
         }
 
-        public Task<IEnumerable<FullJoinDTO>?> GetInfosPaginated(int startIndex, int pageSize, CancellationToken cancellationToken)
+        public async Task<UserTest?> GetInfosUserWithBonsaisAndDetailsById(int idUser, int startIndex, int pageSize)
         {
-            return _dokiHouseRepo.InfosPaginated(startIndex, pageSize, cancellationToken);
-        }
-
-        public async Task<UserTest?> GetInfosUserWithOwnBonsaisAndDetails(int startIndex, int pageSize, int userId)
-        {
-            return await _dokiHouseRepo.GetInfosUserWithOwnBonsaisAndDetails(startIndex, pageSize, userId);
+            return await _dokiHouseRepo.GetInfosUserWithBonsaisAndDetailsById(idUser, startIndex, pageSize);
         }
 
         public async Task<PostJoinDTO?> GetPostWithComments(int id)

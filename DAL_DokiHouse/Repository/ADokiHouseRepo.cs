@@ -1,12 +1,8 @@
 ﻿using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
 using Dapper;
-
-using Entities_DokiHouse.Entities;
-
 using System.Data.Common;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.AccessControl;
+
 
 namespace DAL_DokiHouse.Repository
 {
@@ -103,7 +99,7 @@ namespace DAL_DokiHouse.Repository
         //    return fullInfosUser;
         //}
 
-        public async Task<UserTest?> GetInfosUserWithOwnBonsaisAndDetails(int startIndex, int pageSize, int userId)
+        public async Task<UserTest?> GetInfosUserWithOwnBonsaisAndDetails(int startIndex, int pageSize)
         {
             string sql = @"
             SELECT 
@@ -151,8 +147,8 @@ namespace DAL_DokiHouse.Repository
             LEFT JOIN [dbo].[Category] c ON c.IdBonsai = b.Id
             LEFT JOIN [dbo].[Style] s ON s.IdBonsai = b.Id
             LEFT JOIN [dbo].[Note] n ON n.IdBonsai = b.Id
-            OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY
-            WHERE u.Id = @UserId";
+            ORDER BY u.Id
+            OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
 
             var userDictionary = new Dictionary<int, UserTest>(); // -> User
 
@@ -175,12 +171,107 @@ namespace DAL_DokiHouse.Repository
 
                     return existingUser;
                 },
-                new { UserId = userId, StartIndex = startIndex, PageSize = pageSize },
+                new {StartIndex = startIndex, PageSize = pageSize },
                 splitOn: "BonsaiId,CategoryId,StyleID,NoteId");
 
             return userDictionary.Values.FirstOrDefault();
         }
 
+
+        public async Task<UserTest?> GetInfosUserWithBonsaisAndDetailsById(int idUser,  int startIndex, int pageSize)
+        {
+            string sql = @"
+            SELECT 
+                u.Id AS UserId,
+                u.Name,
+
+                pu.Id AS PictureProfilId,
+                pu.Avatar,
+                pu.CreateAt AS PictureCreateAt,
+                pu.ModifiedAt AS PictureModifiedAt,
+
+                b.Id AS BonsaiId,
+                b.Name,
+                b.IdUser,
+
+                pb.Id AS PictureBonsaiId,
+                pb.FileName,
+                pb.CreateAt AS PictureBonsaiCreateAt,
+                pb.ModifiedAt AS PictureBonsaiModifiedAt,
+                pb.IdBonsai,
+
+                c.Id AS CategoryId,
+                c.Shohin,
+                c.Mame,
+                c.Chokkan,
+                c.Moyogi,
+                c.Shakan,
+                c.Kengai,
+                c.HanKengai,
+                c.Ikadabuki,
+                c.Neagari,
+                c.Literati,
+                c.YoseUe,
+                c.Ishitsuki,
+                c.Kabudachi,
+                c.Kokufu,
+                c.Yamadori,
+                c.Perso AS CategoryPerso,
+                c.IdBonsai,
+
+                s.Id AS StyleID,
+                Bunjin,
+                s.Bankan,
+                s.Korabuki,
+                s.Ishituki,
+                s.Perso AS StylePerso,
+                s.IdBonsai,
+
+                n.Id AS NoteId,
+                n.Title,
+                n.Description AS NoteDescription,
+                n.CreateAt,
+                n.IdBonsai
+
+            FROM [dbo].[User] u
+            LEFT JOIN [dbo].[PictureProfil] pu ON pu.IdUser = u.Id
+            JOIN [dbo].[Bonsai] b ON b.IdUser = u.Id
+            LEFT JOIN [dbo].[PictureBonsai] pb ON pb.IdBonsai = b.Id
+            LEFT JOIN [dbo].[Category] c ON c.IdBonsai = b.Id
+            LEFT JOIN [dbo].[Style] s ON s.IdBonsai = b.Id
+            LEFT JOIN [dbo].[Note] n ON n.IdBonsai = b.Id
+            WHERE u.Id = @IdUser
+            ORDER BY b.Id
+            OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+            var userDictionary = new Dictionary<int, UserTest>(); // -> User
+
+            await _connection.QueryAsync<UserTest, PictureProfilJoinDTO, BonsaiTest3, PictureBonsaiJoinDTO, CategoryJoinDTO, StyleJoinDTO, NoteJoinDTO, UserTest>(
+                sql,
+                (user, pictureProfil, bonsai, pictureBonsai, category, style, note) =>
+                {
+                    if (!userDictionary.TryGetValue(user.UserId, out var existingUser))
+                    {
+                        existingUser = user;
+                        existingUser.Bonsais = new List<BonsaiTest3>();
+                        userDictionary.Add(existingUser.UserId, existingUser);
+                    }
+
+                    user.PictureProfil = pictureProfil;
+                    bonsai.PictureBonsai = pictureBonsai;
+                    bonsai.Categories = category;
+                    bonsai.Styles = style;
+                    bonsai.Notes = note;
+
+                    existingUser.Bonsais.Add(bonsai);
+
+                    return existingUser;
+                },
+                new { IdUser = idUser, StartIndex = startIndex, PageSize = pageSize },
+                splitOn: "PictureProfilId, BonsaiId, PictureBonsaiId, CategoryId, StyleID, NoteId");
+             
+            return userDictionary.Values.FirstOrDefault();
+        }
 
         public async Task<UserTest2?> GetUserInfosWithOwnPostsAndComments(int userId)
         {
@@ -296,7 +387,7 @@ namespace DAL_DokiHouse.Repository
     public class UserTest2
     {
         public int UserId { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
         public DateTime UserCreateAt { get; set; }
         public DateTime UsermodifiedAt { get; set; }
         public List<PostJoinDTO>? Posts { get; set; }
@@ -307,6 +398,7 @@ namespace DAL_DokiHouse.Repository
     {
         public int UserId { get; set; }
         public string Name { get; set; } = string.Empty;
+        public PictureProfilJoinDTO? PictureProfil { get; set; }
         public List<BonsaiTest3>? Bonsais { get; set; }
         public List<PostJoinDTO>? Posts { get; set; }
     }
@@ -315,7 +407,7 @@ namespace DAL_DokiHouse.Repository
     {
         public int BonsaiId { get; set; }
         public int IdUser { get; set; }
-        public string UserName { get; set; } = string.Empty;
+        public string BonsaiName { get; set; } = string.Empty;
     }
 
 
@@ -323,7 +415,7 @@ namespace DAL_DokiHouse.Repository
     {
         public int BonsaiId { get; set; }
         public int IdUser { get; set; }
-        public string UserName { get; set; } = string.Empty;
+        public string BonsaiName { get; set; } = string.Empty;
         public CategoryJoinDTO? Categories { get; set; }
         public StyleJoinDTO? Styles { get; set; }
         public NoteJoinDTO? Notes { get; set; }
@@ -333,7 +425,8 @@ namespace DAL_DokiHouse.Repository
     {
         public int BonsaiId { get; set; }
         public int IdUser { get; set; }
-        public string UserName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public PictureBonsaiJoinDTO? PictureBonsai { get; set; }
         public CategoryJoinDTO? Categories { get; set; }
         public StyleJoinDTO? Styles { get; set; }
         public NoteJoinDTO? Notes { get; set; }

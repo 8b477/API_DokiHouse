@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Tools_DokiHouse\Tools_DokiHouse.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Logs\" />
-  </ItemGroup>
-
 </Project>

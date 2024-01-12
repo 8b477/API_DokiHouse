@@ -35,7 +35,7 @@ namespace API_DokiHouse.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            int idToken = _httpContextService.GetLoggedInUserId();
+            int idToken = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idToken == 0) return Unauthorized();
 
@@ -76,7 +76,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetOwnPosts()
         {
-            int idToken = _httpContextService.GetLoggedInUserId();
+            int idToken = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idToken == 0) return Unauthorized();
 

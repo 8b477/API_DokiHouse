@@ -28,7 +28,7 @@ namespace API_DokiHouse.Controllers
         {
             CommentBLL commentBLL = Mapper.CommentModelToCommentBLL(comment);
 
-            int id = _getInfosHTTPContext.GetLoggedInUserId();
+            int id = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
 
             commentBLL.IdUser = id;
             commentBLL.IdPost = idPost;
@@ -53,7 +53,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet(nameof(GetOwnComments))]
         public async Task<IActionResult> GetOwnComments()
         {
-            int idToken = _getInfosHTTPContext.GetLoggedInUserId();
+            int idToken = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
 
             if (idToken == 0) return Unauthorized();
 

@@ -6,6 +6,8 @@ using API_DokiHouse.Tools;
 
 using Microsoft.Extensions.Caching.Memory;
 using Serilog;
+using BLL_DokiHouse.Models;
+using BLL_DokiHouse.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,8 @@ DependencyInjectionService
 //HTTPContext Service
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<GetInfosHTTPContext>();
+builder.Services.AddScoped<PictureBLLService>();
+
 //********************************************************************************************
 
 

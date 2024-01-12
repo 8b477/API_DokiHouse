@@ -111,5 +111,20 @@
         public DateTime CommentModifiedAt { get; set; }
     }
 
+    public class PictureProfilJoinDTO
+    {
+        public int PictureProfilId { get; set; }
+        public string Avatar { get; set; }
+        public DateTime PictureCreateAt { get; set; }
+        public DateTime PictureModifiedAt { get; set; }
+    }
 
+    public class PictureBonsaiJoinDTO
+    {
+        public int PictureBonsaiId { get; set; }
+        public string FileName { get; set; }
+        public DateTime PictureBonsaiCreateAt { get; set; }
+        public DateTime PictureBonsaiModifiedAt { get; set; }
+        public int IdBonsai { get; set; } // ---> FK
+    }
 }

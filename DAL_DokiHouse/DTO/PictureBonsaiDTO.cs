@@ -1,10 +1,7 @@
-﻿using Entities_DokiHouse.Interfaces;
-
-namespace Entities_DokiHouse.Entities
+﻿namespace DAL_DokiHouse.DTO
 {
-    public class PictureBonsai : IEntity<int>
+    public class PictureBonsaiDTO
     {
-        public int Id { get; set; }
         public string FileName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }

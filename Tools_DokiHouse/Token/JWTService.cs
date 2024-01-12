@@ -45,7 +45,7 @@ namespace Tools_DokiHouse.Token
         /// <param name="userId">l'identifiant</param>
         /// <param name="role">la valeur du rôle</param>
         /// <returns>Retourne un token avec un rôle et un identifiant</returns>
-        public string GenerateToken(string userId, string role)
+        public string GenerateToken(string userId, string name, string role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Convert.FromBase64String(secretKey);
@@ -55,6 +55,7 @@ namespace Tools_DokiHouse.Token
                 Subject = new ClaimsIdentity(new[]
                 {
                         new Claim(ClaimTypes.NameIdentifier, userId),
+                        new Claim(ClaimTypes.Name, name),
                         new Claim(ClaimTypes.Role, role )
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),

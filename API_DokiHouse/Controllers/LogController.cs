@@ -43,7 +43,7 @@ namespace API_DokiHouse.Controllers
 
             if (result is not null)
             {
-                string token = _jwtService.GenerateToken(result.Id.ToString(), result.Role);
+                string token = _jwtService.GenerateToken(result.Id.ToString(), result.Name, result.Role);
 
                 return Ok(token); // --> peut être envoyé sous forme d'objet au Front `Ok(new {token})`
             }
