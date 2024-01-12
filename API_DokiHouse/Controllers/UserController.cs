@@ -96,7 +96,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetById()
         {
-            int idUser = _httpContextService.GetLoggedInUserId();
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
@@ -135,7 +135,7 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Met à jour le profil d'un utilisateur.
+        /// Met à jour le profil complet d'un utilisateur.
         /// </summary>
         /// <remarks>
         /// Cette méthode permet de mettre à jour le nom d'un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
@@ -148,7 +148,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update([FromBody] UserUpdateModel model)
         {
-            int idUser = _httpContextService.GetLoggedInUserId();
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
@@ -175,7 +175,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Name([FromBody] UserNameUpdateModel model)
         {         
-            int idUser = _httpContextService.GetLoggedInUserId();
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
@@ -203,7 +203,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Pass([FromBody] UserPassUpdateModel model)
         {
-            int idUser = _httpContextService.GetLoggedInUserId();
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
@@ -231,7 +231,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Mail([FromBody] UserMailUpdateModel model)
         {
-            int idUser = _httpContextService.GetLoggedInUserId();
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
@@ -258,7 +258,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Delete()
         {
-            int idUser = _httpContextService.GetLoggedInUserId();
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if(idUser == 0) return Unauthorized();
 

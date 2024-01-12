@@ -1,5 +1,10 @@
 ﻿using BLL_DokiHouse.Interfaces;
+using BLL_DokiHouse.Tools;
+
+using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
+
+using Entities_DokiHouse.Entities;
 
 using Microsoft.AspNetCore.Http;
 
@@ -12,24 +17,47 @@ namespace BLL_DokiHouse.Services
         #region Injection
         private readonly IPictureRepo _pictureRepo;
         private readonly IUserBLLService _userBLLService;
-
         public PictureBLLService(IPictureRepo pictureRepo, IUserBLLService userBLLService)
         => (_pictureRepo,_userBLLService) = (pictureRepo, userBLLService);
 
         #endregion
 
 
-        // -------------------------------------------------------------------------------------------> TODO
-       
-        public async Task<int> AddPictureBonsai(IFormFile file)
+        private bool IsImageFile(string file)
         {
-            int idPicture = await _pictureRepo.AddPictureBonsai(file);
+            string[] allowedExtensions = { ".jpg", ".jpeg", ".png" };
 
-            return idPicture;
+            return allowedExtensions.Any(ext => ext.Equals(Path.GetExtension(file), StringComparison.OrdinalIgnoreCase));
+        }
+       
+
+        public async Task<bool> AddPictureBonsai(IFormFile file, string filePath, int idBonsai)
+        {
+            if(file is null) 
+                throw new ArgumentNullException(nameof(file));
+
+            if(!IsImageFile(file.FileName)) 
+                throw new ArgumentException("Le fichier n'est pas une image valide, format attendu .jpg .jpeg .png");
+
+            if (!Directory.Exists(filePath))
+                Directory.CreateDirectory(filePath);
+
+
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
+
+            using (var stream = new FileStream(Path.Combine(filePath, uniqueFileName), FileMode.OpenOrCreate))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            PictureBonsaiDTO pictureDTO = new (){ FileName = filePath , CreatedAt = DateTime.Now, ModifiedAt = DateTime.Now , IdBonsai = idBonsai};
+
+            return await _pictureRepo.AddPictureBonsai(pictureDTO);
         }
 
 
-
+        /*
         public async Task<int> AddPictureProfil(int idUser, IFormFile file)
         {
 
@@ -54,6 +82,6 @@ namespace BLL_DokiHouse.Services
             return await _pictureRepo.GetImageProfil(idPicture);
         }
 
-
+        */
     }
 }

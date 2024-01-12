@@ -1,8 +1,8 @@
-﻿using DAL_DokiHouse.Interfaces;
-
+﻿using DAL_DokiHouse.DTO;
+using DAL_DokiHouse.Interfaces;
 using Dapper;
-using Microsoft.AspNetCore.Http;
 using System.Data;
+using System.Reflection;
 
 
 namespace DAL_DokiHouse.Repository
@@ -17,39 +17,31 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-
-
-        public async Task<int> AddPictureProfil(IFormFile file)
+        public async Task<bool> AddPictureBonsai(PictureBonsaiDTO picture)
         {
-            using var memoryStream = new MemoryStream();
-            await file.CopyToAsync(memoryStream);
-            memoryStream.Position = 0;
-            byte[] pictureConvert = memoryStream.ToArray();
+            string sql = @"
+            INSERT INTO PictureBonsai (FileName, CreateAt, ModifiedAt, IdBonsai)
+            VALUES (@FileName, @CreateAt, @ModifiedAt, @IdBonsai)";
 
-            string sql = "INSERT INTO [PictureProfil] (Picture) OUTPUT INSERTED.Id VALUES (@Picture)";
+            DynamicParameters parameters = new();
+            parameters.Add("@FileName", picture.FileName);
+            parameters.Add("@CreateAt", picture.CreatedAt);
+            parameters.Add("@ModifiedAt", picture.ModifiedAt);
+            parameters.Add("@IdBonsai", picture.IdBonsai);
 
-            int? generatedId = await _connection.QueryFirstOrDefaultAsync<int?>(sql, new { Picture = pictureConvert });
 
-            return generatedId ?? 0;
+            int rowAffected = await _connection.ExecuteAsync(sql, parameters);
+
+            return rowAffected > 0;
         }
 
+    }
+}
 
 
 
-        public async Task<int> AddPictureBonsai(IFormFile file)
-        {
-            using var memoryStream = new MemoryStream();
-            await file.CopyToAsync(memoryStream);
-            memoryStream.Position = 0;
-            byte[] pictureConvert = memoryStream.ToArray();
-
-            string sql = "INSERT INTO [PictureBonsai] (Picture) OUTPUT INSERTED.Id VALUES (@Picture)";
-
-            int? generatedId = await _connection.QueryFirstOrDefaultAsync<int?>(sql, new { Picture = pictureConvert });
-
-            return generatedId ?? 0;
-        }
-
+/*
+ 
 
 
 
@@ -71,5 +63,19 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-    }
-}
+        public async Task<int> AddPictureProfil(IFormFile file)
+        {
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+            byte[] pictureConvert = memoryStream.ToArray();
+
+            string sql = "INSERT INTO [PictureProfil] (Picture) OUTPUT INSERTED.Id VALUES (@Picture)";
+
+            int? generatedId = await _connection.QueryFirstOrDefaultAsync<int?>(sql, new { Picture = pictureConvert });
+
+            return generatedId ?? 0;
+        }
+
+
+ */

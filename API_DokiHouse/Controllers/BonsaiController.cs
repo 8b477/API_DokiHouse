@@ -67,7 +67,7 @@ namespace API_DokiHouse.Controllers
         public async Task<IActionResult> GetOwnBonsai()
         {
 
-            int idUser = _httpContextService.GetLoggedInUserId();
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
@@ -144,7 +144,7 @@ namespace API_DokiHouse.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
            
-            int idToken = _httpContextService.GetLoggedInUserId();
+            int idToken = _httpContextService.GetIdUserTokenInHttpContext();
 
             if(idToken == 0) return Unauthorized();
 
@@ -178,7 +178,7 @@ namespace API_DokiHouse.Controllers
         public async Task<IActionResult> Update(BonsaiModel model)
         {
 
-            int idToken = _httpContextService.GetLoggedInUserId();
+            int idToken = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idToken == 0) return Unauthorized();
 

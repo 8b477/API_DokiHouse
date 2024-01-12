@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[PictureProfil]
 (
 	[Id] INT NOT NULL IDENTITY PRIMARY KEY,
-	[Picture] VARBINARY(MAX),
+	[Avatar] VARCHAR(MAX) NOT NULL,
 	[CreateAt] DATETIME NOT NULL,
 	[ModifiedAt] DATETIME NOT NULL,
 	[IdUser] INT NOT NULL

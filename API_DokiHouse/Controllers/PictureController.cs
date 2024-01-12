@@ -1,11 +1,14 @@
-﻿using BLL_DokiHouse.Interfaces;
+﻿using API_DokiHouse.Tools;
 
+using BLL_DokiHouse.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
 namespace API_DokiHouse.Controllers
 {
     [Route("api/[controller]")]
+    [ServiceFilter(typeof(JwtUserIdentifiantFilter))]
     [ApiController]
     [AllowAnonymous]
     public class PictureController : ControllerBase
@@ -14,36 +17,44 @@ namespace API_DokiHouse.Controllers
         #region Injection
         private readonly IPictureBLLService _pictureRepo;
         private readonly IWebHostEnvironment _env;
+        private readonly GetInfosHTTPContext _getInfosHTTPContext;
 
-        public PictureController(IWebHostEnvironment env, IPictureBLLService pictureRepo)
-            => (_env, _pictureRepo) 
-            =  (env, pictureRepo);
+        public PictureController(IWebHostEnvironment env, IPictureBLLService pictureRepo, GetInfosHTTPContext getInfosHTTPContext)
+            => (_env, _pictureRepo, _getInfosHTTPContext) 
+            =  (env, pictureRepo, getInfosHTTPContext);
         #endregion
 
 
         /// <summary>
-        /// Ajoute une image directement enregistrer sur l'app
+        /// Ajoute une image directement enregistrer sur le server
         /// </summary>
         /// <param name="picture">Image à insérer</param>
+        /// <param name="idBonsai">Identifiant du Bonsai lié à l'ajout de l'image</param>
         /// <returns></returns>
-        [HttpPost("profil")] //-------------------------------------> TODO AJOUT DE FK DANS USER
-        public async Task<IActionResult> AddPicture(IFormFile picture)
+        [HttpPost("{idBonsai}:int")]
+        public async Task<IActionResult> AddPicture(IFormFile picture, int idBonsai)
         {
-            string filePath = Path.Combine(_env.ContentRootPath, @"images\profil");
 
-            if (!Directory.Exists(filePath))
-                Directory.CreateDirectory(filePath);
+            int idToken = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
+            if (idToken == 0) return Unauthorized();
 
-            filePath = Path.Combine(filePath, picture.FileName);
+            string userName = _getInfosHTTPContext.GetNameUserTokenInHttpContext();
+            if (userName == string.Empty) return Unauthorized();
 
-            using var stream = new FileStream(filePath,FileMode.OpenOrCreate);
-            await picture.CopyToAsync(stream);
 
-            return Ok();
+            string uniqueFileName = idToken.ToString() + "_" + userName.ToUpper();
+            string filePath = Path.Combine(_env.ContentRootPath, @"images\bonsais", uniqueFileName);
+
+            bool result = await _pictureRepo.AddPictureBonsai(picture, filePath, idBonsai);
+
+            return result ? Ok() : BadRequest();
         }
 
+    }
+}
 
-        /// <summary>
+/*
+   /// <summary>
         /// Ajoute une image de profil dans la base de données sous forme d'un byte[]
         /// </summary>
         /// <param name="file">Image à insérer</param>
@@ -52,6 +63,9 @@ namespace API_DokiHouse.Controllers
         [HttpPost("{idUser}/" + nameof(AddPictureDBProfil))]
         public async Task<IActionResult> AddPictureDBProfil([FromRoute] int idUser,IFormFile file)
         {
+
+
+
             return 
                 await _pictureRepo.AddPictureProfil(idUser, file) != 0
                 ? Ok() 
@@ -64,7 +78,7 @@ namespace API_DokiHouse.Controllers
         /// </summary>
         /// <param name="file">Image à insérer</param>
         /// <returns>Retourne un status code 200 ou un 400 si l'ajout a échouer</returns>
-        [HttpPost(nameof(AddPictureDBBonsai))]
+        [HttpPost(nameof(AddPictureDBBonsai))]//--delete faire la save sur le server
         public async Task<IActionResult> AddPictureDBBonsai(IFormFile file)
         {
             return 
@@ -102,6 +116,4 @@ namespace API_DokiHouse.Controllers
                 ? Ok() 
                 : BadRequest();
         }
-
-    }
-}
+ */
