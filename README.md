@@ -200,8 +200,6 @@ https://github.com/8b477/API_DokiHouse/assets/92020766/f642e210-170a-44f4-b525-f
 
 # <a name="six"> TODO </a>
 
-- Fix les endpoints Picture.
-- Fix le display des endpoints ADoki_House.
 - Mettre en place un système d'envoie de mail si l'utilisateur à perdu son mot de passe.
 - Ajouter tables pour les notifications.
 - Mettre en place un système de notification Sms/Mail.
