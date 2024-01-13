@@ -42,7 +42,6 @@ namespace DAL_DokiHouse
         }
 
 
-
         public async Task<bool> UpdateName(UserUpNameDTO model)
         {
             string sql = @"
@@ -58,7 +57,6 @@ namespace DAL_DokiHouse
 
             return result > 0;
         }
-
 
 
         public async Task<bool> UpdatePass(UserUpPassDTO model)
@@ -78,7 +76,6 @@ namespace DAL_DokiHouse
         }
 
 
-
         public async Task<bool> UpdateEmail(UserUpMailDTO model)
         {
             string sql = @"
@@ -94,7 +91,6 @@ namespace DAL_DokiHouse
 
             return result > 0;
         }
-
 
 
         public async Task<UserDTO?> Logger(string email, string motDePasse)
@@ -119,7 +115,6 @@ namespace DAL_DokiHouse
             }
             return null;
         }
-
 
 
         public async Task<bool> UpdateProfilPicture(int idUser, int idPicture)
@@ -149,7 +144,218 @@ namespace DAL_DokiHouse
             int result = await _connection.ExecuteAsync(sql, parameters);
 
             return result > 0;
-        } 
+        }
 
-    }     
+
+        public async Task<IEnumerable<UserTest?>> GetInfos(int startIndex, int pageSize)
+        {
+
+            string sql = @"
+            SELECT 
+                u.Id AS UserId,
+                u.Name,
+
+                pu.Id,
+                pu.Avatar,
+                pu.CreateAt,
+                pu.ModifiedAt,
+
+                b.Id,
+                b.Name,
+                b.IdUser,
+
+                pb.Id,
+                pb.FileName,
+                pb.CreateAt,
+                pb.ModifiedAt,
+                pb.IdBonsai,
+
+                c.Id,
+                c.Shohin,
+                c.Mame,
+                c.Chokkan,
+                c.Moyogi,
+                c.Shakan,
+                c.Kengai,
+                c.HanKengai,
+                c.Ikadabuki,
+                c.Neagari,
+                c.Literati,
+                c.YoseUe,
+                c.Ishitsuki,
+                c.Kabudachi,
+                c.Kokufu,
+                c.Yamadori,
+                c.Perso AS CatePerso,
+                c.IdBonsai,
+
+                s.Id,
+                Bunjin,
+                s.Bankan,
+                s.Korabuki,
+                s.Ishituki,
+                s.Perso AS StylePerso,
+                s.IdBonsai,
+
+                n.Id,
+                n.Title,
+                n.Description,
+                n.CreateAt,
+                n.IdBonsai
+
+            FROM [dbo].[User] u
+            LEFT JOIN [dbo].[PictureProfil] pu ON pu.IdUser = u.Id
+            JOIN [dbo].[Bonsai] b ON b.IdUser = u.Id
+            LEFT JOIN [dbo].[PictureBonsai] pb ON pb.IdBonsai = b.Id
+            LEFT JOIN [dbo].[Category] c ON c.IdBonsai = b.Id
+            LEFT JOIN [dbo].[Style] s ON s.IdBonsai = b.Id
+            LEFT JOIN [dbo].[Note] n ON n.IdBonsai = b.Id
+            ORDER BY b.Id
+            OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+            var users = await _connection.QueryAsync<UserTest, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserTest>(
+                    sql,
+                    (user, pictureProfil, bonsai, pictureBonsai, category, style, note) =>
+                    {
+                        user.PictureProfil = pictureProfil;
+                        bonsai.PictureBonsai = pictureBonsai;
+                        bonsai.Categories = category;
+                        bonsai.Styles = style;
+                        bonsai.Notes = note;
+
+                        user.Bonsais ??= new List<BonsaiDetailsDTO>();
+                        user.Bonsais.Add(bonsai);
+
+                        return user;
+                    },
+                    new { StartIndex = startIndex, PageSize = pageSize },
+                    splitOn: "Id, Id, Id, Id, Id, Id");
+
+            // GroupBy pour éliminer les doublons basés sur UserId
+            return users.GroupBy(user => user.UserId).Select(group => group.First());
+        }
+
+
+        public async Task<UserTest?> GetInfosById(int idUser)
+        {
+            string sql = @"
+            SELECT 
+                u.Id AS UserId,
+                u.Name,
+
+                pu.Id,
+                pu.Avatar,
+                pu.CreateAt,
+                pu.ModifiedAt,
+
+                b.Id,
+                b.Name,
+                b.IdUser,
+
+                pb.Id,
+                pb.FileName,
+                pb.CreateAt,
+                pb.ModifiedAt,
+                pb.IdBonsai,
+
+                c.Id,
+                c.Shohin,
+                c.Mame,
+                c.Chokkan,
+                c.Moyogi,
+                c.Shakan,
+                c.Kengai,
+                c.HanKengai,
+                c.Ikadabuki,
+                c.Neagari,
+                c.Literati,
+                c.YoseUe,
+                c.Ishitsuki,
+                c.Kabudachi,
+                c.Kokufu,
+                c.Yamadori,
+                c.Perso AS CatePerso,
+                c.IdBonsai,
+
+                s.Id,
+                Bunjin,
+                s.Bankan,
+                s.Korabuki,
+                s.Ishituki,
+                s.Perso AS StylePerso,
+                s.IdBonsai,
+
+                n.Id,
+                n.Title,
+                n.Description,
+                n.CreateAt,
+                n.IdBonsai
+
+            FROM [dbo].[User] u
+            LEFT JOIN [dbo].[PictureProfil] pu ON pu.IdUser = u.Id
+            JOIN [dbo].[Bonsai] b ON b.IdUser = u.Id
+            LEFT JOIN [dbo].[PictureBonsai] pb ON pb.IdBonsai = b.Id
+            LEFT JOIN [dbo].[Category] c ON c.IdBonsai = b.Id
+            LEFT JOIN [dbo].[Style] s ON s.IdBonsai = b.Id
+            LEFT JOIN [dbo].[Note] n ON n.IdBonsai = b.Id
+            WHERE u.Id = @IdUser";
+
+            var userDictionary = new Dictionary<int, UserTest>(); // -> User
+
+            await _connection.QueryAsync<UserTest, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserTest>(
+                sql,
+                (user, pictureProfil, bonsai, pictureBonsai, category, style, note) =>
+                {
+                    if (!userDictionary.TryGetValue(user.UserId, out var existingUser))
+                    {
+                        existingUser = user;
+                        existingUser.Bonsais = new List<BonsaiDetailsDTO>();
+                        userDictionary.Add(existingUser.UserId, existingUser);
+                    }
+
+                    user.PictureProfil = pictureProfil;
+                    bonsai.PictureBonsai = pictureBonsai;
+                    bonsai.Categories = category;
+                    bonsai.Styles = style;
+                    bonsai.Notes = note;
+
+                    // Ajoute le bonsai uniquement s'il n'existe pas déjà dans la liste, pour éviter les doublons
+                    if (!existingUser.Bonsais.Any(b => b.Id == bonsai.Id))
+                    {
+                        existingUser.Bonsais.Add(bonsai);
+                    }
+
+                    return existingUser;
+                },
+                new { IdUser = idUser },
+                splitOn: "Id, Id, Id, Id, Id, Id");
+
+            return userDictionary.Values.FirstOrDefault();
+        }
+
+
+        public new async Task<IEnumerable<UserAndPictureDTO>> Get()
+        {
+            string sql = @"
+                        SELECT 
+                        u.Id, u.Name, u.Role, u.CreateAt, u.ModifiedAt,
+                        p.Id, p.Avatar AS Avatar, p.CreateAt, p.ModifiedAt
+                        FROM [User] AS u
+                        LEFT JOIN [PictureProfil] p ON p.IdUser = u.Id";
+
+            var item = await _connection.QueryAsync<UserAndPictureDTO, PictureProfil, UserAndPictureDTO>(sql,
+                    (user, picture) =>
+                    {
+                        user.PictureProfil = picture;
+
+                        return user;
+                    },
+                    splitOn : "Id"
+                );
+
+            return item;
+        }
+
+
+    }
 }

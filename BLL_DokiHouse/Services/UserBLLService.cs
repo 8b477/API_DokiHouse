@@ -4,7 +4,7 @@ using BLL_DokiHouse.Models;
 using BLL_DokiHouse.Tools;
 using DAL_DokiHouse;
 using DAL_DokiHouse.DTO;
-
+using DAL_DokiHouse.Repository;
 using System.Data.SqlClient;
 
 namespace BLL_DokiHouse.Services
@@ -20,12 +20,6 @@ namespace BLL_DokiHouse.Services
             _userRepo = userRepo;
         }
         #endregion
-
-
-        public async Task<IEnumerable<UserDTO>> GetUsers()
-        {
-            return await _userRepo.Get();
-        }
 
 
         public async Task<UserDTO?> GetUserByID(int id)
@@ -67,7 +61,7 @@ namespace BLL_DokiHouse.Services
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {
-                    throw new BusinessException("L'adresse mail existe déjà en base de donnée");
+                throw new BusinessException("Le mail existe déjà en base de donnée !");
             }
             catch (Exception ex)
             {
@@ -141,6 +135,24 @@ namespace BLL_DokiHouse.Services
             UserDTO userDTO = Mapper.UserUpdateBLLToDAL(model);
 
             return _userRepo.Update(userDTO);
+        }
+
+
+        public Task<IEnumerable<UserTest?>> GetInfos(int startIndex, int pageSize)
+        {
+            return _userRepo.GetInfos(startIndex, pageSize);
+        }
+
+
+        public Task<UserTest?> GetInfosById(int idUser)
+        {
+            return _userRepo.GetInfosById(idUser);
+        }
+
+
+        public async Task<IEnumerable<UserAndPictureDTO>> Get()
+        {
+            return await _userRepo.Get();
         }
     }
 }

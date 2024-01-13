@@ -40,7 +40,7 @@ namespace API_DokiHouse.Controllers
 
             return
                 await _noteService.CreateNote(note)
-                ? Ok()
+                ? CreatedAtAction(nameof(Create),model)
                 : BadRequest();
         }
 

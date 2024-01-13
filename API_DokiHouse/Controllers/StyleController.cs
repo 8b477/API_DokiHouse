@@ -40,7 +40,7 @@ namespace API_DokiHouse.Controllers
 
             return
                 await _styleService.CreateStyle(style)
-                ? Ok()
+                ? CreatedAtAction(nameof(Create),model)
                 : BadRequest();
         }
 

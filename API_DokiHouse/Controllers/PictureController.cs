@@ -1,5 +1,4 @@
 ﻿using API_DokiHouse.Tools;
-
 using BLL_DokiHouse.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +25,7 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Ajoute une image directement enregistrer sur le server
+        /// Ajoute une image directement enregistrer sur le server et la lie au bonsai via son id.
         /// </summary>
         /// <param name="picture">Image à insérer</param>
         /// <param name="idBonsai">Identifiant du Bonsai lié à l'ajout de l'image</param>
@@ -47,7 +46,7 @@ namespace API_DokiHouse.Controllers
 
             bool result = await _pictureRepo.AddPictureBonsai(picture, filePath, idBonsai);
 
-            return result ? Ok() : BadRequest();
+            return result ? CreatedAtAction(nameof(AddPicture),picture) : BadRequest();
         }
 
     }

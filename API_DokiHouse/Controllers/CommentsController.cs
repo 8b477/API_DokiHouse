@@ -33,7 +33,7 @@ namespace API_DokiHouse.Controllers
             commentBLL.IdUser = id;
             commentBLL.IdPost = idPost;
 
-            if (await _commentBllService.CreateComment(commentBLL)) return Ok();
+            if (await _commentBllService.CreateComment(commentBLL)) return CreatedAtAction(nameof(Create),comment);
 
             return BadRequest("L'insertion d'un nouveau commentaire à échoué");
         }
