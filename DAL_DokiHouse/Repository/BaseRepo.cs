@@ -28,6 +28,7 @@ namespace DAL_DokiHouse.Repository
             return typeof(E).Name;
         }
 
+
         private string FirstCharSubstring(string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -38,6 +39,7 @@ namespace DAL_DokiHouse.Repository
 
             return $"{inputToLower[0].ToString().ToUpper()}{input.Substring(1)}";
         }
+
 
         public virtual async Task<IEnumerable<M>> Get()
         {

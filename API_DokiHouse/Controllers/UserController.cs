@@ -5,9 +5,11 @@ using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models;
 using DAL_DokiHouse.DTO;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using DAL_DokiHouse.Repository;
+using static DAL_DokiHouse.UserRepo;
+
 
 
 namespace API_DokiHouse.Controllers
@@ -53,10 +55,9 @@ namespace API_DokiHouse.Controllers
 
             return
                 await _userService.CreateUser(user) == true
-                ? CreatedAtAction(nameof(Create),null)
+                ? CreatedAtAction(nameof(Create),model)
                 : BadRequest();
         }
-
 
 
         /// <summary>
@@ -69,18 +70,72 @@ namespace API_DokiHouse.Controllers
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserModelDisplay>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserAndPictureDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<UserDTO?> result = await _userService.GetUsers();
+            IEnumerable<UserAndPictureDTO?> result = await _userService.Get();
 
-            if (result is not null)
-                return Ok(Mapper.UserBLLToFormatDisplay(result));
-
-            return NoContent();
+            return result is not null 
+                   ? Ok(result)
+                   : NoContent();
         }
 
+
+        /// <summary>
+        /// Récupère la liste des utilisateurs avec leurs infos.
+        /// </summary>
+        /// <remarks>
+        /// Cette méthode permet de récupérer la liste complète des utilisateurs sur base d'une pagination.
+        /// </remarks>
+        /// <param name="startIndex">Représente l'index de départ, param de type : 'int', valeur par défaut : 1</param>
+        /// <param name="pageSize">Représente le nombre d'utilisateur à récupérer, param de type : 'int', valeur par défaut : 12</param>
+        /// <response code="200">Retourne la liste des utilisateurs.</response>
+        /// <response code="204">Aucun utilisateur n'est trouvé.</response>
+        /// <response code="400">La requête n'est pas correct.</response>
+        [HttpGet(nameof(GetInfos))]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserTest>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetInfos([FromQuery] int startIndex = 1, [FromQuery] int pageSize = 12)
+        {
+            if (startIndex < 1) return BadRequest("Le paramètre startIndex doit être supérieur à zéro");
+            if (pageSize < 1) return BadRequest("Le paramètre pageSize doit être supérieur à zéro");
+
+            IEnumerable<UserTest?> result = await _userService.GetInfos(startIndex, pageSize);
+          
+            return result is null 
+                ? NoContent() 
+                : Ok(result);
+        }
+
+
+        /// <summary>
+        /// Récupère la liste des utilisateurs avec leurs infos.
+        /// </summary>
+        /// <remarks>
+        /// Cette méthode permet de récupérer la liste complète des utilisateurs sur base d'une pagination.
+        /// </remarks>
+        /// <param name="startIndex">Représente l'index de départ, param de type : 'int', valeur par défaut : 1</param>
+        /// <param name="pageSize">Représente le nombre d'utilisateur à récupérer, param de type : 'int', valeur par défaut : 12</param>
+        /// <param name="idUser">Représente l'identifiant de l'utilisateur rechercher, param de type : 'int'</param>
+        /// <response code="200">Retourne la liste des utilisateurs.</response>
+        /// <response code="204">Aucun utilisateur n'est trouvé.</response>
+        /// <response code="400">La requête n'est pas correct.</response>
+        [HttpGet(nameof(GetInfosById))]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserTest))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetInfosById(int idUser)
+        {
+            UserTest? result = await _userService.GetInfosById(idUser);
+
+            return result is null
+                ? NoContent()
+                : Ok(result);
+        }
 
 
         /// <summary>
@@ -91,10 +146,10 @@ namespace API_DokiHouse.Controllers
         /// </remarks>
         /// <response code="200">Retourne l'utilisateur trouvé.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
-        [HttpGet("Profil")]
+        [HttpGet(nameof(Profil))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserModelDisplay))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetById()
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Profil()
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
@@ -105,9 +160,8 @@ namespace API_DokiHouse.Controllers
             if (result is not null)
                 return Ok(Mapper.UserBLLToFormatDisplay(result));
 
-            return BadRequest("Aucune correspondance");
+            return NoContent();
         }
-
 
 
         /// <summary>
@@ -188,7 +242,6 @@ namespace API_DokiHouse.Controllers
         }
 
 
-
         /// <summary>
         /// Met à jour le profil d'un utilisateur.
         /// </summary>
@@ -216,7 +269,6 @@ namespace API_DokiHouse.Controllers
         }
 
 
-
         /// <summary>
         /// Met à jour le profil d'un utilisateur.
         /// </summary>
@@ -242,7 +294,6 @@ namespace API_DokiHouse.Controllers
 
             return BadRequest();
         }
-
 
 
         /// <summary>

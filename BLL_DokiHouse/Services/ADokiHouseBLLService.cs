@@ -15,17 +15,6 @@ namespace BLL_DokiHouse.Services
         public ADokiHouseBLLService(IADokiHouseRepo dokiHouseRepo) => _dokiHouseRepo = dokiHouseRepo;
         #endregion
 
-
-        public async Task<UserTest?> GetInfosUserWithOwnBonsaisAndDetails(int startIndex, int pageSize)
-        {
-            return await _dokiHouseRepo.GetInfosUserWithOwnBonsaisAndDetails(startIndex, pageSize);
-        }
-
-        public async Task<UserTest?> GetInfosUserWithBonsaisAndDetailsById(int idUser, int startIndex, int pageSize)
-        {
-            return await _dokiHouseRepo.GetInfosUserWithBonsaisAndDetailsById(idUser, startIndex, pageSize);
-        }
-
         public async Task<PostJoinDTO?> GetPostWithComments(int id)
         {
             return await _dokiHouseRepo.GetPostWithComments(id);

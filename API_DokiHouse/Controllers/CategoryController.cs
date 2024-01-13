@@ -41,7 +41,8 @@ namespace API_DokiHouse.Controllers
             if (categoryBLL.IdBonsai == 0)
                 return BadRequest("L'identifiant Bonsai n'est pas correct");
 
-            if (await _categoryService.CreateCategory(idBonsai, categoryBLL)) return Ok();
+            if (await _categoryService.CreateCategory(idBonsai, categoryBLL)) 
+                return CreatedAtAction(nameof(Create),model);
 
             return BadRequest();
         }

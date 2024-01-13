@@ -1,14 +1,10 @@
 ﻿using API_DokiHouse.Tools;
-
-using AutoMapper.Configuration.Conventions;
-
 using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse.DTO;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
+
 
 namespace API_DokiHouse.Controllers
 {
@@ -56,7 +52,6 @@ namespace API_DokiHouse.Controllers
         }
 
 
-
         [AllowAnonymous]
         [HttpGet(nameof(OwnPostsAndComments))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BlogDTO>))]
@@ -64,7 +59,6 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> OwnPostsAndComments()
         {
-
             int idToken = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
 
             if (idToken == 0) return Unauthorized();
@@ -78,46 +72,5 @@ namespace API_DokiHouse.Controllers
         }
 
 
-
-        [AllowAnonymous]
-        [HttpGet(nameof(OwnBonsaisAndDetails))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BlogDTO>))]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> OwnBonsaisAndDetails([FromQuery] int startIndex = 1, [FromQuery] int pageSize = 12)
-        {
-            if (startIndex < 1 || pageSize < 1)
-                return BadRequest("La page et la taille de la page doivent être des valeurs positives.");
-
-            startIndex--;
-
-            var result = await _dokiHouseBLLService.GetInfosUserWithOwnBonsaisAndDetails(startIndex, pageSize);
-
-            return
-                result is not null
-                ? Ok(result)
-                : NoContent();
-        }
-
-
-        [AllowAnonymous]
-        [HttpGet(nameof(GetBonsaisAndDetailsById) + "/{idUser}:int")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BlogDTO>))]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetBonsaisAndDetailsById(int idUser, [FromQuery] int startIndex = 1, [FromQuery] int pageSize = 12)
-        {
-            if (startIndex < 1 || pageSize < 1)
-                return BadRequest("La page et la taille de la page doivent être des valeurs positives.");
-
-            startIndex--;
-
-            var result = await _dokiHouseBLLService.GetInfosUserWithBonsaisAndDetailsById(idUser, startIndex, pageSize);
-
-            return
-                result is not null
-                ? Ok(result)
-                : NoContent();
-        }
     }
 }

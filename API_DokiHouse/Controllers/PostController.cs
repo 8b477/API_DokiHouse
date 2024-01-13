@@ -44,7 +44,7 @@ namespace API_DokiHouse.Controllers
             postDTO.IdUser = idToken;
 
             if (await _postBLLService.CreatePost(postDTO))
-                return Ok();
+                return CreatedAtAction(nameof(CreatePost),post);
 
             return BadRequest("L'insertion d'un nouveau post a échoué");
         }

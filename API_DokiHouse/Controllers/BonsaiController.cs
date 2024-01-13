@@ -148,16 +148,12 @@ namespace API_DokiHouse.Controllers
 
             if(idToken == 0) return Unauthorized();
 
-
             BonsaiBLL bonsaiDTO = Mapper.BonsaiModelToBLL(model);
 
             bonsaiDTO.IdUser = idToken;
 
-
             if(await _bonsaiService.CreateBonsai(bonsaiDTO))
-            {
                 return CreatedAtAction(nameof(Create), model);
-            }
 
             return BadRequest();
         }
