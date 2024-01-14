@@ -59,5 +59,11 @@ namespace BLL_DokiHouse.Services
         {
             return await _postRepo.Delete(id);
         }
+
+
+        public Task<PostDTO>? GetPostWithComments(int userId)
+        {
+            return _postRepo.GetUserPostsCommentsById(userId);
+        }
     }
 }

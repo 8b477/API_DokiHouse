@@ -77,7 +77,7 @@ namespace API_DokiHouse.Services
 
             foreach (var item in users)
             {
-                UserModelDisplay userDisplay = new(item.Id, item.Name, item.Role, item.IdPictureProfil);
+                UserModelDisplay userDisplay = new(item.Id, item.Name, item.Role);
 
                 usersCollection.Add(userDisplay);
             }
@@ -93,7 +93,7 @@ namespace API_DokiHouse.Services
         /// <returns>Modèle d'affichage utilisateur.</returns>
         public static UserModelDisplay UserBLLToFormatDisplay(UserDTO user)
         {
-            return new UserModelDisplay(user.Id, user.Name, user.Role, user.IdPictureProfil);
+            return new UserModelDisplay(user.Id, user.Name, user.Role);
         }
 
         #endregion

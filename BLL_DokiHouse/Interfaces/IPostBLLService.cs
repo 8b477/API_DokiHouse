@@ -60,5 +60,7 @@ namespace BLL_DokiHouse.Interfaces
         /// <returns>Retourne vrai si la suppression est réussie, sinon faux.</returns>
         Task<bool> DeletePost(int id);
 
+
+        Task<PostDTO>? GetPostWithComments(int userId);
     }
 }

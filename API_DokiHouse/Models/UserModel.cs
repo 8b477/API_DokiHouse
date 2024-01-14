@@ -75,18 +75,16 @@ namespace API_DokiHouse.Models
 
     public record UserModelDisplay
     {
-        public UserModelDisplay(int id, string name, string role, int? idPicture)
+        public UserModelDisplay(int id, string name, string role)
         {
             Id = id;
             Name = name;
             Role = role;
-            IdPicture = idPicture;
         }
 
         public int Id { get; }
         public string Name { get; } = string.Empty;
         public string Role { get; } = string.Empty;
-        public int? IdPicture { get; }
     }
 
 

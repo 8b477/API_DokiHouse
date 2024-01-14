@@ -24,8 +24,6 @@ DependencyInjectionService
 //HTTPContext Service
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<GetInfosHTTPContext>();
-builder.Services.AddScoped<PictureBLLService>();
-
 //********************************************************************************************
 
 

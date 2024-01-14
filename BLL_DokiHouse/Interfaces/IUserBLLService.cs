@@ -98,7 +98,7 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="startIndex">Paramètre de type : 'int', représente l'index de départ, ne peut pas être négatif</param>
         /// <param name="pageSize">Paramètre de type : 'int', représente le nombre d'éléments retourner</param>
         /// <returns>Retourne une liste d'utilisateur avec leur infos</returns>
-        Task<IEnumerable<UserTest?>> GetInfos(int startIndex, int pageSize);
+        Task<IEnumerable<UserDetailsBonsaiDTO?>> GetInfos(int startIndex, int pageSize);
 
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="startIndex">Paramètre de type : 'int', représente l'index de départ, ne peut pas être négatif</param>
         /// <param name="pageSize">Paramètre de type : 'int', représente le nombre d'éléments retourner</param>
         /// <returns>Retourne une liste d'utilisateur avec leur infos</returns>
-        Task<UserTest?> GetInfosById(int idUser);
+        Task<UserDetailsBonsaiDTO?> GetInfosById(int idUser);
 
 
         /// <summary>

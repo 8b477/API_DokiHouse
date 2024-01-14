@@ -23,12 +23,6 @@ namespace Entities_DokiHouse.Entities
         public string? CatePerso { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
-        public int IdBonsai { get; set; } // ---> FK
-
+        public int IdBonsai { get; set; }
     }
 }
-/*
-
-	[Perso] VARCHAR(150),
-	[IdBonsai] INT NOT NULL,
-	FOREIGN KEY (IdBonsai) REFERENCES [Bonsai](Id)*/

@@ -67,10 +67,8 @@ namespace Tools_DokiHouse.Services.DependencyInjection
             services.AddScoped<ICommentsBLLService, CommentsBLLService>();
 
 
-            //DokiHouse Service
-            services.AddScoped<IADokiHouseRepo, ADokiHouseRepo>(provider => new ADokiHouseRepo(new SqlConnection(connectionString)));
-
-            services.AddScoped<IADokiHouseBLLService, ADokiHouseBLLService>();
+            //Picture Service
+            services.AddScoped<PictureBLLService>();
 
 
             //Token Service

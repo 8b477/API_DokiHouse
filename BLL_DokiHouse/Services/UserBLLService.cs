@@ -138,13 +138,13 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public Task<IEnumerable<UserTest?>> GetInfos(int startIndex, int pageSize)
+        public Task<IEnumerable<UserDetailsBonsaiDTO?>> GetInfos(int startIndex, int pageSize)
         {
             return _userRepo.GetInfos(startIndex, pageSize);
         }
 
 
-        public Task<UserTest?> GetInfosById(int idUser)
+        public Task<UserDetailsBonsaiDTO?> GetInfosById(int idUser)
         {
             return _userRepo.GetInfosById(idUser);
         }

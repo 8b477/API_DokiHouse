@@ -104,7 +104,7 @@ namespace BLL_DokiHouse.Tools
 
         public static PostDTO PostBLLToDAL(PostBLL post)
         {
-            return new(post.Title, post.Description, post.Content, DateTime.Now, DateTime.Now, post.IdUser);
+            return new() { Title = post.Title, Description = post.Description,Content = post.Content, CreateAt = DateTime.Now, ModifiedAt = DateTime.Now, IdUser = post.IdUser };
         }
 
         #endregion

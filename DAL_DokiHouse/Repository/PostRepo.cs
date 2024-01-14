@@ -63,5 +63,48 @@ namespace DAL_DokiHouse.Repository
 
             return rowAffected < 0;
         }
+
+        public async Task<PostDTO>? GetUserPostsCommentsById(int postId)
+        {
+            string sql = @"
+        SELECT          
+            p.Id,
+            p.Title,
+            p.Description,
+            p.Content,
+            p.CreateAt,
+            p.ModifiedAt,
+            p.IdUser,
+
+            com.Id,
+com.IdUser,
+com.IdPost
+            com.Content,
+            com.CreatedAt,
+            com.ModifiedAt,
+
+        FROM [dbo].[Post] p
+        JOIN [dbo].[Comments] com ON com.IdPost = p.Id
+        WHERE p.Id = @postId";
+
+            var postDictionary = new Dictionary<int, PostDTO>();
+
+            await _connection.QueryAsync<PostDTO, Comments, PostDTO>(
+                sql,
+                (post, comment) =>
+                {
+                    if (!postDictionary.TryGetValue(post.Id, out var existingPost))
+                    {
+                        existingPost = post;
+                        existingPost.Comments = new List<Comments>();
+                        postDictionary.Add(existingPost.Id, existingPost);
+                    }
+                    return existingPost;
+                },
+                new { UserId = postId },
+                splitOn: "Id,Id");
+
+            return postDictionary.Values.FirstOrDefault();// ?? new UserDetailsPostDTO();
+        }
     }
 }
