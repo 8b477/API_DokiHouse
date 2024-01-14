@@ -4,6 +4,8 @@ using API_DokiHouse.Tools;
 using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models;
 using DAL_DokiHouse.DTO;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
@@ -51,9 +53,9 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Récupère la liste complète des posts.
+        /// Récupère la liste complète des posts et leurs commentaires.
         /// </summary>
-        /// <returns>Retourne la liste des posts.</returns>
+        /// <returns>Retourne la liste des posts et des commentaires lié.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -68,7 +70,7 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Récupère la liste complète des posts qui sont lié à l'utilisateur connecter.
+        /// Récupère la liste complète des posts qui sont lié à l'utilisateur connecter ainsi que les commentaires.
         /// </summary>
         /// <returns>Retourne la liste des posts ou null si aucun post n'est trouver.</returns>
         [HttpGet(nameof(GetOwnPosts))]
@@ -94,11 +96,12 @@ namespace API_DokiHouse.Controllers
         /// <param name="id">L'identifiant du post à récupérer.</param>
         /// <returns>Retourne le post correspondant à l'identifiant.</returns>
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostDTO))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetPostById(int id)
         {
-            PostDTO? post = await _postBLLService.GetPostById(id);
+            PostDTO? post = await _postBLLService.GetPostWithComments(id);
 
             return post is not null
                 ? Ok(post)

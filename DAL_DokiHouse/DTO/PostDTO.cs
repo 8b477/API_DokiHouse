@@ -1,26 +1,18 @@
 ﻿
 
+using Entities_DokiHouse.Entities;
+
 namespace DAL_DokiHouse.DTO
 {
-    public record PostDTO
+    public class PostDTO
     {
-        public PostDTO() {}
-        public PostDTO(string title, string description, string content, DateTime createAt, DateTime modifiedAt, int idUser)
-        {
-            Title = title;
-            Description = description;
-            Content = content;
-            CreateAt = createAt;
-            ModifiedAt = modifiedAt;
-            IdUser = idUser;
-        }
-
-        public int Id { get;  }
-        public string Title { get; }
-        public string Description { get;  }
-        public string Content { get;  }
-        public DateTime CreateAt { get;  }
-        public DateTime? ModifiedAt { get;  }
-        public int IdUser { get;  } // --> FK
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set;  }
+        public string Content { get; set;  }
+        public DateTime CreateAt { get; set;  }
+        public DateTime? ModifiedAt { get; set;  }
+        public int IdUser { get; set;  } // --> FK
+        public List<Comments>? Comments { get; set; }
     }
 }

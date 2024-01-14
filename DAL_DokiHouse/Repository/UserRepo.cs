@@ -21,9 +21,9 @@ namespace DAL_DokiHouse
         {
             string sql = @"
         INSERT INTO [User] (
-            Name, Email, Passwd, Role, IdPictureProfil, CreateAt, ModifiedAt
+            Name, Email, Passwd, Role, CreateAt, ModifiedAt
         ) VALUES (
-            @Name, @Email, @Passwd, @Role, @IdPictureProfil, @CreateAt, @ModifiedAt
+            @Name, @Email, @Passwd, @Role, @CreateAt, @ModifiedAt
         )";
 
             DynamicParameters parameters = new();
@@ -31,7 +31,6 @@ namespace DAL_DokiHouse
             parameters.Add("@Email", model.Email);
             parameters.Add("@Passwd", model.Passwd);
             parameters.Add("@Role", model.Role);
-            parameters.Add("@IdPictureProfil", model.IdPictureProfil);
             parameters.Add("@CreateAt", model.CreatedAt);
             parameters.Add("@ModifiedAt", model.ModifiedAt);
 
@@ -147,12 +146,12 @@ namespace DAL_DokiHouse
         }
 
 
-        public async Task<IEnumerable<UserTest?>> GetInfos(int startIndex, int pageSize)
+        public async Task<IEnumerable<UserDetailsBonsaiDTO?>> GetInfos(int startIndex, int pageSize)
         {
 
             string sql = @"
             SELECT 
-                u.Id AS UserId,
+                u.Id AS IdUser,
                 u.Name,
 
                 pu.Id,
@@ -213,7 +212,7 @@ namespace DAL_DokiHouse
             ORDER BY b.Id
             OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
 
-            var users = await _connection.QueryAsync<UserTest, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserTest>(
+            var users = await _connection.QueryAsync<UserDetailsBonsaiDTO, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserDetailsBonsaiDTO>(
                     sql,
                     (user, pictureProfil, bonsai, pictureBonsai, category, style, note) =>
                     {
@@ -232,15 +231,15 @@ namespace DAL_DokiHouse
                     splitOn: "Id, Id, Id, Id, Id, Id");
 
             // GroupBy pour éliminer les doublons basés sur UserId
-            return users.GroupBy(user => user.UserId).Select(group => group.First());
+            return users.GroupBy(user => user.IdUser).Select(group => group.First());
         }
 
 
-        public async Task<UserTest?> GetInfosById(int idUser)
+        public async Task<UserDetailsBonsaiDTO?> GetInfosById(int idUser)
         {
             string sql = @"
             SELECT 
-                u.Id AS UserId,
+                u.Id AS IdUser,
                 u.Name,
 
                 pu.Id,
@@ -300,17 +299,17 @@ namespace DAL_DokiHouse
             LEFT JOIN [dbo].[Note] n ON n.IdBonsai = b.Id
             WHERE u.Id = @IdUser";
 
-            var userDictionary = new Dictionary<int, UserTest>(); // -> User
+            var userDictionary = new Dictionary<int, UserDetailsBonsaiDTO>();
 
-            await _connection.QueryAsync<UserTest, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserTest>(
+            await _connection.QueryAsync<UserDetailsBonsaiDTO, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserDetailsBonsaiDTO>(
                 sql,
                 (user, pictureProfil, bonsai, pictureBonsai, category, style, note) =>
                 {
-                    if (!userDictionary.TryGetValue(user.UserId, out var existingUser))
+                    if (!userDictionary.TryGetValue(user.IdUser, out var existingUser))
                     {
                         existingUser = user;
                         existingUser.Bonsais = new List<BonsaiDetailsDTO>();
-                        userDictionary.Add(existingUser.UserId, existingUser);
+                        userDictionary.Add(existingUser.IdUser, existingUser);
                     }
 
                     user.PictureProfil = pictureProfil;

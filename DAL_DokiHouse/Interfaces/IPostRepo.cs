@@ -26,5 +26,8 @@ namespace DAL_DokiHouse.Interfaces
         /// <param name="idUser">L'identifiant sur le quelle la recherche se base</param>
         /// <returns>Retourne une liste de commentaires, si pas de commentaire associé retrouver retourne null</returns>
         Task<IEnumerable<PostDTO>?> GetOwnPosts(int idUser);
+
+
+        Task<PostDTO>? GetUserPostsCommentsById(int userId);
     }
 }

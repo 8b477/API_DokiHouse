@@ -1,4 +1,7 @@
 ﻿
+using DAL_DokiHouse.Repository;
+using Entities_DokiHouse.Entities;
+
 namespace DAL_DokiHouse.DTO
 {
 
@@ -32,9 +35,7 @@ namespace DAL_DokiHouse.DTO
         public string Role { get;  }
         public DateTime CreatedAt { get; }
         public DateTime ModifiedAt { get; }
-        public int? IdPictureProfil { get; }
     }
-
 
     public record UserUpNameDTO
     {
@@ -73,6 +74,23 @@ namespace DAL_DokiHouse.DTO
         public int Id { get; }
         public string Passwd { get; }
         public DateTime ModifiedAt { get; }
+    }
+
+    public class UserDetailsBonsaiDTO
+    {
+        public int IdUser { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public PictureProfil? PictureProfil { get; set; }
+        public List<BonsaiDetailsDTO>? Bonsais { get; set; }
+    }
+
+    public class UserDetailsPostDTO
+    {
+        public int Id { get; set; }
+        public int IdUser { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public PictureProfil? PictureProfil { get; set; }
+        public List<PostDTO>? Posts { get; set; }
     }
 }
 
