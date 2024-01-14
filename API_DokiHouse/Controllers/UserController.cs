@@ -3,11 +3,12 @@ using API_DokiHouse.Services;
 using API_DokiHouse.Tools;
 using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models;
-using DAL_DokiHouse.DTO;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using DAL_DokiHouse.Repository;
+using BLL_DokiHouse.Models.User;
+using DAL_DokiHouse.DTO.User;
 
 
 
@@ -50,10 +51,8 @@ namespace API_DokiHouse.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            UserBLL user = Mapper.UserModelToBLL(model);
-
             return
-                await _userService.CreateUser(user) == true
+                await _userService.CreateUser(model) == true
                 ? CreatedAtAction(nameof(Create),model)
                 : BadRequest();
         }
@@ -71,9 +70,14 @@ namespace API_DokiHouse.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserAndPictureDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] int startIndex = 1, [FromQuery] int pageSize = 12)
         {
-            IEnumerable<UserAndPictureDTO?> result = await _userService.Get();
+            if (startIndex < 1) return BadRequest("Le paramètre startIndex doit être supérieur à zéro");
+            if (pageSize < 1) return BadRequest("Le paramètre pageSize doit être supérieur à zéro");
+
+            startIndex--;
+
+            IEnumerable<UserAndPictureDTO?> result = await _userService.GetUsers(startIndex, pageSize);
 
             return result is not null 
                    ? Ok(result)

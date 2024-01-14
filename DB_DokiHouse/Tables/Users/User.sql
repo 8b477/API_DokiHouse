@@ -7,5 +7,5 @@ CREATE TABLE [dbo].[User]
 	[Passwd] VARCHAR(200) NOT NULL,
 	[Role] VARCHAR(20) DEFAULT 'Visitor',
 	[CreateAt] DATETIME NOT NULL,
-	[ModifiedAt] DATETIME NOT NULL
+	[ModifiedAt] DATETIME
 )

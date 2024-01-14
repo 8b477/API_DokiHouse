@@ -1,10 +1,9 @@
-﻿using BLL_DokiHouse.Interfaces;
-using BLL_DokiHouse.Models;
+﻿using API_DokiHouse.Models;
+using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Tools;
-using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
+using Entities_DokiHouse.Entities;
 
-using System.Collections.Generic;
 
 namespace BLL_DokiHouse.Services
 {
@@ -19,41 +18,45 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<bool> CreateBonsai(BonsaiBLL model)
+        public async Task<bool> CreateBonsai(BonsaiModel bonsai, int idToken)
         {
-            BonsaiDTO bonsaiDTO = Mapper.BonsaiBLLToDAL(model);
+            Bonsai bonsaiDAL = Mapping.BonsaiCreateBLLtoDAL(bonsai);
 
-            return await _bonsaiRepo.Create(bonsaiDTO);
+            return await _bonsaiRepo.Create(bonsaiDAL, idToken);
         }
 
 
-        public async Task<IEnumerable<BonsaiDTO>> GetBonsais()
+        public async Task<IEnumerable<Bonsai>> GetBonsais()
         {
             return await _bonsaiRepo.Get();
         }
 
-        public async Task<IEnumerable<BonsaiDTO?>> GetOwnBonsai(int id)
+
+        public async Task<IEnumerable<Bonsai>?> GetOwnBonsai(int id)
         {
             return await _bonsaiRepo.GetOwnBonsai(id);
         }
 
-        public async Task<BonsaiDTO?> GetBonsaiByID(int id)
+
+        public async Task<Bonsai?> GetBonsaiByID(int id)
         {
-            BonsaiDTO? bonsai = await _bonsaiRepo.GetBy(id);
+            Bonsai? bonsai = await _bonsaiRepo.GetBy(id);
 
             return bonsai is not null ? bonsai : null;
         }
 
 
-        public async Task<IEnumerable<BonsaiDTO>?> GetBonsaiByName(string name, string stringIdentifiant)
+        public async Task<IEnumerable<Bonsai>?> GetBonsaiByName(string name, string stringIdentifiant)
         {
             return await _bonsaiRepo.GetBy(name, stringIdentifiant);
         }
 
 
-        public async Task<bool> UpdateBonsai(BonsaiDTO model)
+        public async Task<bool> UpdateBonsai(BonsaiModel model)
         {
-            return await _bonsaiRepo.Update(model);
+            Bonsai BonsaiDAl = Mapping.BonsaiUpdateBLLtoDAL(model);
+
+            return await _bonsaiRepo.Update(BonsaiDAl);
         }
 
 

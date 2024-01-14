@@ -1,37 +1,32 @@
-﻿using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Interfaces;
+﻿using DAL_DokiHouse.Interfaces;
 using Dapper;
-
 using Entities_DokiHouse.Entities;
-
 using System.Data;
 
 namespace DAL_DokiHouse.Repository
 {
-    public class BonsaiRepo : BaseRepo<Bonsai, BonsaiDTO, int, string>, IBonsaiRepo
+    public class BonsaiRepo : IBonsaiRepo
     {
 
         #region Injection
-        public BonsaiRepo(IDbConnection connection) : base(connection) { }
+        private readonly IDbConnection _connection;
+        public BonsaiRepo(IDbConnection connection) => _connection = connection;
         #endregion
 
 
-        public async Task<bool> Create(BonsaiDTO model)
+        public async Task<bool> Create(Bonsai model, int idToken)
         {
             string sql = @"
-        INSERT INTO [Bonsai] (
-            Name, Description, IdUser, CreateAt, ModifiedAt
-        ) VALUES (
-            @Name, @Description, @IdUser, @CreateAt, @ModifiedAt
-        )";
+            INSERT INTO [Bonsai]
+            (Name, Description, IdUser, CreateAt, ModifiedAt) 
+            VALUES (@Name, @Description, @IdUser, @CreateAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
             parameters.Add("@Name",model.Name);
             parameters.Add("@Description", model.Description);
-            parameters.Add("@IdUser", model.IdUser);
+            parameters.Add("@IdUser", idToken);
             parameters.Add("@CreateAt", model.CreatedAt);
             parameters.Add("@ModifiedAt", model.ModifiedAt);
-
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
@@ -39,9 +34,12 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<bool> Update(BonsaiDTO bonsai)
+        public async Task<bool> Update(Bonsai bonsai)
         {
-            string sql = "UPDATE [Bonsai] SET Name = @Name, Description = @Description WHERE IdUser = @id";
+            string sql = @"
+            UPDATE [Bonsai] 
+            SET Name = @Name, Description = @Description 
+            WHERE IdUser = @id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Name", bonsai.Name);
@@ -54,11 +52,11 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<IEnumerable<BonsaiDTO>?> GetOwnBonsai(int id)
+        public async Task<IEnumerable<Bonsai>?> GetOwnBonsai(int id)
         {
             string sql = @"SELECT * FROM [Bonsai] WHERE IdUser = @idParam";
 
-            IEnumerable<BonsaiDTO> bonsaiCollection = await _connection.QueryAsync<BonsaiDTO>(sql, new {idParam = id});
+            IEnumerable<Bonsai> bonsaiCollection = await _connection.QueryAsync<Bonsai>(sql, new {idParam = id});
 
             return bonsaiCollection;
         }

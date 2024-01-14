@@ -6,6 +6,7 @@ using BLL_DokiHouse.Interfaces;
 using DAL_DokiHouse.DTO;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 using Microsoft.AspNetCore.Mvc;
+using Entities_DokiHouse.Entities;
 
 
 namespace API_DokiHouse.Controllers
@@ -38,12 +39,12 @@ namespace API_DokiHouse.Controllers
         /// Retourne la liste des bonsaïs si la récupération réussit, sinon une liste vide.
         /// </returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Bonsai>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<BonsaiDTO?> result = await _bonsaiService.GetBonsais();
+            IEnumerable<Bonsai?> result = await _bonsaiService.GetBonsais();
 
             return
                 result is not null
@@ -61,7 +62,7 @@ namespace API_DokiHouse.Controllers
         /// sinon BadRequest ou NoContent si la liste est vide.
         /// </returns>
         [HttpGet(nameof(GetOwnBonsai))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Bonsai>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetOwnBonsai()
@@ -71,7 +72,7 @@ namespace API_DokiHouse.Controllers
 
             if (idUser == 0) return Unauthorized();
 
-            IEnumerable<BonsaiDTO?> result = await _bonsaiService.GetOwnBonsai(idUser);
+            IEnumerable<Bonsai?> result = await _bonsaiService.GetOwnBonsai(idUser);
 
             return 
                 result is not null 
@@ -90,12 +91,12 @@ namespace API_DokiHouse.Controllers
         /// sinon BadRequest ou NoContent si le bonsaï n'est pas trouvé.
         /// </returns>
         [HttpGet("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BonsaiDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Bonsai))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
 
-            BonsaiDTO? bonsai = await _bonsaiService.GetBonsaiByID(id);
+            Bonsai? bonsai = await _bonsaiService.GetBonsaiByID(id);
 
             return 
                 bonsai is not null 
@@ -115,11 +116,11 @@ namespace API_DokiHouse.Controllers
         /// sinon BadRequest ou NoContent si le bonsaï n'est pas trouvé.
         /// </returns>
         [HttpGet("{name}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BonsaiDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Bonsai))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetByName([FromRoute] string name, string stringIdentifiant = "Name")
         {
-            IEnumerable<BonsaiDTO>? bonsai = await _bonsaiService.GetBonsaiByName(name, stringIdentifiant);
+            IEnumerable<Bonsai>? bonsai = await _bonsaiService.GetBonsaiByName(name, stringIdentifiant);
             return 
                 bonsai is not null 
                 ? Ok(bonsai) 
@@ -131,7 +132,7 @@ namespace API_DokiHouse.Controllers
         /// <summary>
         /// Crée un nouveau bonsaï.
         /// </summary>
-        /// <param name="model">Le modèle de création du bonsaï.</param>
+        /// <param name="bonsai">Le modèle de création du bonsaï.</param>
         /// <returns>
         /// Une action HTTP avec le statut CreatedAtAction et le modèle créé si la création réussit,
         /// sinon BadRequest.
@@ -140,7 +141,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BonsaiModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Create(BonsaiModel model)
+        public async Task<IActionResult> Create(BonsaiModel bonsai)
         {
             if (!ModelState.IsValid) return BadRequest();
            
@@ -148,12 +149,8 @@ namespace API_DokiHouse.Controllers
 
             if(idToken == 0) return Unauthorized();
 
-            BonsaiBLL bonsaiDTO = Mapper.BonsaiModelToBLL(model);
-
-            bonsaiDTO.IdUser = idToken;
-
-            if(await _bonsaiService.CreateBonsai(bonsaiDTO))
-                return CreatedAtAction(nameof(Create), model);
+            if(await _bonsaiService.CreateBonsai(bonsai, idToken))
+                return CreatedAtAction(nameof(Create), bonsai);
 
             return BadRequest();
         }
@@ -163,7 +160,7 @@ namespace API_DokiHouse.Controllers
         /// <summary>
         /// Met à jour un bonsaï.
         /// </summary>
-        /// <param name="model">Le modèle de création ou de mise à jour du bonsaï.</param>
+        /// <param name="bonsai">Le modèle de création ou de mise à jour du bonsaï.</param>
         /// <returns>
         /// Une action HTTP avec le statut Ok si la mise à jour réussit, sinon BadRequest.
         /// </returns>
@@ -171,17 +168,14 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Update(BonsaiModel model)
+        public async Task<IActionResult> Update(BonsaiModel bonsai)
         {
-
             int idToken = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idToken == 0) return Unauthorized();
 
-            BonsaiDTO bonsaiDTO = new(model.Name, model.Description,DateTime.Now, idToken);
-
             return 
-                await _bonsaiService.UpdateBonsai(bonsaiDTO) 
+                await _bonsaiService.UpdateBonsai(bonsai) 
                 ? Ok() 
                 : BadRequest();
         }

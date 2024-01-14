@@ -26,7 +26,7 @@ namespace Tools_DokiHouse.Services.DependencyInjection
 
 
             //Picture Service
-            services.AddScoped<IPictureRepo, PictureRepo>(provider => new PictureRepo(new SqlConnection(connectionString)));
+            services.AddScoped<IPictureBonsaiRepo, PictureBonsaiRepo>(provider => new PictureBonsaiRepo(new SqlConnection(connectionString)));
 
             services.AddScoped<IPictureBLLService, PictureBLLService>();
 

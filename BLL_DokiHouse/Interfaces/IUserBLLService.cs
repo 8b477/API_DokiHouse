@@ -1,8 +1,5 @@
-﻿using BLL_DokiHouse.Models;
-using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Repository;
-
-using static DAL_DokiHouse.UserRepo;
+﻿using BLL_DokiHouse.Models.User;
+using DAL_DokiHouse.DTO.User;
 
 
 namespace BLL_DokiHouse.Interfaces
@@ -14,8 +11,8 @@ namespace BLL_DokiHouse.Interfaces
         /// Créer un nouveau utilisateur en base de donnée
         /// </summary>
         /// <param name="model">attend un : 'UserCreateDTO'</param>
-        /// <returns>Retoune 'true' si réussi ou si non 'false'</returns>
-        Task<bool> CreateUser(UserBLL model);
+        /// <returns>Retourne 'true' si réussi ou si non 'false'</returns>
+        Task<bool> CreateUser(UserCreateModel model);
 
 
         /// <summary>
@@ -115,6 +112,6 @@ namespace BLL_DokiHouse.Interfaces
         /// Récupère la liste des utilisateurs en base de donnée.
         /// </summary>
         /// <returns>Retourne une liste d'utilisateurs</returns>
-        Task<IEnumerable<UserAndPictureDTO>> Get();
+        Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize);
     }
 }

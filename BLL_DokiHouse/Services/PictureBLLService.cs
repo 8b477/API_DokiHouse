@@ -15,9 +15,9 @@ namespace BLL_DokiHouse.Services
     {
 
         #region Injection
-        private readonly IPictureRepo _pictureRepo;
+        private readonly IPictureBonsaiRepo _pictureRepo;
         private readonly IUserBLLService _userBLLService;
-        public PictureBLLService(IPictureRepo pictureRepo, IUserBLLService userBLLService)
+        public PictureBLLService(IPictureBonsaiRepo pictureRepo, IUserBLLService userBLLService)
         => (_pictureRepo,_userBLLService) = (pictureRepo, userBLLService);
 
         #endregion

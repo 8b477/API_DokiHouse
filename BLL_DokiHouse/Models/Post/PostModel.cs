@@ -4,8 +4,7 @@ namespace API_DokiHouse.Models
 {
     public class PostModel
     {
-
-
+#nullable disable
         [Required]
         [MaxLength(50)]
         public string Title { get; set; } = string.Empty;
@@ -18,6 +17,6 @@ namespace API_DokiHouse.Models
 
 		[Required]
         public string Content { get; set; } = string.Empty;
-
+#nullable enable
     }
 }

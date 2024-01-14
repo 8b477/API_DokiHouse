@@ -1,30 +1,33 @@
-﻿using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Repository;
+﻿using DAL_DokiHouse.Repository;
 using Entities_DokiHouse.Entities;
 using Dapper;
 using System.Data;
+using System.Data.Common;
+using DAL_DokiHouse.DTO.User;
+using DAL_DokiHouse.DTO.Bonsai;
 
 
 namespace DAL_DokiHouse
 {
-    public class UserRepo : BaseRepo<User, UserDTO, int, string>, IUserRepo
+    public class UserRepo : IUserRepo
     {
 
-        #region Constructor
+        #region Injection
 
-        public UserRepo(IDbConnection connection) : base(connection) { }
+        private readonly DbConnection _connection;
+
+        public UserRepo(DbConnection connection) => _connection = connection;
 
         #endregion
 
 
-        public async Task<bool> Create(UserDTO model)
+
+        public async Task<bool> Create(User model)
         {
             string sql = @"
-        INSERT INTO [User] (
-            Name, Email, Passwd, Role, CreateAt, ModifiedAt
-        ) VALUES (
-            @Name, @Email, @Passwd, @Role, @CreateAt, @ModifiedAt
-        )";
+            INSERT INTO [User] (
+            Name, Email, Passwd, Role, CreateAt, ModifiedAt)
+            VALUES (@Name, @Email, @Passwd, @Role, @CreateAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
             parameters.Add("@Name", model.Name);
@@ -34,19 +37,18 @@ namespace DAL_DokiHouse
             parameters.Add("@CreateAt", model.CreatedAt);
             parameters.Add("@ModifiedAt", model.ModifiedAt);
 
-            // Exécute la requête et récupère le nombre de lignes affectées
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowAffected > 0;
         }
 
 
-        public async Task<bool> UpdateName(UserUpNameDTO model)
+        public async Task<bool> UpdateName(User model)
         {
             string sql = @"
-        UPDATE [User]
-        SET Name = @Name
-        WHERE Id = @id";
+            UPDATE [User]
+            SET Name = @Name
+            WHERE Id = @id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Name", model.Name);
@@ -58,12 +60,12 @@ namespace DAL_DokiHouse
         }
 
 
-        public async Task<bool> UpdatePass(UserUpPassDTO model)
+        public async Task<bool> UpdatePass(User model)
         {
             string sql = @"
-        UPDATE [User]
-        SET Passwd = @Passwd
-        WHERE Id = @id";
+            UPDATE [User]
+            SET Passwd = @Passwd
+            WHERE Id = @id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Passwd", model.Passwd);
@@ -75,12 +77,12 @@ namespace DAL_DokiHouse
         }
 
 
-        public async Task<bool> UpdateEmail(UserUpMailDTO model)
+        public async Task<bool> UpdateEmail(User model)
         {
             string sql = @"
-        UPDATE [User]
-        SET Email = @Email
-        WHERE Id = @id";
+            UPDATE [User]
+            SET Email = @Email
+            WHERE Id = @id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Email", model.Email);
@@ -92,7 +94,7 @@ namespace DAL_DokiHouse
         }
 
 
-        public async Task<UserDTO?> Logger(string email, string motDePasse)
+        public async Task<User?> Logger(string email, string motDePasse)
         {
             string query = "SELECT Passwd FROM [User] WHERE Email = @EmailParam";
 
@@ -106,7 +108,7 @@ namespace DAL_DokiHouse
                 {
                     string query2 = "SELECT * FROM [User] WHERE Email = @EmailParam";
 
-                    UserDTO? user = await _connection.QueryFirstOrDefaultAsync<UserDTO>(query2, new { EmailParam = email });
+                    User? user = await _connection.QueryFirstOrDefaultAsync<User>(query2, new { EmailParam = email });
 
                     if (user is not null)
                         return user;
@@ -126,7 +128,7 @@ namespace DAL_DokiHouse
         }
 
 
-        public async Task<bool> Update(UserDTO model)
+        public async Task<bool> Update(User model)
         {
             string sql = @"
                 UPDATE [User]
@@ -146,61 +148,23 @@ namespace DAL_DokiHouse
         }
 
 
-        public async Task<IEnumerable<UserDetailsBonsaiDTO?>> GetInfos(int startIndex, int pageSize)
+        public async Task<IEnumerable<UserAndBonsaiDetails?>> GetInfos(int startIndex, int pageSize)
         {
-
             string sql = @"
             SELECT 
-                u.Id AS IdUser,
-                u.Name,
+            u.Id AS IdUser, u.Name,
 
-                pu.Id,
-                pu.Avatar,
-                pu.CreateAt,
-                pu.ModifiedAt,
+            pu.Id, pu.Avatar, pu.CreateAt, pu.ModifiedAt,
+            b.Id, b.Name, b.IdUser,
 
-                b.Id,
-                b.Name,
-                b.IdUser,
+            pb.Id, pb.FileName, pb.CreateAt, pb.ModifiedAt, pb.IdBonsai,
 
-                pb.Id,
-                pb.FileName,
-                pb.CreateAt,
-                pb.ModifiedAt,
-                pb.IdBonsai,
+            c.Id, c.Shohin, c.Mame, c.Chokkan, c.Moyogi, c.Shakan, c.Kengai, c.HanKengai, c.Ikadabuki, c.Neagari,
+            c.Literati, c.YoseUe, c.Ishitsuki,  c.Kabudachi, c.Kokufu, c.Yamadori, c.Perso AS CatePerso, c.IdBonsai,
 
-                c.Id,
-                c.Shohin,
-                c.Mame,
-                c.Chokkan,
-                c.Moyogi,
-                c.Shakan,
-                c.Kengai,
-                c.HanKengai,
-                c.Ikadabuki,
-                c.Neagari,
-                c.Literati,
-                c.YoseUe,
-                c.Ishitsuki,
-                c.Kabudachi,
-                c.Kokufu,
-                c.Yamadori,
-                c.Perso AS CatePerso,
-                c.IdBonsai,
+            s.Id, s.Bunjin, s.Bankan, s.Korabuki, s.Ishituki, s.Perso AS StylePerso, s.IdBonsai,
 
-                s.Id,
-                Bunjin,
-                s.Bankan,
-                s.Korabuki,
-                s.Ishituki,
-                s.Perso AS StylePerso,
-                s.IdBonsai,
-
-                n.Id,
-                n.Title,
-                n.Description,
-                n.CreateAt,
-                n.IdBonsai
+            n.Id, n.Title, n.Description, n.CreateAt, n.IdBonsai
 
             FROM [dbo].[User] u
             LEFT JOIN [dbo].[PictureProfil] pu ON pu.IdUser = u.Id
@@ -212,7 +176,7 @@ namespace DAL_DokiHouse
             ORDER BY b.Id
             OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
 
-            var users = await _connection.QueryAsync<UserDetailsBonsaiDTO, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserDetailsBonsaiDTO>(
+            var users = await _connection.QueryAsync<UserAndBonsaiDetails, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserAndBonsaiDetails>(
                     sql,
                     (user, pictureProfil, bonsai, pictureBonsai, category, style, note) =>
                     {
@@ -235,60 +199,23 @@ namespace DAL_DokiHouse
         }
 
 
-        public async Task<UserDetailsBonsaiDTO?> GetInfosById(int idUser)
+        public async Task<UserAndBonsaiDetails?> GetInfosById(int idUser)
         {
             string sql = @"
             SELECT 
-                u.Id AS IdUser,
-                u.Name,
+            u.Id AS IdUser, u.Name,
 
-                pu.Id,
-                pu.Avatar,
-                pu.CreateAt,
-                pu.ModifiedAt,
+            pu.Id, pu.Avatar, pu.CreateAt, pu.ModifiedAt,
+            b.Id, b.Name, b.IdUser,
 
-                b.Id,
-                b.Name,
-                b.IdUser,
+            pb.Id, pb.FileName, pb.CreateAt, pb.ModifiedAt, pb.IdBonsai,
 
-                pb.Id,
-                pb.FileName,
-                pb.CreateAt,
-                pb.ModifiedAt,
-                pb.IdBonsai,
+            c.Id, c.Shohin, c.Mame, c.Chokkan, c.Moyogi, c.Shakan, c.Kengai, c.HanKengai, c.Ikadabuki, c.Neagari,
+            c.Literati, c.YoseUe, c.Ishitsuki,  c.Kabudachi, c.Kokufu, c.Yamadori, c.Perso AS CatePerso, c.IdBonsai,
 
-                c.Id,
-                c.Shohin,
-                c.Mame,
-                c.Chokkan,
-                c.Moyogi,
-                c.Shakan,
-                c.Kengai,
-                c.HanKengai,
-                c.Ikadabuki,
-                c.Neagari,
-                c.Literati,
-                c.YoseUe,
-                c.Ishitsuki,
-                c.Kabudachi,
-                c.Kokufu,
-                c.Yamadori,
-                c.Perso AS CatePerso,
-                c.IdBonsai,
+            s.Id, s.Bunjin, s.Bankan, s.Korabuki, s.Ishituki, s.Perso AS StylePerso, s.IdBonsai,
 
-                s.Id,
-                Bunjin,
-                s.Bankan,
-                s.Korabuki,
-                s.Ishituki,
-                s.Perso AS StylePerso,
-                s.IdBonsai,
-
-                n.Id,
-                n.Title,
-                n.Description,
-                n.CreateAt,
-                n.IdBonsai
+            n.Id, n.Title, n.Description, n.CreateAt, n.IdBonsai
 
             FROM [dbo].[User] u
             LEFT JOIN [dbo].[PictureProfil] pu ON pu.IdUser = u.Id
@@ -299,17 +226,17 @@ namespace DAL_DokiHouse
             LEFT JOIN [dbo].[Note] n ON n.IdBonsai = b.Id
             WHERE u.Id = @IdUser";
 
-            var userDictionary = new Dictionary<int, UserDetailsBonsaiDTO>();
+            var userDictionary = new Dictionary<int, UserAndBonsaiDetails>();
 
-            await _connection.QueryAsync<UserDetailsBonsaiDTO, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserDetailsBonsaiDTO>(
+            await _connection.QueryAsync<UserAndBonsaiDetails, PictureProfil, BonsaiDetailsDTO, PictureBonsai, Category, Style, Note, UserAndBonsaiDetails>(
                 sql,
                 (user, pictureProfil, bonsai, pictureBonsai, category, style, note) =>
                 {
-                    if (!userDictionary.TryGetValue(user.IdUser, out var existingUser))
+                    if (!userDictionary.TryGetValue(user.Id, out var existingUser))
                     {
                         existingUser = user;
-                        existingUser.Bonsais = new List<BonsaiDetailsDTO>();
-                        userDictionary.Add(existingUser.IdUser, existingUser);
+                        existingUser.BonsaiDetails = new List<BonsaiDetailsDTO>();
+                        userDictionary.Add(existingUser.Id, existingUser);
                     }
 
                     user.PictureProfil = pictureProfil;
@@ -319,9 +246,9 @@ namespace DAL_DokiHouse
                     bonsai.Notes = note;
 
                     // Ajoute le bonsai uniquement s'il n'existe pas déjà dans la liste, pour éviter les doublons
-                    if (!existingUser.Bonsais.Any(b => b.Id == bonsai.Id))
+                    if (!existingUser.BonsaiDetails.Any(b => b.Id == bonsai.Id))
                     {
-                        existingUser.Bonsais.Add(bonsai);
+                        existingUser.BonsaiDetails.Add(bonsai);
                     }
 
                     return existingUser;
@@ -333,14 +260,16 @@ namespace DAL_DokiHouse
         }
 
 
-        public new async Task<IEnumerable<UserAndPictureDTO>> Get()
+        public new async Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize)
         {
             string sql = @"
                         SELECT 
                         u.Id, u.Name, u.Role, u.CreateAt, u.ModifiedAt,
                         p.Id, p.Avatar AS Avatar, p.CreateAt, p.ModifiedAt
                         FROM [User] AS u
-                        LEFT JOIN [PictureProfil] p ON p.IdUser = u.Id";
+                        LEFT JOIN [PictureProfil] p ON p.IdUser = u.Id
+                        ORDER BY u.Id
+                        OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
 
             var item = await _connection.QueryAsync<UserAndPictureDTO, PictureProfil, UserAndPictureDTO>(sql,
                     (user, picture) =>
@@ -349,6 +278,7 @@ namespace DAL_DokiHouse
 
                         return user;
                     },
+                    new {StartIndex = startIndex, PageSize = pageSize},
                     splitOn : "Id"
                 );
 

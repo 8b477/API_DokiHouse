@@ -22,7 +22,7 @@ namespace Entities_DokiHouse.Entities
         public bool Yamadori { get; set; }
         public string? CatePerso { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
         public int IdBonsai { get; set; }
     }
 }

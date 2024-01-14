@@ -3,7 +3,7 @@ using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models;
 using BLL_DokiHouse.Tools;
 using DAL_DokiHouse;
-using DAL_DokiHouse.DTO;
+using DAL_DokiHouse.DTO.User;
 using DAL_DokiHouse.Repository;
 using System.Data.SqlClient;
 
@@ -150,9 +150,9 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<IEnumerable<UserAndPictureDTO>> Get()
+        public async Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize)
         {
-            return await _userRepo.Get();
+            return await _userRepo.GetUsers(startIndex, pageSize);
         }
     }
 }

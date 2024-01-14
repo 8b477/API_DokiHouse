@@ -1,8 +1,8 @@
-﻿using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Interfaces;
+﻿using DAL_DokiHouse.Interfaces;
 using Dapper;
+using Entities_DokiHouse.Entities;
 
-using System.Data;
+using System.Data.Common;
 
 namespace DAL_DokiHouse.Repository
 {
@@ -10,45 +10,44 @@ namespace DAL_DokiHouse.Repository
     {
 
         #region Injection
-        private readonly IDbConnection _connection;
+        private readonly DbConnection _connection;
 
-        public NoteRepo(IDbConnection connection) => _connection = connection;
+        public NoteRepo(DbConnection connection) => _connection = connection;
         #endregion
 
 
-        public async Task<bool> Create(NoteDTO model)
+        public async Task<bool> Create(Note note)
         {
             string sql = @"
-        INSERT INTO [Note] 
+            INSERT INTO [Note] 
             (Title, Description, IdBonsai, CreateAt, ModifiedAt)
-        VALUES 
-            (@Title,@Description,@IdBonsai, @CreateAt, @ModifiedAt)";
+            VALUES (@Title,@Description,@IdBonsai, @CreateAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
-            parameters.Add("@Title", model.Title);
-            parameters.Add("@Description", model.Description);
-            parameters.Add("@IdBonsai", model.IdBonsai);
-            parameters.Add("@CreateAt", model.CreateAt);
-            parameters.Add("@ModifiedAt", model.ModifiedAt);
+            parameters.Add("@Title", note.Title);
+            parameters.Add("@Description", note.Description);
+            parameters.Add("@IdBonsai", note.Id);
+            parameters.Add("@CreateAt",note.CreatedAt);
+            parameters.Add("@ModifiedAt",note.ModifiedAt);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;
         }
 
-        public async Task<bool> Update(NoteDTO model)
+        public async Task<bool> Update(Note note)
         {
             string sql = @"
-        UPDATE [Note]
-        SET 
+            UPDATE [Note]
+            SET 
             Title = @Title,
             Description = @Description
-        WHERE IdBonsai = @IdBonsai";
+            WHERE IdBonsai = @IdBonsai";
 
             DynamicParameters parameters = new();
-            parameters.Add("@Title", model.Title);
-            parameters.Add("@Description", model.Description);
-            parameters.Add("@IdBonsai", model.IdBonsai);
+            parameters.Add("@Title", note.Title);
+            parameters.Add("@Description", note.Description);
+            parameters.Add("@IdBonsai", note.Id);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 

@@ -2,6 +2,7 @@
 using DAL_DokiHouse.Interfaces;
 using Dapper;
 
+using Entities_DokiHouse.Entities;
 
 using System.Data.Common;
 
@@ -20,12 +21,12 @@ namespace DAL_DokiHouse.Repository
 
 
 
-        public async Task<bool> Create(StyleDTO style)
+        public async Task<bool> Create(Style style)
         {
             string sql = @"
-        INSERT INTO [Style] 
+            INSERT INTO [Style] 
             (Bunjin,Bankan,Korabuki,Ishituki,Perso, IdBonsai, CreateAt, ModifiedAt)
-        VALUES 
+            VALUES 
             (@Bunjin,@Bankan,@Korabuki,@Ishituki,@Perso, @IdBonsai, @CreateAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
@@ -33,7 +34,7 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Bankan", style.Bankan);
             parameters.Add("@Korabuki", style.Korabuki);
             parameters.Add("@Ishituki", style.Ishituki);
-            parameters.Add("@Perso", style.Perso);
+            parameters.Add("@Perso", style.StylePerso);
             parameters.Add("@IdBonsai", style.IdBonsai);
             parameters.Add("@CreateAt", style.CreatedAt);
             parameters.Add("@ModifiedAt", style.ModifiedAt);
@@ -44,17 +45,17 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<bool> Update(StyleDTO style)
+        public async Task<bool> Update(Style style)
         {
             string sql = @"
-        UPDATE [Style]
-        SET 
+            UPDATE [Style]
+            SET 
             Bunjin = @Bunjin,
             Bankan = @Bankan,
             Korabuki = @Korabuki,
             Ishituki = @Ishituki,
             Perso = @Perso
-        WHERE IdBonsai = @IdBonsai";
+            WHERE IdBonsai = @IdBonsai";
 
             int rowsAffected = await _connection.ExecuteAsync(sql, style);
 
@@ -62,7 +63,7 @@ namespace DAL_DokiHouse.Repository
         }
 
   
-        public async Task<bool> NotValide(int idBonsai)
+        public async Task<bool> IsAlreadyExists(int idBonsai)
         {
             string sql = @"
         SELECT TOP 1 1

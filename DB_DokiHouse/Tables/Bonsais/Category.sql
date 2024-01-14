@@ -18,7 +18,7 @@
 	[Yamadori] BIT DEFAULT 0 NOT NULL,
 	[Perso] VARCHAR(150),
 	[CreateAt] DATETIME NOT NULL,
-	[ModifiedAt] DATETIME NOT NULL,
+	[ModifiedAt] DATETIME,
 	[IdBonsai] INT NOT NULL,
 	FOREIGN KEY (IdBonsai) REFERENCES [Bonsai](Id)
 )

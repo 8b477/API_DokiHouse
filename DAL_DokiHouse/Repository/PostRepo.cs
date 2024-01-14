@@ -1,30 +1,27 @@
-﻿
-
-using DAL_DokiHouse.DTO;
+﻿using DAL_DokiHouse.DTO.Post;
 using DAL_DokiHouse.Interfaces;
-
 using Dapper;
-
 using Entities_DokiHouse.Entities;
-
-using System.Data;
+using System.Data.Common;
 
 namespace DAL_DokiHouse.Repository
 {
-    public class PostRepo : BaseRepo<Post, PostDTO, int, string>, IPostRepo
+    public class PostRepo : IPostRepo
     {
-        #region Injection
-        public PostRepo(IDbConnection connection) : base(connection){}
 
+        #region Injection
+        private readonly DbConnection _connection;
+
+        public PostRepo(DbConnection connection) => _connection = connection;
         #endregion
 
 
-        public async Task<bool> Create(PostDTO post)
+        public async Task<bool> Create(Post post)
         {
             string sql = @"
-        INSERT INTO [Post]
-        (Title, Description, Content, IdUser, CreateAt, ModifiedAt)
-        VALUES (@Title, @Description, @Content, @IdUser, @CreateAt, @ModifiedAt)";
+            INSERT INTO [Post]
+            (Title, Description, Content, IdUser, CreateAt, ModifiedAt)
+            VALUES (@Title, @Description, @Content, @IdUser, @CreateAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
             parameters.Add("@Title", post.Title);
@@ -39,21 +36,33 @@ namespace DAL_DokiHouse.Repository
             return rowAffected > 0;
         }
 
-        public async Task<IEnumerable<PostDTO>?> GetOwnPosts(int idUser)
-        {
-            string sql = @"SELECT * FROM [Post] WHERE IdUser = @idUserParam";
 
-            IEnumerable<PostDTO>? postCollection = await _connection.QueryAsync<PostDTO>(sql, new { idUserParam = idUser});
+        public async Task<IEnumerable<Post>?> GetPosts(int idUser)
+        {
+            string sql = @"SELECT * FROM [Post]";
+
+            IEnumerable<Post>? postCollection = await _connection.QueryAsync<Post>(sql, new { idUserParam = idUser });
 
             return postCollection;
         }
 
-        public async Task<bool> Update(PostDTO post)
+
+        public async Task<IEnumerable<Post>?> GetOwnPosts(int idUser)
+        {
+            string sql = @"SELECT * FROM [Post] WHERE IdUser = @idUserParam";
+
+            IEnumerable<Post>? postCollection = await _connection.QueryAsync<Post>(sql, new { idUserParam = idUser});
+
+            return postCollection;
+        }
+
+
+        public async Task<bool> Update(Post post)
         {
             string sql = @"
-        UPDATE [Post]
-        SET Description = @Description, @Content = Content 
-        WHERE IdUser = @id";
+            UPDATE [Post]
+            SET Description = @Description, @Content = Content 
+            WHERE IdUser = @id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Description", post.Description);
@@ -64,39 +73,27 @@ namespace DAL_DokiHouse.Repository
             return rowAffected < 0;
         }
 
-        public async Task<PostDTO>? GetUserPostsCommentsById(int postId)
+
+        public async Task<PostAndCommentDTO>? GetPostsAndComments(int postId)
         {
             string sql = @"
-        SELECT          
-            p.Id,
-            p.Title,
-            p.Description,
-            p.Content,
-            p.CreateAt,
-            p.ModifiedAt,
-            p.IdUser,
+            SELECT 
+                p.Id, p.Title, p.Description, p.Content, p.CreateAt, p.ModifiedAt, p.IdUser,
+                com.Id, com.IdUser, com.IdPost, com.Content, com.CreatedAt, com.ModifiedAt,
+            FROM [dbo].[Post] p
+            JOIN [dbo].[Comments] com ON com.IdPost = p.Id
+            WHERE p.Id = @postId";
 
-            com.Id,
-com.IdUser,
-com.IdPost
-            com.Content,
-            com.CreatedAt,
-            com.ModifiedAt,
+            var postDictionary = new Dictionary<int, PostAndCommentDTO>();
 
-        FROM [dbo].[Post] p
-        JOIN [dbo].[Comments] com ON com.IdPost = p.Id
-        WHERE p.Id = @postId";
-
-            var postDictionary = new Dictionary<int, PostDTO>();
-
-            await _connection.QueryAsync<PostDTO, Comments, PostDTO>(
+            await _connection.QueryAsync<PostAndCommentDTO, Comments, PostAndCommentDTO>(
                 sql,
                 (post, comment) =>
                 {
                     if (!postDictionary.TryGetValue(post.Id, out var existingPost))
                     {
                         existingPost = post;
-                        existingPost.Comments = new List<Comments>();
+                        existingPost.CommentsCollection = new List<Comments>();
                         postDictionary.Add(existingPost.Id, existingPost);
                     }
                     return existingPost;
@@ -104,7 +101,8 @@ com.IdPost
                 new { UserId = postId },
                 splitOn: "Id,Id");
 
-            return postDictionary.Values.FirstOrDefault();// ?? new UserDetailsPostDTO();
+            return postDictionary.Values.FirstOrDefault() ?? new PostAndCommentDTO();
         }
+
     }
 }
