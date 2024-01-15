@@ -82,6 +82,27 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
+        /// Récupère un utilisateur sur base de son identifiant.
+        /// </summary>
+        /// <remarks>
+        /// Cette méthode permet de récupérer la liste complète des utilisateurs.
+        /// </remarks>
+        /// <response code="200">Retourne la liste des utilisateurs.</response>
+        /// <response code="204">Aucun utilisateur n'est trouvé.</response>
+        [HttpGet("{idUser}:int")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserAndPictureDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Get(int idUser)
+        {
+            UserAndPictureDTO? result = await _userService.GetUser(idUser);
+
+            return result is not null
+                   ? Ok(result)
+                   : NoContent();
+        }
+
+
+        /// <summary>
         /// Récupère la liste des utilisateurs avec leurs infos bonsais.
         /// </summary>
         /// <remarks>
@@ -118,7 +139,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne un utilisateur.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         /// <response code="400">La requête n'est pas correct.</response>
-        [HttpGet(nameof(GetInfosById))]
+        [HttpGet(nameof(GetInfosById) + "/{idUser}:int")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserAndBonsaiDetails))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -218,9 +239,9 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut(nameof(Name))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateNameModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Name([FromBody] UserUpdateModel user)
+        public async Task<IActionResult> Name([FromBody] UserUpdateNameModel user)
         {         
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
@@ -243,9 +264,9 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut(nameof(Pass))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdatePasswdModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Pass([FromBody] UserUpdateModel user)
+        public async Task<IActionResult> Pass([FromBody] UserUpdatePasswdModel user)
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
@@ -268,9 +289,9 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut(nameof(Mail))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateEmailModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Mail([FromBody] UserUpdateModel user)
+        public async Task<IActionResult> Mail([FromBody] UserUpdateEmailModel user)
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
