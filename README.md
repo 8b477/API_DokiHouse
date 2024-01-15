@@ -1,4 +1,4 @@
-# Sommaire
+# Sommaire (!! pas à jour!!)
 
 ### [1. Bref présentation du projet.](#zero) <br>
 ### [2. Comment l'utiliser ?](#one)  
