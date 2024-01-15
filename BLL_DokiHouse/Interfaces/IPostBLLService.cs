@@ -44,7 +44,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="post">Les données mises à jour du post.</param>
         /// <returns>Retourne vrai si la mise à jour est réussie, sinon faux.</returns>
-        Task<bool> UpdatePost(int idPost, PostModel post);
+        Task<bool> UpdatePost(int idPost,int idToken, PostModel post);
 
 
         /// <summary>

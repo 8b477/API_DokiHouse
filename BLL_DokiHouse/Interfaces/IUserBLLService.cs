@@ -21,7 +21,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="id">identifiant de type 'string'</param>
         /// <returns>Retourne le User qui correspond a la recherche ou si non retourne null</returns>
-        Task<IEnumerable<User?>> GetUsersByName(string name, string stringIdentifiant);
+        Task<IEnumerable<User?>?> GetUsersByName(string name, string stringIdentifiant);
 
 
         /// <summary>

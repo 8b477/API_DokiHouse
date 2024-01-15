@@ -1,5 +1,4 @@
 ﻿using BCrypt.Net;
-
 using BLL_DokiHouse.ExceptionHandler;
 using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models.User;
@@ -25,6 +24,21 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
+
+        #region  ========> _______________GET________________ <==========
+
+        public async Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize)
+        {
+            return await _userRepo.GetUsers(startIndex, pageSize);
+        }
+
+
+        public async Task<UserAndPictureDTO?> GetUser(int idUser)
+        {
+            return await _userRepo.GetUser(idUser);
+        }
+
+
         public async Task<User?> GetUserByID(int id)
         {
             User? result = await _userRepo.GetBy(id);
@@ -36,7 +50,7 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<IEnumerable<User>?> GetUsersByName(string name, string stringIdentifiant)
+        public async Task<IEnumerable<User?>?> GetUsersByName(string name, string stringIdentifiant)
         {
             IEnumerable<User>? result = await _userRepo.GetBy(name, stringIdentifiant);
 
@@ -47,6 +61,24 @@ namespace BLL_DokiHouse.Services
         }
 
 
+        public Task<IEnumerable<UserAndBonsaiDetails?>> GetInfos(int startIndex, int pageSize)
+        {
+            return _userRepo.GetInfos(startIndex, pageSize);
+        }
+
+
+        public Task<UserAndBonsaiDetails?> GetInfosById(int idUser)
+        {
+            return _userRepo.GetInfosById(idUser);
+        }
+
+        #endregion
+
+
+
+
+        #region  ========> ______________CREATE______________ <==========
+
         public async Task<bool> CreateUser(UserCreateModel model)
         {
             try
@@ -56,7 +88,7 @@ namespace BLL_DokiHouse.Services
                     model.Passwd = BCrypt.Net.BCrypt.HashPassword(model.Passwd);
 
                     User user = Mapping.UserCreateBLLToDAL(model);
-                    
+
                     return await _userRepo.Create(user);
                 }
 
@@ -64,7 +96,60 @@ namespace BLL_DokiHouse.Services
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {
-                throw new BusinessException("Le mail existe déjà en base de donnée !");
+                throw new BusinessException("Violation of UNIQUE KEY constraints !");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        #endregion
+
+
+
+
+
+        #region  ========> _______________LOGIN________________ <==========
+
+        public async Task<User?> Login(string email, string passwd)
+        {
+            try
+            {
+                User? user = await _userRepo.Logger(email, passwd);
+
+                return user is not null
+                       ? user
+                       : null;
+            }
+            catch (SaltParseException)
+            {
+                throw new SaltParseException("Informations invalide !");
+            }
+        }
+
+
+        #endregion
+
+
+
+
+
+        #region  ========> _______________UPDATE________________ <==========
+
+        public Task<bool> UpdateUser(int id, UserUpdateModel model)
+        {
+            User user = Mapping.UserUpdateBLLToDAL(model);
+
+            user.Passwd = BCrypt.Net.BCrypt.HashPassword(model.Passwd);
+
+            try
+            {
+                return _userRepo.Update(id, user);
+            }
+            catch (SqlException ex) when (ex.Number == 2627)
+            {
+                throw new BusinessException("Violation of UNIQUE KEY constraint !");
             }
             catch (Exception ex)
             {
@@ -101,18 +186,12 @@ namespace BLL_DokiHouse.Services
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {
-                throw new BusinessException("L'adresse mail existe déjà en base de donnée");
+                throw new BusinessException("Violation of UNIQUE KEY constraint");
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-
-        public async Task<bool> DeleteUser(int id)
-        {
-            return await _userRepo.Delete(id);
         }
 
 
@@ -122,51 +201,19 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<User?> Login(string email, string passwd)
-        {
-            try
-            {
-                User? user = await _userRepo.Logger(email, passwd);
+        #endregion
 
-                return user is not null
-                       ? user
-                       : null;
-            }
-            catch (SaltParseException)
-            {
-                throw new SaltParseException("Invalid Hash Format");
-            }
+
+
+
+        #region  ========> ______________DELETE_______________ <==========
+
+        public async Task<bool> DeleteUser(int id)
+        {
+            return await _userRepo.Delete(id);
         }
 
+        #endregion
 
-        public Task<bool> UpdateUser(int id,  UserUpdateModel model)
-        {
-            User user = Mapping.UserUpdateBLLToDAL(model);
-
-            return _userRepo.Update(id,user);
-        }
-
-
-        public Task<IEnumerable<UserAndBonsaiDetails?>> GetInfos(int startIndex, int pageSize)
-        {
-            return _userRepo.GetInfos(startIndex, pageSize);
-        }
-
-
-        public Task<UserAndBonsaiDetails?> GetInfosById(int idUser)
-        {
-            return _userRepo.GetInfosById(idUser);
-        }
-
-
-        public async Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize)
-        {
-            return await _userRepo.GetUsers(startIndex, pageSize);
-        }
-
-        public async Task<UserAndPictureDTO?> GetUser(int idUser)
-        {
-            return await _userRepo.GetUser(idUser);
-        }
     }
 }

@@ -16,9 +16,11 @@ namespace BLL_DokiHouse.Services
         public CommentsBLLService(ICommentsRepo repoComments) => _repoComments = repoComments;
         #endregion
 
-        public async Task<bool> CreateComment(CommentModel comment, int idPost)
+        public async Task<bool> CreateComment(CommentModel comment, int idPost, int idToken)
         {
             Comments commentDAL = Mapping.CommentCreateBLLToDAL(comment);
+
+            commentDAL.IdUser = idToken;
 
             return await _repoComments.Create(idPost, commentDAL);
         }

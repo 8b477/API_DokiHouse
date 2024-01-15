@@ -24,9 +24,11 @@ namespace API_DokiHouse.Controllers
         [HttpPost("{idPost}:int")]
         public async Task<IActionResult> Create([FromBody] CommentModel comment, int idPost)
         {
-            int id = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
+            int idToken = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
 
-            if (await _commentBllService.CreateComment(comment,idPost))
+            if (idToken == 0) return Unauthorized();
+
+            if (await _commentBllService.CreateComment(comment,idPost, idToken))
                 return CreatedAtAction(nameof(Create),comment);
 
             return BadRequest("L'insertion d'un nouveau commentaire à échoué");
