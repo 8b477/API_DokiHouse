@@ -1,10 +1,11 @@
-﻿using DAL_DokiHouse.DTO;
+﻿using DAL_DokiHouse.Interfaces.Generic;
+
 using Entities_DokiHouse.Entities;
 
 
 namespace DAL_DokiHouse.Interfaces
 {
-    public interface IBonsaiRepo
+    public interface IBonsaiRepo : IBaseRepo<Bonsai, int, string>
     {
         /// <summary>
         /// Insert un Utilisateur dans la base de donnée.

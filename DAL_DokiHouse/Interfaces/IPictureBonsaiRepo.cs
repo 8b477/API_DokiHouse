@@ -1,8 +1,9 @@
-﻿using Entities_DokiHouse.Entities;
+﻿using DAL_DokiHouse.Interfaces.Generic;
+using Entities_DokiHouse.Entities;
 
 namespace DAL_DokiHouse.Interfaces
 {
-    public interface IPictureBonsaiRepo
+    public interface IPictureBonsaiRepo : IBaseRepo<PictureBonsai, int, string>
     {
 
         /// <summary>

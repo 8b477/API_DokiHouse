@@ -1,22 +1,18 @@
-﻿using DAL_DokiHouse.Repository;
-using Entities_DokiHouse.Entities;
+﻿using Entities_DokiHouse.Entities;
 using Dapper;
 using System.Data;
-using System.Data.Common;
 using DAL_DokiHouse.DTO.User;
 using DAL_DokiHouse.DTO.Bonsai;
+using DAL_DokiHouse.Repository.Generic;
 
 
 namespace DAL_DokiHouse
 {
-    public class UserRepo : IUserRepo
+    public class UserRepo : BaseRepo<User, int, string>, IUserRepo
     {
 
         #region Injection
-
-        private readonly DbConnection _connection;
-
-        public UserRepo(DbConnection connection) => _connection = connection;
+        public UserRepo(IDbConnection connection) : base(connection) { }
 
         #endregion
 
@@ -186,8 +182,8 @@ namespace DAL_DokiHouse
                         bonsai.Styles = style;
                         bonsai.Notes = note;
 
-                        user.Bonsais ??= new List<BonsaiDetailsDTO>();
-                        user.Bonsais.Add(bonsai);
+                        user.BonsaiDetails ??= new List<BonsaiDetailsDTO>();
+                        user.BonsaiDetails.Add(bonsai);
 
                         return user;
                     },
@@ -195,7 +191,7 @@ namespace DAL_DokiHouse
                     splitOn: "Id, Id, Id, Id, Id, Id");
 
             // GroupBy pour éliminer les doublons basés sur UserId
-            return users.GroupBy(user => user.IdUser).Select(group => group.First());
+            return users.GroupBy(user => user.Id).Select(group => group.First());
         }
 
 
@@ -284,7 +280,6 @@ namespace DAL_DokiHouse
 
             return item;
         }
-
 
     }
 }

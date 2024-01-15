@@ -1,18 +1,21 @@
 ﻿using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
+
 using Dapper;
 using Entities_DokiHouse.Entities;
+
+using System.Data;
 using System.Data.Common;
 
 
 namespace DAL_DokiHouse.Repository
 {
-    public class CommentsRepo : ICommentsRepo
+    public class CommentsRepo : BaseRepo<Comments, int, string>, ICommentsRepo
     {
 
         #region Injection
-        private readonly DbConnection _connection;
+        public CommentsRepo(IDbConnection connection) : base(connection) { }
 
-        public CommentsRepo(DbConnection connection) => _connection = connection;
         #endregion
 
 

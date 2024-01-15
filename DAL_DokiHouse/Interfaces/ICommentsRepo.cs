@@ -1,10 +1,12 @@
 ﻿
 using DAL_DokiHouse.DTO;
+using DAL_DokiHouse.Interfaces.Generic;
+
 using Entities_DokiHouse.Entities;
 
 namespace DAL_DokiHouse.Interfaces
 {
-    public interface ICommentsRepo
+    public interface ICommentsRepo : IBaseRepo<Comments, int, string>
     {
         /// <summary>
         /// Crée un nouveau commentaire.

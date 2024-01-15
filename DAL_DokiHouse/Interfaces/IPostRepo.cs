@@ -1,10 +1,11 @@
 ﻿using DAL_DokiHouse.DTO.Post;
+using DAL_DokiHouse.Interfaces.Generic;
 using Entities_DokiHouse.Entities;
 
 
 namespace DAL_DokiHouse.Interfaces
 {
-    public interface IPostRepo
+    public interface IPostRepo : IBaseRepo<Post, int, string>
     {
         /// <summary>
         /// Créé un nouveau post sur base d'un modèle

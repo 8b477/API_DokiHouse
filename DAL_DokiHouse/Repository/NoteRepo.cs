@@ -1,18 +1,17 @@
 ﻿using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
 using Dapper;
 using Entities_DokiHouse.Entities;
+using System.Data;
 
-using System.Data.Common;
 
 namespace DAL_DokiHouse.Repository
 {
-    public class NoteRepo : INoteRepo
+    public class NoteRepo : BaseRepo<Note, int, string>, INoteRepo
     {
 
         #region Injection
-        private readonly DbConnection _connection;
-
-        public NoteRepo(DbConnection connection) => _connection = connection;
+        public NoteRepo(IDbConnection connection) : base(connection) { }
         #endregion
 
 
@@ -50,15 +49,6 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@IdBonsai", note.Id);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
-
-            return rowsAffected > 0;
-        }
-
-        public async Task<bool> Delete(int id)
-        {
-            string query = $"DELETE FROM [Note] WHERE ID = @Id";
-
-            int rowsAffected = await _connection.ExecuteAsync(query, new { Id = id });
 
             return rowsAffected > 0;
         }

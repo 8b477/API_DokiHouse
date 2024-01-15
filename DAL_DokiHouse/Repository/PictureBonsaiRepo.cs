@@ -1,18 +1,21 @@
 ﻿using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
+
 using Dapper;
 using Entities_DokiHouse.Entities;
+
+using System.Data;
 using System.Data.Common;
 
 
 namespace DAL_DokiHouse.Repository
 {
-    public class PictureBonsaiRepo : IPictureBonsaiRepo
+    public class PictureBonsaiRepo : BaseRepo<PictureBonsai, int, string>, IPictureBonsaiRepo
     {
 
         #region Injection
-        private readonly DbConnection _connection;
+        public PictureBonsaiRepo(IDbConnection connection) : base(connection) { }
 
-        public PictureBonsaiRepo(DbConnection connection) => _connection = connection;
         #endregion
 
 

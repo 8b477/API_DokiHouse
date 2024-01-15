@@ -1,10 +1,12 @@
 ﻿using DAL_DokiHouse.DTO.User;
+using DAL_DokiHouse.Interfaces.Generic;
+
 using Entities_DokiHouse.Entities;
 
 
 namespace DAL_DokiHouse
 {
-    public interface IUserRepo
+    public interface IUserRepo : IBaseRepo<User, int, string>
     {
 
         /// <summary>
@@ -86,6 +88,6 @@ namespace DAL_DokiHouse
         /// Récupère la liste des utilisateurs en base de donnée.
         /// </summary>
         /// <returns>Retourne une liste d'utilisateurs</returns>
-        new Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize);
+        Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize);
     }
 }

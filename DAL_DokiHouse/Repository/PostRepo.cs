@@ -1,18 +1,21 @@
 ﻿using DAL_DokiHouse.DTO.Post;
 using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
+
 using Dapper;
 using Entities_DokiHouse.Entities;
+
+using System.Data;
 using System.Data.Common;
 
 namespace DAL_DokiHouse.Repository
 {
-    public class PostRepo : IPostRepo
+    public class PostRepo : BaseRepo<Post, int, string>, IPostRepo
     {
 
         #region Injection
-        private readonly DbConnection _connection;
+        public PostRepo(IDbConnection connection) : base(connection) {}
 
-        public PostRepo(DbConnection connection) => _connection = connection;
         #endregion
 
 

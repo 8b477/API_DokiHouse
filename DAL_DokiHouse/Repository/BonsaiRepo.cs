@@ -1,16 +1,18 @@
 ﻿using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
+
 using Dapper;
 using Entities_DokiHouse.Entities;
 using System.Data;
 
 namespace DAL_DokiHouse.Repository
 {
-    public class BonsaiRepo : IBonsaiRepo
+    public class BonsaiRepo : BaseRepo<Bonsai, int, string>, IBonsaiRepo
     {
 
         #region Injection
-        private readonly IDbConnection _connection;
-        public BonsaiRepo(IDbConnection connection) => _connection = connection;
+        public BonsaiRepo(IDbConnection connection) : base(connection) {}
+
         #endregion
 
 

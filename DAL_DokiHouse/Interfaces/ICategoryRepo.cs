@@ -1,8 +1,10 @@
-﻿using Entities_DokiHouse.Entities;
+﻿using DAL_DokiHouse.Interfaces.Generic;
+
+using Entities_DokiHouse.Entities;
 
 namespace DAL_DokiHouse.Interfaces
 {
-    public interface ICategoryRepo
+    public interface ICategoryRepo : IBaseRepo<Category, int , string>
     {
 
         /// <summary>

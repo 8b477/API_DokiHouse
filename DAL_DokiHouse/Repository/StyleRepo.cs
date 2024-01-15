@@ -1,21 +1,17 @@
-﻿using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Interfaces;
+﻿using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
 using Dapper;
-
 using Entities_DokiHouse.Entities;
+using System.Data;
 
-using System.Data.Common;
 
 namespace DAL_DokiHouse.Repository
 {
-    public class StyleRepo : IStyleRepo
+    public class StyleRepo : BaseRepo<Style, int, string>, IStyleRepo
     {
 
         #region Injection
-
-        private readonly DbConnection _connection;
-
-        public StyleRepo(DbConnection connection) => _connection = connection;
+        public StyleRepo(IDbConnection connection) : base(connection) { }
 
         #endregion
 

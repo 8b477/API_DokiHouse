@@ -1,20 +1,18 @@
 ﻿using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
 using Dapper;
-
 using Entities_DokiHouse.Entities;
+using System.Data;
 
-using System.Data.Common;
 
 namespace DAL_DokiHouse.Repository
 {
-    public class CategoryRepo : ICategoryRepo
+    public class CategoryRepo : BaseRepo<Category, int, string>, ICategoryRepo
     {
         #region Injection
-        private readonly DbConnection _connection;
+        public CategoryRepo(IDbConnection connection) : base(connection) { }
 
-        public CategoryRepo(DbConnection connection) => _connection = connection;
         #endregion
-
 
 
         public async Task<bool> Update(Category category)

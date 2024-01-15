@@ -1,8 +1,10 @@
 ﻿
 
+using Entities_DokiHouse.Interfaces;
+
 namespace Entities_DokiHouse.Entities
 {
-    public class Category
+    public class Category : IEntity<int>
     {
         public int Id { get; set; }
         public bool Shohin { get; set; }
