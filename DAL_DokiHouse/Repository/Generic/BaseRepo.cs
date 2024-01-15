@@ -1,33 +1,35 @@
-﻿using DAL_DokiHouse.Interfaces;
+﻿using DAL_DokiHouse.Interfaces.Generic;
+using Dapper;
+
 using Entities_DokiHouse.Interfaces;
 
-using Dapper;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DAL_DokiHouse.Repository
+namespace DAL_DokiHouse.Repository.Generic
 {
-    public abstract class BaseRepo<E, M, U, S> : IRepo<E, M, U, S>
-        where E : class, IEntity<U>, new()
-        where M : class
-        where U : struct
-        where S : class
+    public abstract class BaseRepo<E, U, S> : IBaseRepo<E, U, S> where E : class, IEntity<U>, new()
+            where U : struct
+            where S : class
     {
 
         #region Constructor
 
         protected readonly IDbConnection _connection;
 
-        protected BaseRepo(IDbConnection connection) => (_connection) = (connection);
+        protected BaseRepo(IDbConnection connection) => _connection = connection;
 
         #endregion
 
-
-        // Récupère le nom de la table correspondante au modèle E : Entity.
+        #region private methods
         private string GetTableName()
         {
             return typeof(E).Name;
         }
-
 
         private string FirstCharSubstring(string input)
         {
@@ -40,21 +42,23 @@ namespace DAL_DokiHouse.Repository
             return $"{inputToLower[0].ToString().ToUpper()}{input.Substring(1)}";
         }
 
+        #endregion
 
-        public virtual async Task<IEnumerable<M>> Get()
+
+        public virtual async Task<IEnumerable<E>> Get()
         {
             string query = $"SELECT * FROM [{GetTableName()}]";
-            var result = await _connection.QueryAsync<M>(query);
+            var result = await _connection.QueryAsync<E>(query);
 
             return result;
         }
 
 
-        public virtual async Task<M?> GetBy(U id)
+        public virtual async Task<E?> GetBy(U id)
         {
             string tableName = GetTableName();
             string query = $"SELECT * FROM [{tableName}] WHERE Id = @Id";
-            var result = await _connection.QuerySingleOrDefaultAsync<M>(query, new { Id = id });
+            var result = await _connection.QuerySingleOrDefaultAsync<E>(query, new { Id = id });
 
             if (result is null)
                 return null;
@@ -63,13 +67,13 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public virtual async Task<IEnumerable<M>?> GetBy(S name, S stringIdentifiant)
+        public virtual async Task<IEnumerable<E>?> GetBy(S name, S stringIdentifiant)
         {
             string tableName = GetTableName();
             string uppercaseName = name?.ToString()?.ToUpper() ?? "";
-            string reFormatStringIdentifiant = FirstCharSubstring(stringIdentifiant.ToString() ?? "Name"); // --> je m'assure que le stringIdentifiant est sous le bon format
+            string reFormatStringIdentifiant = FirstCharSubstring(stringIdentifiant.ToString() ?? "Name");
             string query = $"SELECT * FROM [{tableName}] WHERE UPPER([{reFormatStringIdentifiant}]) = @UppercaseName";
-            var result = await _connection.QueryAsync<M>(query,new { UppercaseName = uppercaseName });
+            var result = await _connection.QueryAsync<E>(query, new { UppercaseName = uppercaseName });
 
             if (result != null && result.Any())
             {

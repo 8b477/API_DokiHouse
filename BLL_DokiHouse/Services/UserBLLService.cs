@@ -1,11 +1,12 @@
 ﻿using BLL_DokiHouse.ExceptionHandler;
 using BLL_DokiHouse.Interfaces;
-using BLL_DokiHouse.Models;
+using BLL_DokiHouse.Models.User;
 using BLL_DokiHouse.Tools;
 using DAL_DokiHouse;
-using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Repository;
+using DAL_DokiHouse.DTO.User;
+using Entities_DokiHouse.Entities;
 using System.Data.SqlClient;
+
 
 namespace BLL_DokiHouse.Services
 {
@@ -22,9 +23,9 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<UserDTO?> GetUserByID(int id)
+        public async Task<User?> GetUserByID(int id)
         {
-            UserDTO? result = await _userRepo.GetBy(id);
+            User? result = await _userRepo.GetBy(id);
 
             if (result is not null)
                 return result;
@@ -33,9 +34,9 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<IEnumerable<UserDTO>?> GetUsersByName(string name, string stringIdentifiant)
+        public async Task<IEnumerable<User>?> GetUsersByName(string name, string stringIdentifiant)
         {
-            IEnumerable<UserDTO>? result = await _userRepo.GetBy(name, stringIdentifiant);
+            IEnumerable<User>? result = await _userRepo.GetBy(name, stringIdentifiant);
 
             if (result is not null)
                 return result;
@@ -44,16 +45,16 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<bool> CreateUser(UserBLL model)
+        public async Task<bool> CreateUser(UserCreateModel model)
         {
             try
             {
                 if (model is not null)
                 {
                     model.Passwd = BCrypt.Net.BCrypt.HashPassword(model.Passwd);
-                    
-                    UserDTO user = Mapper.UserBLLToDAL(model);
 
+                    User user = Mapping.UserCreateBLLToDAL(model);
+                    
                     return await _userRepo.Create(user);
                 }
 
@@ -70,29 +71,29 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<bool> UpdateUserName(int id, UserUpdateNameBLL model)
+        public async Task<bool> UpdateUserName(int id, UserUpdateModel model)
         {
-            UserUpNameDTO user = Mapper.UserUpNameDTOBLLToDAL(id,model);
+            User user = Mapping.UserUpdateBLLToDAL(model);
 
             return await _userRepo.UpdateName(user);             
         }
 
 
-        public async Task<bool> UpdateUserPass(int id, UserUpdatePassBLL model)
+        public async Task<bool> UpdateUserPass(int id, UserUpdateModel model)
         {
-            model.Passwd = BCrypt.Net.BCrypt.HashPassword(model.Passwd);
+            User user = Mapping.UserUpdateBLLToDAL(model);
 
-            UserUpPassDTO user = Mapper.UserUpPassBLLToDAL(id, model);
+            user.Passwd = BCrypt.Net.BCrypt.HashPassword(model.Passwd);
 
             return await _userRepo.UpdatePass(user);
         }
 
 
-        public async Task<bool> UpdateUserEmail(int id, UserUpdateMailBLL model)
+        public async Task<bool> UpdateUserEmail(int id, UserUpdateModel model)
         {
             try
             {
-                UserUpMailDTO user = Mapper.UserUpMailDTOBLLToDAL(id, model);
+                User user = Mapping.UserUpdateBLLToDAL(model);
 
                 return await _userRepo.UpdateEmail(user);
             }
@@ -119,9 +120,9 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<UserDTO?> Login(string email, string passwd)
+        public async Task<User?> Login(string email, string passwd)
         {
-            UserDTO? user = await _userRepo.Logger(email, passwd);
+            User? user = await _userRepo.Logger(email, passwd);
 
             return
                 user is not null
@@ -130,29 +131,29 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public Task<bool> UpdateUser(int id,  UserUpdateBLL model)
+        public Task<bool> UpdateUser(int id,  UserUpdateModel model)
         {
-            UserDTO userDTO = Mapper.UserUpdateBLLToDAL(model);
+            User user = Mapping.UserUpdateBLLToDAL(model);
 
-            return _userRepo.Update(userDTO);
+            return _userRepo.Update(user);
         }
 
 
-        public Task<IEnumerable<UserDetailsBonsaiDTO?>> GetInfos(int startIndex, int pageSize)
+        public Task<IEnumerable<UserAndBonsaiDetails?>> GetInfos(int startIndex, int pageSize)
         {
             return _userRepo.GetInfos(startIndex, pageSize);
         }
 
 
-        public Task<UserDetailsBonsaiDTO?> GetInfosById(int idUser)
+        public Task<UserAndBonsaiDetails?> GetInfosById(int idUser)
         {
             return _userRepo.GetInfosById(idUser);
         }
 
 
-        public async Task<IEnumerable<UserAndPictureDTO>> Get()
+        public async Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize)
         {
-            return await _userRepo.Get();
+            return await _userRepo.GetUsers(startIndex, pageSize);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using BLL_DokiHouse.Models;
-
-using DAL_DokiHouse.DTO;
+﻿using API_DokiHouse.Models;
 
 namespace BLL_DokiHouse.Interfaces
 {
@@ -12,7 +10,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="style">Objet de logique métier style à créer.</param>
         /// <returns>Une tâche asynchrone indiquant si la création a réussi (true) ou échoué (false).</returns>
-        Task<bool> CreateStyle(StyleBLL style);
+        Task<bool> CreateStyle(int idBonsai, StyleModel style);
 
 
         /// <summary>
@@ -20,7 +18,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="style">Objet de logique métier style à mettre à jour.</param>
         /// <returns>Une tâche asynchrone indiquant si la mise à jour a réussi (true) ou échoué (false).</returns>
-        Task<bool> UpdateStyle(StyleBLL style);
+        Task<bool> UpdateStyle(int idStyle, StyleModel style);
 
     }
 }

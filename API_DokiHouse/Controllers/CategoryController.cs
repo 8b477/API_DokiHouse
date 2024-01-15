@@ -1,7 +1,5 @@
 ﻿using API_DokiHouse.Models;
-using API_DokiHouse.Services;
 using BLL_DokiHouse.Interfaces;
-using BLL_DokiHouse.Models;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,14 +32,7 @@ namespace API_DokiHouse.Controllers
         [HttpPost("{idBonsai}:int")]
         public async Task<IActionResult> Create([FromRoute] int idBonsai, CategoryModel model)
         {
-            CategoryBLL categoryBLL = Mapper.CategoryModelToBLL(model);
-
-            categoryBLL.IdBonsai = idBonsai;
-
-            if (categoryBLL.IdBonsai == 0)
-                return BadRequest("L'identifiant Bonsai n'est pas correct");
-
-            if (await _categoryService.CreateCategory(idBonsai, categoryBLL)) 
+            if (await _categoryService.CreateCategory(idBonsai, model)) 
                 return CreatedAtAction(nameof(Create),model);
 
             return BadRequest();
@@ -63,12 +54,8 @@ namespace API_DokiHouse.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            CategoryBLL category = Mapper.CategoryModelToBLL(model);
-
-            category.IdBonsai = idBonsai;
-
             return
-                await _categoryService.UpdateCategory(category)
+                await _categoryService.UpdateCategory(model,idBonsai)
                 ? Ok()
                 : BadRequest();
         }

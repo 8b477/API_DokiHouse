@@ -1,7 +1,5 @@
-﻿using BLL_DokiHouse.Models;
-
-using DAL_DokiHouse.DTO;
-
+﻿
+using API_DokiHouse.Models;
 
 namespace BLL_DokiHouse.Interfaces
 {
@@ -14,7 +12,7 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="idBonsai">L'ID du bonsaï auquel la catégorie sera associée.</param>
         /// <param name="model">Le modèle de catégorie à créer.</param>
         /// <returns>True si la création est réussie, sinon false.</returns>
-        Task<bool> CreateCategory(int idBonsai, CategoryBLL model);
+        Task<bool> CreateCategory(int idBonsai, CategoryModel model);
 
 
         /// <summary>
@@ -22,6 +20,6 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle de catégorie à mettre à jour.</param>
         /// <returns>True si la mise à jour est réussie, sinon false.</returns>
-        Task<bool> UpdateCategory(CategoryBLL model);
+        Task<bool> UpdateCategory(CategoryModel model, int idBonsai);
     }
 }

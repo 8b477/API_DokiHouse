@@ -1,6 +1,6 @@
 ﻿using Entities_DokiHouse.Entities;
 
-namespace DAL_DokiHouse.DTO
+namespace DAL_DokiHouse.DTO.User
 {
     public class UserAndPictureDTO
     {

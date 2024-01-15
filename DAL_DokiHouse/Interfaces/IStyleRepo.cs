@@ -1,9 +1,10 @@
-﻿
-using DAL_DokiHouse.DTO;
+﻿using DAL_DokiHouse.Interfaces.Generic;
+
+using Entities_DokiHouse.Entities;
 
 namespace DAL_DokiHouse.Interfaces
 {
-    public interface IStyleRepo
+    public interface IStyleRepo : IBaseRepo<Style, int, string>
     {
 
         /// <summary>
@@ -11,7 +12,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="style">Objet DTO représentant le style à créer.</param>
         /// <returns>Une tâche asynchrone qui indique si la création a réussi.</returns>
-        Task<bool> Create(StyleDTO style);
+        Task<bool> Create(int idBonsai, Style style);
 
 
         /// <summary>
@@ -19,7 +20,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="style">Objet DTO représentant le style à mettre à jour.</param>
         /// <returns>Une tâche asynchrone qui indique si la mise à jour a réussi.</returns>
-        Task<bool> Update(StyleDTO style);
+        Task<bool> Update(int idStyle, Style style);
 
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="idBonsai">Identifiant du bonsaï associé au style.</param>
         /// <returns>Une tâche asynchrone qui indique si l'opération a réussi.</returns>
-        Task<bool> NotValide(int idBonsai);                                                                                                                                                                               
+        Task<bool> IsAlreadyExists(int idBonsai);                                                                                                                                                                               
 
     }
 }

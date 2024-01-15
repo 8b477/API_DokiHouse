@@ -1,70 +1,59 @@
-﻿using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Interfaces;
+﻿using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
 using Dapper;
-
+using Entities_DokiHouse.Entities;
 using System.Data;
+
 
 namespace DAL_DokiHouse.Repository
 {
-    public class NoteRepo : INoteRepo
+    public class NoteRepo : BaseRepo<Note, int, string>, INoteRepo
     {
 
         #region Injection
-        private readonly IDbConnection _connection;
-
-        public NoteRepo(IDbConnection connection) => _connection = connection;
+        public NoteRepo(IDbConnection connection) : base(connection) { }
         #endregion
 
 
-        public async Task<bool> Create(NoteDTO model)
+        public async Task<bool> Create(int idNote, Note note)
         {
             string sql = @"
-        INSERT INTO [Note] 
+            INSERT INTO [Note] 
             (Title, Description, IdBonsai, CreateAt, ModifiedAt)
-        VALUES 
-            (@Title,@Description,@IdBonsai, @CreateAt, @ModifiedAt)";
+            VALUES (@Title,@Description,@IdBonsai, @CreateAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
-            parameters.Add("@Title", model.Title);
-            parameters.Add("@Description", model.Description);
-            parameters.Add("@IdBonsai", model.IdBonsai);
-            parameters.Add("@CreateAt", model.CreateAt);
-            parameters.Add("@ModifiedAt", model.ModifiedAt);
+            parameters.Add("@Title", note.Title);
+            parameters.Add("@Description", note.Description);
+            parameters.Add("@IdBonsai", idNote);
+            parameters.Add("@CreateAt",note.CreatedAt);
+            parameters.Add("@ModifiedAt",note.ModifiedAt);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;
         }
 
-        public async Task<bool> Update(NoteDTO model)
+        public async Task<bool> Update(int idNote, Note note)
         {
             string sql = @"
-        UPDATE [Note]
-        SET 
+            UPDATE [Note]
+            SET 
             Title = @Title,
             Description = @Description
-        WHERE IdBonsai = @IdBonsai";
+            WHERE IdBonsai = @IdBonsai";
 
             DynamicParameters parameters = new();
-            parameters.Add("@Title", model.Title);
-            parameters.Add("@Description", model.Description);
-            parameters.Add("@IdBonsai", model.IdBonsai);
+            parameters.Add("@Title", note.Title);
+            parameters.Add("@Description", note.Description);
+            parameters.Add("@IdBonsai", idNote);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;
         }
 
-        public async Task<bool> Delete(int id)
-        {
-            string query = $"DELETE FROM [Note] WHERE ID = @Id";
-
-            int rowsAffected = await _connection.ExecuteAsync(query, new { Id = id });
-
-            return rowsAffected > 0;
-        }
-
-        public async Task<bool> NotValide(int idBonsai)
+        public async Task<bool> IsAlreadyExists(int idBonsai)
         {
             string sql = @"
         SELECT TOP 1 1

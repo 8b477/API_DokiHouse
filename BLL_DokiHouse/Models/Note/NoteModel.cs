@@ -2,6 +2,7 @@
 
 namespace API_DokiHouse.Models
 {
+#nullable disable
     public class NoteModel
     {
         [Required]
@@ -11,4 +12,5 @@ namespace API_DokiHouse.Models
         [Required]
         public string Description { get; set; }
     }
+#nullable enable
 }

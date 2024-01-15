@@ -1,8 +1,10 @@
 ﻿
 
+using Entities_DokiHouse.Interfaces;
+
 namespace Entities_DokiHouse.Entities
 {
-    public class Category
+    public class Category : IEntity<int>
     {
         public int Id { get; set; }
         public bool Shohin { get; set; }
@@ -22,7 +24,7 @@ namespace Entities_DokiHouse.Entities
         public bool Yamadori { get; set; }
         public string? CatePerso { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
         public int IdBonsai { get; set; }
     }
 }

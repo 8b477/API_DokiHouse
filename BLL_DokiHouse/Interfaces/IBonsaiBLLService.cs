@@ -1,7 +1,5 @@
-﻿using BLL_DokiHouse.Models;
-using DAL_DokiHouse.DTO;
-
-using System.Collections.Generic;
+﻿using API_DokiHouse.Models;
+using Entities_DokiHouse.Entities;
 
 
 namespace BLL_DokiHouse.Interfaces
@@ -14,14 +12,14 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle de bonsaï à créer.</param>
         /// <returns>L'ID du bonsaï créé.</returns>
-        Task<bool> CreateBonsai(BonsaiBLL model);
+        Task<bool> CreateBonsai(BonsaiModel model, int idToken);
 
 
         /// <summary>
         /// Récupère tous les bonsaïs.
         /// </summary>
         /// <returns>Une collection de bonsaïs</returns>
-        Task<IEnumerable<BonsaiDTO>> GetBonsais();
+        Task<IEnumerable<Bonsai>> GetBonsais();
 
 
         /// <summary>
@@ -29,14 +27,14 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="id">L'ID du bonsaï à récupérer.</param>
         /// <returns>Les informations détaillées du bonsaï.</returns>
-        Task<BonsaiDTO?> GetBonsaiByID(int id);
+        Task<Bonsai?> GetBonsaiByID(int id);
 
         /// <summary>
         /// Récupère les informations détaillées d'un bonsaï lié à l'utilisateur qui fait la requête.
         /// </summary>
         /// <param name="id">L'ID du bonsaï à récupérer.</param>
         /// <returns>Les informations détaillées du bonsaï.</returns>
-        Task<IEnumerable<BonsaiDTO?>> GetOwnBonsai(int id);
+        Task<IEnumerable<Bonsai?>> GetOwnBonsai(int id);
 
 
         /// <summary>
@@ -44,7 +42,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="name">Le nom à rechercher.</param>
         /// <returns>Une collection de bonsaïs correspondant au nom donné.</returns>
-        Task<IEnumerable<BonsaiDTO>?> GetBonsaiByName(string name, string stringIdentifiant);
+        Task<IEnumerable<Bonsai>?> GetBonsaiByName(string name, string stringIdentifiant);
 
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="bonsai">Le modèle de bonsaï avec les informations mises à jour.</param>
         /// <returns>True si la mise à jour est réussie, sinon false.</returns>
-        Task<bool> UpdateBonsai(BonsaiDTO bonsai);
+        Task<bool> UpdateBonsai(BonsaiModel bonsai, int idBonsai);
 
 
         /// <summary>

@@ -1,6 +1,8 @@
-﻿using BLL_DokiHouse.Models;
+﻿using API_DokiHouse.Models;
+using DAL_DokiHouse.DTO.Post;
 
-using DAL_DokiHouse.DTO;
+using Entities_DokiHouse.Entities;
+
 
 namespace BLL_DokiHouse.Interfaces
 {
@@ -11,14 +13,14 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="post">Les données du post à créer.</param>
         /// <returns>Retourne vrai si la création est réussie, sinon faux.</returns>
-        Task<bool> CreatePost(PostBLL post);
+        Task<bool> CreatePost(int idUser, PostModel post);
 
 
         /// <summary>
         /// Récupère la liste complète des posts.
         /// </summary>
         /// <returns>Retourne la liste des posts.</returns>
-        Task<IEnumerable<PostDTO>?> GetPosts();
+        Task<IEnumerable<Post>?> GetPosts();
 
 
         /// <summary>
@@ -26,15 +28,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="id">L'identifiant du post à récupérer.</param>
         /// <returns>Retourne le post correspondant à l'identifiant.</returns>
-        Task<PostDTO?> GetPostById(int id);
-
-
-        /// <summary>
-        /// Récupère les posts sur base l'identifiant de l'utilisateur connecter.
-        /// </summary>
-        /// <param name="idUser">L'identifiant du post à récupérer.</param>
-        /// <returns>Retourne le post correspondant à l'identifiant.</returns>
-        Task<IEnumerable<PostDTO>?> GetOwnPosts(int idUser);
+        Task<Post?> GetPostById(int id);
 
 
         /// <summary>
@@ -42,7 +36,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="name">Le nom à utiliser pour la recherche des posts.</param>
         /// <returns>Retourne la liste des posts correspondant au nom.</returns>
-        Task<IEnumerable<PostDTO>?> GetPostsByName(string name, string stringIdentifiant);
+        Task<IEnumerable<Post>?> GetPostsByName(string name, string stringIdentifiant);
 
 
         /// <summary>
@@ -50,7 +44,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="post">Les données mises à jour du post.</param>
         /// <returns>Retourne vrai si la mise à jour est réussie, sinon faux.</returns>
-        Task<bool> UpdatePost(PostBLL post);
+        Task<bool> UpdatePost(int idPost, PostModel post);
 
 
         /// <summary>
@@ -61,6 +55,11 @@ namespace BLL_DokiHouse.Interfaces
         Task<bool> DeletePost(int id);
 
 
-        Task<PostDTO>? GetPostWithComments(int userId);
+        /// <summary>
+        /// Récupère tout les post et les commentaires en base de données sur base d'un identifiant utilisateur.
+        /// </summary>
+        /// <param name="idUser">Un identifiant utilisateur de type : int</param>
+        /// <returns></returns>
+        Task<IEnumerable<PostAndCommentDTO>>? GetPostWithComments(int idUser);
     }
 }

@@ -1,31 +1,35 @@
-﻿
-using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Interfaces;
+﻿using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
+
 using Dapper;
 using Entities_DokiHouse.Entities;
+
 using System.Data;
+using System.Data.Common;
 
 
 namespace DAL_DokiHouse.Repository
 {
-    public class CommentsRepo : BaseRepo<Comments, CommentsDTO, int, string>, ICommentsRepo
+    public class CommentsRepo : BaseRepo<Comments, int, string>, ICommentsRepo
     {
+
         #region Injection
-        public CommentsRepo(IDbConnection connection) : base(connection){}
+        public CommentsRepo(IDbConnection connection) : base(connection) { }
+
         #endregion
 
 
-        public async Task<bool> Create(CommentsDTO comments)
+        public async Task<bool> Create(int idPost, Comments comments)
         {
             string sql = @"
-        INSERT INTO [Comments]
+            INSERT INTO [Comments]
             (Content, IdUser, IdPost, CreatedAt, ModifiedAt)
-        VALUES (@Content, @IdUser, @IdPost, @CreatedAt, @ModifiedAt)";
+            VALUES (@Content, @IdUser, @IdPost, @CreatedAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
             parameters.Add("@Content", comments.Content);
             parameters.Add("@IdUser", comments.IdUser);
-            parameters.Add("@IdPost", comments.IdPost);
+            parameters.Add("@IdPost", idPost);
             parameters.Add("@CreatedAt", comments.CreatedAt);
             parameters.Add("@ModifiedAt", comments.ModifiedAt);
 
@@ -35,7 +39,7 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<bool> Update(int Id, CommentsDTO comments)
+        public async Task<bool> Update(int Id, Comments comments)
         {
             string sql = @"
             UPDATE [Comments]
@@ -52,11 +56,11 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<IEnumerable<CommentsDTO>?> GetOwnComments(int id)
+        public async Task<IEnumerable<Comments>?> GetOwnComments(int id)
         {
             string sql = @"SELECT * FROM [Comments] WHERE IdUser = @idParam";
 
-            IEnumerable<CommentsDTO> CommentsCollection = await _connection.QueryAsync<CommentsDTO>(sql, new { idParam = id });
+            IEnumerable<Comments> CommentsCollection = await _connection.QueryAsync<Comments>(sql, new { idParam = id });
 
             return CommentsCollection;
         }

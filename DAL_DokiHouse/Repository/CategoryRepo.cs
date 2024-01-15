@@ -1,26 +1,25 @@
-﻿using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Interfaces;
+﻿using DAL_DokiHouse.Interfaces;
+using DAL_DokiHouse.Repository.Generic;
 using Dapper;
+using Entities_DokiHouse.Entities;
+using System.Data;
 
-using System.Data.Common;
 
 namespace DAL_DokiHouse.Repository
 {
-    public class CategoryRepo : ICategoryRepo
+    public class CategoryRepo : BaseRepo<Category, int, string>, ICategoryRepo
     {
         #region Injection
-        private readonly DbConnection _connection;
+        public CategoryRepo(IDbConnection connection) : base(connection) { }
 
-        public CategoryRepo(DbConnection connection) => _connection = connection;
         #endregion
 
 
-
-        public async Task<bool> Update(CategoryDTO category)
+        public async Task<bool> Update(Category category)
         {
             string sql = @"
-        UPDATE [Category]
-        SET 
+            UPDATE [Category]
+            SET 
             Shohin = @Shohin,
             Mame = @Mame,
             Chokkan = @Chokkan,
@@ -37,7 +36,7 @@ namespace DAL_DokiHouse.Repository
             Kokufu = @Kokufu,
             Yamadori = @Yamadori,
             Perso = @Perso
-        WHERE IdBonsai = @IdBonsai";
+            WHERE IdBonsai = @IdBonsai";
 
             var parameters = new DynamicParameters();
             parameters.Add("@Shohin", category.Shohin);
@@ -55,7 +54,7 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Kabudachi", category.Kabudachi);
             parameters.Add("@Kokufu", category.Kokufu);
             parameters.Add("@Yamadori", category.Yamadori);
-            parameters.Add("@Perso", category.Perso);
+            parameters.Add("@Perso", category.CatePerso);
             parameters.Add("@IdBonsai", category.IdBonsai);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
@@ -64,20 +63,16 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<bool> Create(CategoryDTO category)
+        public async Task<bool> Create(Category category, int idBonsai)
         {
             string sql = @"
-        INSERT INTO [Category] (
-            Shohin, Mame, Chokkan, Moyogi, Shakan,
-            Kengai, HanKengai, Ikadabuki, Neagari, Literati,
-            YoseUe, Ishitsuki, Kabudachi, Kokufu, Yamadori,
-            Perso, IdBonsai, CreateAt, ModifiedAt
-        ) VALUES (
-            @Shohin, @Mame, @Chokkan, @Moyogi, @Shakan,
+            INSERT INTO [Category] 
+            (Shohin, Mame, Chokkan, Moyogi, Shakan, Kengai, HanKengai, Ikadabuki, Neagari, Literati,
+            YoseUe, Ishitsuki, Kabudachi, Kokufu, Yamadori, Perso, IdBonsai, CreateAt, ModifiedAt)
+            VALUES (@Shohin, @Mame, @Chokkan, @Moyogi, @Shakan,
             @Kengai, @HanKengai, @Ikadabuki, @Neagari, @Literati,
             @YoseUe, @Ishitsuki, @Kabudachi, @Kokufu, @Yamadori,
-            @Perso, @IdBonsai, @CreateAt, @ModifiedAt
-        )";
+            @Perso, @IdBonsai, @CreateAt, @ModifiedAt)";
 
             var parameters = new DynamicParameters();
             parameters.Add("@Shohin", category.Shohin);
@@ -95,10 +90,10 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Kabudachi", category.Kabudachi);
             parameters.Add("@Kokufu", category.Kokufu);
             parameters.Add("@Yamadori", category.Yamadori);
-            parameters.Add("@Perso", category.Perso);
-            parameters.Add("@IdBonsai", category.IdBonsai);
+            parameters.Add("@Perso", category.CatePerso);
             parameters.Add("@CreateAt", category.CreatedAt);
             parameters.Add("@ModifiedAt", category.ModifiedAt);
+            parameters.Add("@IdBonsai", idBonsai);
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
@@ -106,16 +101,16 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<bool> NotValide(int idBonsai)
+        public async Task<bool> IsAlreadyExists(int idBonsai)
         {
             string sql = @"
-        SELECT TOP 1 1
-        FROM [Category] 
-        WHERE IdBonsai = @IdBonsai";
+            SELECT TOP 1 1
+            FROM [Category] 
+            WHERE IdBonsai = @IdBonsai";
 
             int? result = await _connection.QueryFirstOrDefaultAsync<int?>(sql, new { IdBonsai = idBonsai });
 
-            return result.HasValue; // Retourne true si une valeur est trouvée, false sinon
+            return result.HasValue; // Retourne true si une valeur est trouvée, sinon false
         }
     }
 }

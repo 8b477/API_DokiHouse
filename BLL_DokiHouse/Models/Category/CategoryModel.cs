@@ -2,7 +2,6 @@
 
 namespace API_DokiHouse.Models
 {
-
     public class CategoryModel
     {
         public bool Shohin { get; set; } = false;

@@ -1,13 +1,11 @@
-﻿using API_DokiHouse.Models;
-using API_DokiHouse.Services;
-using API_DokiHouse.Tools;
+﻿using API_DokiHouse.Tools;
 using BLL_DokiHouse.Interfaces;
-using BLL_DokiHouse.Models;
-using DAL_DokiHouse.DTO;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using DAL_DokiHouse.Repository;
+using BLL_DokiHouse.Models.User;
+using DAL_DokiHouse.DTO.User;
+using Entities_DokiHouse.Entities;
 
 
 
@@ -39,21 +37,19 @@ namespace API_DokiHouse.Controllers
         /// Cette méthode permet de créer un nouvel utilisateur en utilisant les informations fournies.
         /// </remarks>
         /// <param name="model">Les informations de l'utilisateur à créer.</param>
-        /// <response code="201">La création de l'utilisateur à réusi.</response>
+        /// <response code="201">La création de l'utilisateur à réussi.</response>
         /// <response code="400">La création de l'utilisateur a échoué.</response>
         [AllowAnonymous]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserBLL))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(User))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] UserCreateModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            UserBLL user = Mapper.UserModelToBLL(model);
-
             return
-                await _userService.CreateUser(user) == true
+                await _userService.CreateUser(model) == true
                 ? CreatedAtAction(nameof(Create),model)
                 : BadRequest();
         }
@@ -68,12 +64,16 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne la liste des utilisateurs.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserAndPictureDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] int startIndex = 1, [FromQuery] int pageSize = 12)
         {
-            IEnumerable<UserAndPictureDTO?> result = await _userService.Get();
+            if (startIndex < 1) return BadRequest("Le paramètre startIndex doit être supérieur à zéro");
+            if (pageSize < 1) return BadRequest("Le paramètre pageSize doit être supérieur à zéro");
+
+            startIndex--;
+
+            IEnumerable<UserAndPictureDTO?> result = await _userService.GetUsers(startIndex, pageSize);
 
             return result is not null 
                    ? Ok(result)
@@ -93,8 +93,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         /// <response code="400">La requête n'est pas correct.</response>
         [HttpGet(nameof(GetInfos))]
-        [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDetailsBonsaiDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserAndBonsaiDetails>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetInfos([FromQuery] int startIndex = 1, [FromQuery] int pageSize = 12)
@@ -104,7 +103,7 @@ namespace API_DokiHouse.Controllers
 
             startIndex--;
 
-            IEnumerable<UserDetailsBonsaiDTO?> result = await _userService.GetInfos(startIndex, pageSize);
+            IEnumerable<UserAndBonsaiDetails?> result = await _userService.GetInfos(startIndex, pageSize);
           
             return result is null 
                 ? NoContent() 
@@ -121,12 +120,12 @@ namespace API_DokiHouse.Controllers
         /// <response code="400">La requête n'est pas correct.</response>
         [HttpGet(nameof(GetInfosById))]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDetailsBonsaiDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserAndBonsaiDetails))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetInfosById(int idUser)
         {
-            UserDetailsBonsaiDTO? result = await _userService.GetInfosById(idUser);
+            UserAndBonsaiDetails? result = await _userService.GetInfosById(idUser);
 
             return result is null
                 ? NoContent()
@@ -143,7 +142,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne l'utilisateur trouvé.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet(nameof(Profil))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserModelDisplay))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Profil()
         {
@@ -151,10 +150,10 @@ namespace API_DokiHouse.Controllers
 
             if (idUser == 0) return Unauthorized();
 
-            UserDTO? result = await _userService.GetUserByID(idUser);
+            User? result = await _userService.GetUserByID(idUser);
 
             if (result is not null)
-                return Ok(Mapper.UserBLLToFormatDisplay(result));
+                return Ok(result);
 
             return NoContent();
         }
@@ -171,14 +170,14 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne la liste des utilisateurs trouvés.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet("{name}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserModelDisplay>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<User>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetByName([FromRoute] string name, string stringIdentifiant = "Name")
         {
-            IEnumerable<UserDTO?> result = await _userService.GetUsersByName(name,stringIdentifiant);
+            IEnumerable<User?> result = await _userService.GetUsersByName(name,stringIdentifiant);
 
             if (result is not null)
-                return Ok(Mapper.UserBLLToFormatDisplay(result));
+                return Ok(result);
 
             return NoContent();
         }
@@ -190,19 +189,17 @@ namespace API_DokiHouse.Controllers
         /// <remarks>
         /// Cette méthode permet de mettre à jour le nom d'un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
         /// </remarks>
-        /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
+        /// <param name="user">Les nouvelles informations de l'utilisateur.</param>
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update([FromBody] UserUpdateModel model)
+        public async Task<IActionResult> Update([FromBody] UserUpdateModel user)
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
-
-            UserUpdateBLL user = Mapper.UserUpdateModelToBLL(model);
 
             if (await _userService.UpdateUser(idUser, user))
                 return Ok();
@@ -217,22 +214,20 @@ namespace API_DokiHouse.Controllers
         /// <remarks>
         /// Cette méthode permet de mettre à jour le nom d'un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
         /// </remarks>
-        /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
+        /// <param name="user">Les nouvelles informations de l'utilisateur.</param>
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut(nameof(Name))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserNameUpdateModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Name([FromBody] UserNameUpdateModel model)
+        public async Task<IActionResult> Name([FromBody] UserUpdateModel user)
         {         
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
-            UserUpdateNameBLL user = Mapper.UserModelToBLL(model);
-
             if(await _userService.UpdateUserName(idUser, user))           
-                return Ok(model);
+                return Ok(user);
 
             return BadRequest();
         }
@@ -244,22 +239,20 @@ namespace API_DokiHouse.Controllers
         /// <remarks>
         /// Cette méthode permet de mettre à jour le mot de passe d'un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
         /// </remarks>
-        /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
+        /// <param name="user">Les nouvelles informations de l'utilisateur.</param>
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut(nameof(Pass))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPassUpdateModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Pass([FromBody] UserPassUpdateModel model)
+        public async Task<IActionResult> Pass([FromBody] UserUpdateModel user)
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
-            UserUpdatePassBLL user = Mapper.UserModelToBLL(model);
-
             if (await _userService.UpdateUserPass(idUser, user))
-                return Ok(model);
+                return Ok(user);
 
             return BadRequest();
         }
@@ -271,22 +264,20 @@ namespace API_DokiHouse.Controllers
         /// <remarks>
         /// Cette méthode permet de mettre à jour l'email d'un utilisateur existant en utilisant son ID et les nouvelles informations fournies.
         /// </remarks>
-        /// <param name="model">Les nouvelles informations de l'utilisateur.</param>
+        /// <param name="user">Les nouvelles informations de l'utilisateur.</param>
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut(nameof(Mail))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserMailUpdateModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Mail([FromBody] UserMailUpdateModel model)
+        public async Task<IActionResult> Mail([FromBody] UserUpdateModel user)
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
-            UserUpdateMailBLL user = Mapper.UserModelToBLL(model);
-
             if (await _userService.UpdateUserEmail(idUser, user))
-                return Ok(model);
+                return Ok(user);
 
             return BadRequest();
         }

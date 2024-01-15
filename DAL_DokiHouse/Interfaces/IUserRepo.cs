@@ -1,15 +1,12 @@
-﻿using DAL_DokiHouse.DTO;
-using DAL_DokiHouse.Interfaces;
-using DAL_DokiHouse.Repository;
+﻿using DAL_DokiHouse.DTO.User;
+using DAL_DokiHouse.Interfaces.Generic;
 
 using Entities_DokiHouse.Entities;
-
-using static DAL_DokiHouse.UserRepo;
 
 
 namespace DAL_DokiHouse
 {
-    public interface IUserRepo : IRepo<User, UserDTO, int, string>
+    public interface IUserRepo : IBaseRepo<User, int, string>
     {
 
         /// <summary>
@@ -17,7 +14,7 @@ namespace DAL_DokiHouse
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les informations de l'utilisateur à créer.</param>
         /// <returns>Retourne true si la création est réussie, sinon retourne false.</returns>
-        Task<bool> Create(UserDTO model);
+        Task<bool> Create(User model);
 
 
         /// <summary>
@@ -25,7 +22,7 @@ namespace DAL_DokiHouse
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> Update(UserDTO model);
+        Task<bool> Update(User model);
 
 
         /// <summary>
@@ -33,7 +30,7 @@ namespace DAL_DokiHouse
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdateName(UserUpNameDTO model);
+        Task<bool> UpdateName(User model);
 
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace DAL_DokiHouse
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdatePass(UserUpPassDTO model);
+        Task<bool> UpdatePass(User model);
 
 
         /// <summary>
@@ -49,7 +46,7 @@ namespace DAL_DokiHouse
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdateEmail(UserUpMailDTO model);
+        Task<bool> UpdateEmail(User model);
 
 
         /// <summary>
@@ -58,7 +55,7 @@ namespace DAL_DokiHouse
         /// <param name="email">L'e-mail de l'utilisateur à authentifier.</param>
         /// <param name="motDePasse">Le mot de passe fourni par l'utilisateur.</param>
         /// <returns>Retourne l'utilisateur authentifié s'il existe, sinon retourne null.</returns>
-        Task<UserDTO?> Logger(string email, string motDePasse);
+        Task<User?> Logger(string email, string motDePasse);
 
 
         /// <summary>
@@ -76,7 +73,7 @@ namespace DAL_DokiHouse
         /// <param name="startIndex">Paramètre de type : 'int', représente l'index de départ, ne peut pas être négatif</param>
         /// <param name="pageSize">Paramètre de type : 'int', représente le nombre d'éléments retourner</param>
         /// <returns>Retourne une liste d'utilisateur avec leur infos</returns>
-        Task<IEnumerable<UserDetailsBonsaiDTO?>> GetInfos(int startIndex, int pageSize);
+        Task<IEnumerable<UserAndBonsaiDetails?>> GetInfos(int startIndex, int pageSize);
 
 
         /// <summary>
@@ -84,13 +81,13 @@ namespace DAL_DokiHouse
         /// </summary>
         /// <param name="idUser">Paramètre de type : 'int', représente l'identifiant d'un utilisateur</param>
         /// <returns>Retourne un utilisateur avec ses infos</returns>
-        Task<UserDetailsBonsaiDTO?> GetInfosById(int idUser);
+        Task<UserAndBonsaiDetails?> GetInfosById(int idUser);
 
 
         /// <summary>
         /// Récupère la liste des utilisateurs en base de donnée.
         /// </summary>
         /// <returns>Retourne une liste d'utilisateurs</returns>
-        new Task<IEnumerable<UserAndPictureDTO>> Get();
+        Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize);
     }
 }

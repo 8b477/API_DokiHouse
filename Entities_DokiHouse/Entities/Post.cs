@@ -10,7 +10,7 @@ namespace Entities_DokiHouse.Entities
         public string Description { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public DateTime CreateAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
         public int IdUser { get; set; }
     }
 }
