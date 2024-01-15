@@ -12,7 +12,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">model à inséré en base de donnée</param>
         /// <returns></returns>
-        Task<bool> Create(Bonsai bonsai, int idToken);
+        Task<bool> Create(Bonsai bonsai, int idUser);
 
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="bonsai">Les nouvelles informations du bonsaï.</param>
         /// <returns>True si la mise à jour a réussi, sinon False.</returns>
-        Task<bool> Update(Bonsai bonsai);
+        Task<bool> Update(Bonsai bonsai, int idBonsai);
 
         /// <summary>
         /// Récupère la liste des bonsai associé à l'identifiant d'un Utilisateur

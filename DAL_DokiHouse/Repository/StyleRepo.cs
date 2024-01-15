@@ -17,7 +17,7 @@ namespace DAL_DokiHouse.Repository
 
 
 
-        public async Task<bool> Create(Style style)
+        public async Task<bool> Create(int idBonsai, Style style)
         {
             string sql = @"
             INSERT INTO [Style] 
@@ -31,9 +31,9 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Korabuki", style.Korabuki);
             parameters.Add("@Ishituki", style.Ishituki);
             parameters.Add("@Perso", style.StylePerso);
-            parameters.Add("@IdBonsai", style.IdBonsai);
             parameters.Add("@CreateAt", style.CreatedAt);
             parameters.Add("@ModifiedAt", style.ModifiedAt);
+            parameters.Add("@IdBonsai", idBonsai);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
@@ -41,7 +41,7 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<bool> Update(Style style)
+        public async Task<bool> Update(int idStyle, Style style)
         {
             string sql = @"
             UPDATE [Style]
@@ -50,8 +50,19 @@ namespace DAL_DokiHouse.Repository
             Bankan = @Bankan,
             Korabuki = @Korabuki,
             Ishituki = @Ishituki,
+            ModfiedAt = @ModifiedAt
             Perso = @Perso
-            WHERE IdBonsai = @IdBonsai";
+            WHERE Id = @IdStyle";
+
+            DynamicParameters parameters = new();
+            parameters.Add("@Bunjin", style.Bunjin);
+            parameters.Add("@Bankan", style.Bankan);
+            parameters.Add("@Korabuki", style.Korabuki);
+            parameters.Add("@Ishituki", style.Ishituki);
+            parameters.Add("@Perso", style.StylePerso);
+            parameters.Add("@ModifiedAt", style.ModifiedAt);
+            parameters.Add("@IdStyle", idStyle);
+
 
             int rowsAffected = await _connection.ExecuteAsync(sql, style);
 

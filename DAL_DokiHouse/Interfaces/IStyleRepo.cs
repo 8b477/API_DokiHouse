@@ -12,7 +12,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="style">Objet DTO représentant le style à créer.</param>
         /// <returns>Une tâche asynchrone qui indique si la création a réussi.</returns>
-        Task<bool> Create(Style style);
+        Task<bool> Create(int idBonsai, Style style);
 
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="style">Objet DTO représentant le style à mettre à jour.</param>
         /// <returns>Une tâche asynchrone qui indique si la mise à jour a réussi.</returns>
-        Task<bool> Update(Style style);
+        Task<bool> Update(int idStyle, Style style);
 
 
         /// <summary>

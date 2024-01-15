@@ -1,8 +1,9 @@
-﻿using BLL_DokiHouse.Interfaces;
-using BLL_DokiHouse.Models;
-using DAL_DokiHouse.DTO;
+﻿using API_DokiHouse.Models;
+using BLL_DokiHouse.Interfaces;
+using BLL_DokiHouse.Tools;
+using DAL_DokiHouse.DTO.Post;
 using DAL_DokiHouse.Interfaces;
-using Mapper = BLL_DokiHouse.Tools.Mapper;
+using Entities_DokiHouse.Entities;
 
 
 namespace BLL_DokiHouse.Services
@@ -16,40 +17,35 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<bool> CreatePost(PostBLL post)
+        public async Task<bool> CreatePost(int idUser, PostModel post)
         {
-            PostDTO postDto = Mapper.PostBLLToDAL(post);
+            Post postDAL = Mapping.PostCreateBLLToDAL(post);
 
-            return await _postRepo.Create(postDto);
+            return await _postRepo.Create(idUser, postDAL);
         }
 
 
-        public async Task<bool> UpdatePost(PostBLL post)
+        public async Task<bool> UpdatePost(int idPost, PostModel post)
         {
-            PostDTO postDto = Mapper.PostBLLToDAL(post);
+            Post postDAL = Mapping.PostUpdateBLLToDAL(post);
 
-            return await _postRepo.Update(postDto);
+            return await _postRepo.Update(idPost, postDAL);
         }
 
 
-        public async Task<IEnumerable<PostDTO>?> GetPosts()
+        public async Task<IEnumerable<Post>?> GetPosts()
         {
             return await _postRepo.Get();
         }
 
-        public async Task<IEnumerable<PostDTO>?> GetOwnPosts(int idUser)
-        {
-            return await _postRepo.GetOwnPosts(idUser);
-        }
 
-
-        public async Task<PostDTO?> GetPostById(int id)
+        public async Task<Post?> GetPostById(int id)
         {
             return await _postRepo.GetBy(id);
         }
 
 
-        public async Task<IEnumerable<PostDTO>?> GetPostsByName(string name, string stringIdentifiant)
+        public async Task<IEnumerable<Post>?> GetPostsByName(string name, string stringIdentifiant)
         {
             return await _postRepo.GetBy(name, stringIdentifiant);
         }
@@ -61,9 +57,10 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public Task<PostDTO>? GetPostWithComments(int userId)
+        public Task<IEnumerable<PostAndCommentDTO>>? GetPostWithComments(int idUser)
         {
-            return _postRepo.GetUserPostsCommentsById(userId);
+            return _postRepo.GetPostsAndComments(idUser);
         }
+
     }
 }

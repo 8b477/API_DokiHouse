@@ -19,7 +19,7 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-        public async Task<bool> Create(Comments comments)
+        public async Task<bool> Create(int idPost, Comments comments)
         {
             string sql = @"
             INSERT INTO [Comments]
@@ -29,7 +29,7 @@ namespace DAL_DokiHouse.Repository
             DynamicParameters parameters = new();
             parameters.Add("@Content", comments.Content);
             parameters.Add("@IdUser", comments.IdUser);
-            parameters.Add("@IdPost", comments.IdPost);
+            parameters.Add("@IdPost", idPost);
             parameters.Add("@CreatedAt", comments.CreatedAt);
             parameters.Add("@ModifiedAt", comments.ModifiedAt);
 

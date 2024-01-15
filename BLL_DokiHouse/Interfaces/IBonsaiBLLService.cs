@@ -50,7 +50,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="bonsai">Le modèle de bonsaï avec les informations mises à jour.</param>
         /// <returns>True si la mise à jour est réussie, sinon false.</returns>
-        Task<bool> UpdateBonsai(BonsaiModel bonsai);
+        Task<bool> UpdateBonsai(BonsaiModel bonsai, int idBonsai);
 
 
         /// <summary>

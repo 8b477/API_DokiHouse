@@ -1,6 +1,5 @@
-﻿using BLL_DokiHouse.Models;
-
-using DAL_DokiHouse.DTO;
+﻿using API_DokiHouse.Models;
+using Entities_DokiHouse.Entities;
 
 namespace BLL_DokiHouse.Interfaces
 {
@@ -12,14 +11,14 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="comment">Les données du commentaire à créer.</param>
         /// <returns>Retourne vrai si la création est réussie, sinon faux.</returns>
-        Task<bool> CreateComment(CommentBLL comment);
+        Task<bool> CreateComment(CommentModel comment, int idPost);
 
 
         /// <summary>
         /// Récupère la liste complète des commentaires.
         /// </summary>
         /// <returns>Retourne la liste des commentaires.</returns>
-        Task<IEnumerable<CommentsDTO>> GetComments();
+        Task<IEnumerable<Comments>> GetComments();
 
 
         /// <summary>
@@ -27,7 +26,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="idUser">L'identifiant utilisateur de type : 'int'.</param>
         /// <returns>Retourne la liste des commentaires.</returns>
-        Task<IEnumerable<CommentsDTO>?> GetOwnComments(int idUser);
+        Task<IEnumerable<Comments>?> GetOwnComments(int idUser);
 
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="id">L'identifiant du commentaire à récupérer.</param>
         /// <returns>Retourne le commentaire correspondant à l'identifiant.</returns>
-        Task<CommentsDTO?> GetCommentById(int id);
+        Task<Comments?> GetCommentById(int id);
 
 
         /// <summary>
@@ -43,7 +42,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="name">Le nom à utiliser pour la recherche des commentaires.</param>
         /// <returns>Retourne la liste des commentaires correspondant au nom.</returns>
-        Task<IEnumerable<CommentsDTO>?> GetCommentsByName(string name, string stringIdentifiant);
+        Task<IEnumerable<Comments>?> GetCommentsByName(string name, string stringIdentifiant);
 
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="comment">Les données mises à jour du commentaire.</param>
         /// <returns>Retourne vrai si la mise à jour est réussie, sinon faux.</returns>
-        Task<bool> UpdateComment(int id, CommentBLL comment);
+        Task<bool> UpdateComment(CommentModel comment, int id);
 
 
         /// <summary>

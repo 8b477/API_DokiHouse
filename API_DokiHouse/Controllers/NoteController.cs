@@ -1,9 +1,7 @@
 ﻿using API_DokiHouse.Models;
-using API_DokiHouse.Services;
 using BLL_DokiHouse.Interfaces;
-using BLL_DokiHouse.Models;
-
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace API_DokiHouse.Controllers
 {
@@ -34,12 +32,8 @@ namespace API_DokiHouse.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            NoteBLL note = Mapper.NoteModelToBLL(model);
-
-            note.IdBonsai = idBonsai;
-
             return
-                await _noteService.CreateNote(note)
+                await _noteService.CreateNote(idBonsai, model)
                 ? CreatedAtAction(nameof(Create),model)
                 : BadRequest();
         }
@@ -48,23 +42,19 @@ namespace API_DokiHouse.Controllers
         /// <summary>
         /// Met à jour les informations d'une note pour un bonsaï spécifié.
         /// </summary>
-        /// <param name="idBonsai">Identifiant du bonsaï pour lequel la note est mise à jour.</param>
+        /// <param name="idNote">Identifiant de la note à mettre à jour.</param>
         /// <param name="model">Modèle contenant les nouvelles informations de la note.</param>
         /// <returns>
         /// Retourne une action HTTP indiquant le succès ou l'échec de la mise à jour de la note.
         /// </returns>
         [HttpPut("{idBonsai}:int")]
-        public async Task<IActionResult> Update(int idBonsai, NoteModel model)
+        public async Task<IActionResult> Update(int idNote, NoteModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            NoteBLL note = Mapper.NoteModelToBLL(model);
-
-            note.IdBonsai = idBonsai;
-
             return
-                await _noteService.UpdateNote(note)
+                await _noteService.UpdateNote(idNote, model)
                 ? Ok()
                 : BadRequest();
         }

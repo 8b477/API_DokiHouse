@@ -1,5 +1,6 @@
 ﻿using BLL_DokiHouse.Models.User;
 using DAL_DokiHouse.DTO.User;
+using Entities_DokiHouse.Entities;
 
 
 namespace BLL_DokiHouse.Interfaces
@@ -20,7 +21,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="id">identifiant de type 'string'</param>
         /// <returns>Retourne le User qui correspond a la recherche ou si non retourne null</returns>
-        Task<IEnumerable<UserDTO?>> GetUsersByName(string name, string stringIdentifiant);
+        Task<IEnumerable<User?>> GetUsersByName(string name, string stringIdentifiant);
 
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="id">identifiant de type 'int'</param>
         /// <returns>Retourne le User qui correspond a la recherche ou si non retourne null</returns>
-        Task<UserDTO?> GetUserByID(int id);
+        Task<User?> GetUserByID(int id);
 
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdateUser(int id, UserUpdateBLL model);
+        Task<bool> UpdateUser(int id, UserUpdateModel model);
 
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdateUserName(int id, UserUpdateNameBLL model);
+        Task<bool> UpdateUserName(int id, UserUpdateModel model);
 
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdateUserPass(int id, UserUpdatePassBLL model);
+        Task<bool> UpdateUserPass(int id, UserUpdateModel model);
 
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdateUserEmail(int id, UserUpdateMailBLL model);
+        Task<bool> UpdateUserEmail(int id, UserUpdateModel model);
 
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="email">Attendue emai de type : string</param>
         /// <param name="passwd">Attendue mot de passe de type : string</param>
         /// <returns>Retourne un objet 'UserDTO' si le User est validé si non 'null'</returns>
-        Task<UserDTO?> Login(string email, string passwd);
+        Task<User?> Login(string email, string passwd);
 
 
         /// <summary>
@@ -95,7 +96,7 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="startIndex">Paramètre de type : 'int', représente l'index de départ, ne peut pas être négatif</param>
         /// <param name="pageSize">Paramètre de type : 'int', représente le nombre d'éléments retourner</param>
         /// <returns>Retourne une liste d'utilisateur avec leur infos</returns>
-        Task<IEnumerable<UserDetailsBonsaiDTO?>> GetInfos(int startIndex, int pageSize);
+        Task<IEnumerable<UserAndBonsaiDetails?>> GetInfos(int startIndex, int pageSize);
 
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="startIndex">Paramètre de type : 'int', représente l'index de départ, ne peut pas être négatif</param>
         /// <param name="pageSize">Paramètre de type : 'int', représente le nombre d'éléments retourner</param>
         /// <returns>Retourne une liste d'utilisateur avec leur infos</returns>
-        Task<UserDetailsBonsaiDTO?> GetInfosById(int idUser);
+        Task<UserAndBonsaiDetails?> GetInfosById(int idUser);
 
 
         /// <summary>

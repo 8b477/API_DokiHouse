@@ -12,7 +12,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Les informations de la catégorie à créer.</param>
         /// <returns>True si la création a réussi, sinon False.</returns>
-        Task<bool> Create(Category model);
+        Task<bool> Create(Category model, int idBonsai);
 
 
         /// <summary>

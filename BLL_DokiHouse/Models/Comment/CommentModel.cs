@@ -6,6 +6,7 @@ namespace API_DokiHouse.Models
     {
 #nullable disable
         [Required]
+        [MaxLength(int.MaxValue)]
         public string Content { get; set; }
 #nullable enable
     }

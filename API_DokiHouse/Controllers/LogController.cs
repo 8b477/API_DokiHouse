@@ -1,9 +1,10 @@
-﻿using API_DokiHouse.Models;
-using BLL_DokiHouse.Interfaces;
+﻿using BLL_DokiHouse.Interfaces;
+using BLL_DokiHouse.Models.User;
+using Entities_DokiHouse.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using Tools_DokiHouse.Token;
+
 
 namespace API_DokiHouse.Controllers
 {
@@ -35,11 +36,11 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Authentification réussie. Retourne un jeton d'authentification.</response>
         /// <response code="400">La requête est incorrecte ou les informations d'authentification sont invalides.</response>
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] UserLoginModel user)
+        public async Task<IActionResult> Login([FromBody] UserLogModel user)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var result = await _userBLLService.Login(user.Email, user.Passwd);
+            User? result = await _userBLLService.Login(user.Email, user.Passwd);
 
             if (result is not null)
             {

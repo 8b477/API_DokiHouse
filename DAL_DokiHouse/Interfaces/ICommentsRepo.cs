@@ -1,7 +1,5 @@
 ﻿
-using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces.Generic;
-
 using Entities_DokiHouse.Entities;
 
 namespace DAL_DokiHouse.Interfaces
@@ -13,7 +11,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="comments">Les données du commentaire à créer.</param>
         /// <returns>Retourne vrai si la création est réussie, sinon faux.</returns>
-        Task<bool> Create(Comments comments);
+        Task<bool> Create(int idPost, Comments comments);
 
 
         /// <summary>
@@ -22,6 +20,7 @@ namespace DAL_DokiHouse.Interfaces
         /// <param name="comments">Les données mises à jour du commentaire.</param>
         /// <returns>Retourne vrai si la mise à jour est réussie, sinon faux.</returns>
         Task<bool> Update(int id, Comments comments);
+
 
         /// <summary>
         /// Récupère la liste des commentaires associé à l'identifiant d'un Utilisateur

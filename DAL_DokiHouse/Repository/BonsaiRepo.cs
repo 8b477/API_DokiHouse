@@ -1,6 +1,5 @@
 ﻿using DAL_DokiHouse.Interfaces;
 using DAL_DokiHouse.Repository.Generic;
-
 using Dapper;
 using Entities_DokiHouse.Entities;
 using System.Data;
@@ -16,7 +15,7 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-        public async Task<bool> Create(Bonsai model, int idToken)
+        public async Task<bool> Create(Bonsai model, int idUser)
         {
             string sql = @"
             INSERT INTO [Bonsai]
@@ -26,7 +25,7 @@ namespace DAL_DokiHouse.Repository
             DynamicParameters parameters = new();
             parameters.Add("@Name",model.Name);
             parameters.Add("@Description", model.Description);
-            parameters.Add("@IdUser", idToken);
+            parameters.Add("@IdUser", idUser);
             parameters.Add("@CreateAt", model.CreatedAt);
             parameters.Add("@ModifiedAt", model.ModifiedAt);
 
@@ -36,7 +35,7 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<bool> Update(Bonsai bonsai)
+        public async Task<bool> Update(Bonsai bonsai, int idBonsai)
         {
             string sql = @"
             UPDATE [Bonsai] 
@@ -46,7 +45,7 @@ namespace DAL_DokiHouse.Repository
             DynamicParameters parameters = new();
             parameters.Add("@Name", bonsai.Name);
             parameters.Add("@Description", bonsai.Description);
-            parameters.Add("@id", bonsai.IdUser);
+            parameters.Add("@id", idBonsai);
 
             int result = await _connection.ExecuteAsync(sql, parameters);
 

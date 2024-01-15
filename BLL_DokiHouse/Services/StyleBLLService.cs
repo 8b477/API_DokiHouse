@@ -1,10 +1,10 @@
-﻿using BLL_DokiHouse.ExceptionHandler;
+﻿using API_DokiHouse.Models;
+using BLL_DokiHouse.ExceptionHandler;
 using BLL_DokiHouse.Interfaces;
-using BLL_DokiHouse.Models;
 using BLL_DokiHouse.Tools;
-
-using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
+using Entities_DokiHouse.Entities;
+
 
 namespace BLL_DokiHouse.Services
 {
@@ -20,24 +20,23 @@ namespace BLL_DokiHouse.Services
 
 
 
-        public async Task<bool> CreateStyle(StyleBLL style)
+        public async Task<bool> CreateStyle(int idBonsai, StyleModel style)
         {
-            if (await _styleRepo.NotValide(style.IdBonsai))
+            if (await _styleRepo.IsAlreadyExists(idBonsai))
                 throw new BusinessException("Le Bonsai possède déjà un Style, update le !");
 
-            StyleDTO styleDTO = Mapper.StyleBLLToDAL(style);
+            Style styleDAL = Mapping.StyleCreateBLLToDAL(style);
 
-            return await _styleRepo.Create(styleDTO);
+            return await _styleRepo.Create(idBonsai, styleDAL);
         }
 
 
-        public async Task<bool> UpdateStyle(StyleBLL style)
+        public async Task<bool> UpdateStyle(int idStyle, StyleModel style)
         {
-            StyleDTO styleDTO = Mapper.StyleBLLToDAL(style); 
-            
-            return await _styleRepo.Update(styleDTO);
-        }
+            Style styleDAL = Mapping.StyleUpdateBLLToDAL(style);
 
+            return await _styleRepo.Update(idStyle, styleDAL);
+        }
 
 
     }

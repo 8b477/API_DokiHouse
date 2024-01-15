@@ -11,6 +11,6 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="file">Fichier image à ajouter.</param>
         /// <returns>L'identifiant généré de l'image ajoutée.</returns>
-        Task<bool> AddPictureBonsai(PictureBonsai picture);
+        Task<bool> AddPictureBonsai(int idBonsai, PictureBonsai picture);
     }
 }

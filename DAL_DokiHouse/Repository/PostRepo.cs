@@ -1,12 +1,10 @@
 ﻿using DAL_DokiHouse.DTO.Post;
 using DAL_DokiHouse.Interfaces;
 using DAL_DokiHouse.Repository.Generic;
-
 using Dapper;
 using Entities_DokiHouse.Entities;
-
 using System.Data;
-using System.Data.Common;
+
 
 namespace DAL_DokiHouse.Repository
 {
@@ -19,7 +17,7 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-        public async Task<bool> Create(Post post)
+        public async Task<bool> Create(int idUser, Post post)
         {
             string sql = @"
             INSERT INTO [Post]
@@ -30,9 +28,9 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Title", post.Title);
             parameters.Add("@Description", post.Description);
             parameters.Add("@Content", post.Content);
-            parameters.Add("@IdUser", post.IdUser);
             parameters.Add("@CreateAt", post.CreateAt);
             parameters.Add("@ModifiedAt", post.ModifiedAt);
+            parameters.Add("@IdUser", idUser);
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
@@ -40,27 +38,7 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<IEnumerable<Post>?> GetPosts(int idUser)
-        {
-            string sql = @"SELECT * FROM [Post]";
-
-            IEnumerable<Post>? postCollection = await _connection.QueryAsync<Post>(sql, new { idUserParam = idUser });
-
-            return postCollection;
-        }
-
-
-        public async Task<IEnumerable<Post>?> GetOwnPosts(int idUser)
-        {
-            string sql = @"SELECT * FROM [Post] WHERE IdUser = @idUserParam";
-
-            IEnumerable<Post>? postCollection = await _connection.QueryAsync<Post>(sql, new { idUserParam = idUser});
-
-            return postCollection;
-        }
-
-
-        public async Task<bool> Update(Post post)
+        public async Task<bool> Update(int idPost, Post post)
         {
             string sql = @"
             UPDATE [Post]
@@ -70,6 +48,7 @@ namespace DAL_DokiHouse.Repository
             DynamicParameters parameters = new();
             parameters.Add("@Description", post.Description);
             parameters.Add("@Content", post.Content);
+            parameters.Add("@id", idPost);
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
@@ -77,15 +56,15 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<PostAndCommentDTO>? GetPostsAndComments(int postId)
+        public async Task<IEnumerable<PostAndCommentDTO>>? GetPostsAndComments(int idUser)
         {
             string sql = @"
             SELECT 
-                p.Id, p.Title, p.Description, p.Content, p.CreateAt, p.ModifiedAt, p.IdUser,
-                com.Id, com.IdUser, com.IdPost, com.Content, com.CreatedAt, com.ModifiedAt,
+            p.Id, p.Title, p.Description, p.Content, p.CreateAt, p.ModifiedAt, p.IdUser,
+            com.Id, com.IdUser, com.IdPost, com.Content, com.CreatedAt, com.ModifiedAt,
             FROM [dbo].[Post] p
             JOIN [dbo].[Comments] com ON com.IdPost = p.Id
-            WHERE p.Id = @postId";
+            WHERE p.IdUser = @idUser";
 
             var postDictionary = new Dictionary<int, PostAndCommentDTO>();
 
@@ -101,10 +80,10 @@ namespace DAL_DokiHouse.Repository
                     }
                     return existingPost;
                 },
-                new { UserId = postId },
+                new { IdUser = idUser },
                 splitOn: "Id,Id");
 
-            return postDictionary.Values.FirstOrDefault() ?? new PostAndCommentDTO();
+            return (IEnumerable<PostAndCommentDTO>)postDictionary;
         }
 
     }

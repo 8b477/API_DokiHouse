@@ -19,7 +19,7 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-        public async Task<bool> AddPictureBonsai(PictureBonsai picture)
+        public async Task<bool> AddPictureBonsai(int idBonsai, PictureBonsai picture)
         {
             string sql = @"
             INSERT INTO PictureBonsai (FileName, CreateAt, ModifiedAt, IdBonsai)
@@ -29,7 +29,7 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@FileName", picture.FileName);
             parameters.Add("@CreateAt", picture.CreatedAt);
             parameters.Add("@ModifiedAt", picture.ModifiedAt);
-            parameters.Add("@IdBonsai", picture.IdBonsai);
+            parameters.Add("@IdBonsai", idBonsai);
 
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);

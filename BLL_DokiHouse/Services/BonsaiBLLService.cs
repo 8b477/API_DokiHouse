@@ -52,11 +52,11 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<bool> UpdateBonsai(BonsaiModel model)
+        public async Task<bool> UpdateBonsai(BonsaiModel model, int idBonsai)
         {
             Bonsai BonsaiDAl = Mapping.BonsaiUpdateBLLtoDAL(model);
 
-            return await _bonsaiRepo.Update(BonsaiDAl);
+            return await _bonsaiRepo.Update(BonsaiDAl, idBonsai);
         }
 
 

@@ -63,7 +63,7 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<bool> Create(Category category)
+        public async Task<bool> Create(Category category, int idBonsai)
         {
             string sql = @"
             INSERT INTO [Category] 
@@ -91,9 +91,9 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Kokufu", category.Kokufu);
             parameters.Add("@Yamadori", category.Yamadori);
             parameters.Add("@Perso", category.CatePerso);
-            parameters.Add("@IdBonsai", category.IdBonsai);
             parameters.Add("@CreateAt", category.CreatedAt);
             parameters.Add("@ModifiedAt", category.ModifiedAt);
+            parameters.Add("@IdBonsai", idBonsai);
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 

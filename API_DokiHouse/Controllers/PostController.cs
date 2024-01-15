@@ -1,10 +1,8 @@
 ﻿using API_DokiHouse.Models;
-using API_DokiHouse.Services;
 using API_DokiHouse.Tools;
 using BLL_DokiHouse.Interfaces;
-using BLL_DokiHouse.Models;
-using DAL_DokiHouse.DTO;
-
+using DAL_DokiHouse.DTO.Post;
+using Entities_DokiHouse.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
@@ -41,11 +39,8 @@ namespace API_DokiHouse.Controllers
 
             if (idToken == 0) return Unauthorized();
 
-            PostBLL postDTO = Mapper.PostModelToPostBLL(post);
 
-            postDTO.IdUser = idToken;
-
-            if (await _postBLLService.CreatePost(postDTO))
+            if (await _postBLLService.CreatePost(idToken, post))
                 return CreatedAtAction(nameof(CreatePost),post);
 
             return BadRequest("L'insertion d'un nouveau post a échoué");
@@ -57,11 +52,11 @@ namespace API_DokiHouse.Controllers
         /// </summary>
         /// <returns>Retourne la liste des posts et des commentaires lié.</returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Post>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetPosts()
         {
-            IEnumerable<PostDTO>? result = await _postBLLService.GetPosts();
+            IEnumerable<Post>? result = await _postBLLService.GetPosts();
 
             return result is not null
                 ? Ok(result)
@@ -74,7 +69,7 @@ namespace API_DokiHouse.Controllers
         /// </summary>
         /// <returns>Retourne la liste des posts ou null si aucun post n'est trouver.</returns>
         [HttpGet(nameof(GetOwnPosts))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Post>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetOwnPosts()
         {
@@ -82,7 +77,7 @@ namespace API_DokiHouse.Controllers
 
             if (idToken == 0) return Unauthorized();
 
-            IEnumerable<PostDTO>? result = await _postBLLService.GetOwnPosts(idToken);
+            IEnumerable<PostAndCommentDTO>? result = await _postBLLService.GetPostWithComments(idToken);
 
             return result is not null
                 ? Ok(result)
@@ -97,11 +92,11 @@ namespace API_DokiHouse.Controllers
         /// <returns>Retourne le post correspondant à l'identifiant.</returns>
         [HttpGet("{id:int}")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Post))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetPostById(int id)
         {
-            PostDTO? post = await _postBLLService.GetPostWithComments(id);
+            Post? post = await _postBLLService.GetPostById(id);
 
             return post is not null
                 ? Ok(post)
@@ -116,11 +111,11 @@ namespace API_DokiHouse.Controllers
         /// <param name="stringIdentifiant">Le nom de la colonne en DB a comparé avec la recherche, par défaut ça valeur est : 'Name'.</param>
         /// <returns>Retourne la liste des posts correspondant au nom.</returns>
         [HttpGet("{name}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Post>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetPostsByName(string name, string stringIdentifiant = "Name")
         {
-            IEnumerable<PostDTO>? result = await _postBLLService.GetPostsByName(name, stringIdentifiant);
+            IEnumerable<Post>? result = await _postBLLService.GetPostsByName(name, stringIdentifiant);
 
             return result is not null
                 ? Ok(result)
@@ -133,14 +128,12 @@ namespace API_DokiHouse.Controllers
         /// </summary>
         /// <param name="post">Les données mises à jour du post.</param>
         /// <returns>Retourne un code 200 OK si la mise à jour est réussie, sinon un code 400 Bad Request.</returns>
-        [HttpPut]
+        [HttpPut("{idPost}:int")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdatePost([FromBody] PostModel post)
+        public async Task<IActionResult> UpdatePost(int idPost, [FromBody] PostModel post)
         {
-            PostBLL postDTO = Mapper.PostModelToPostBLL(post);
-
-            if (await _postBLLService.UpdatePost(postDTO))
+            if (await _postBLLService.UpdatePost(idPost, post))
                 return Ok();
 
             return BadRequest();

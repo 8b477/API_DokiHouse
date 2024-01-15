@@ -1,9 +1,10 @@
-﻿using BLL_DokiHouse.ExceptionHandler;
+﻿using API_DokiHouse.Models;
+using BLL_DokiHouse.ExceptionHandler;
 using BLL_DokiHouse.Interfaces;
-using BLL_DokiHouse.Models;
 using BLL_DokiHouse.Tools;
-using DAL_DokiHouse.DTO;
 using DAL_DokiHouse.Interfaces;
+
+using Entities_DokiHouse.Entities;
 
 namespace BLL_DokiHouse.Services
 {
@@ -18,14 +19,14 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<bool> CreateNote(NoteBLL model)
+        public async Task<bool> CreateNote(int idNote, NoteModel model)
         {
-            if (await _noteRepo.NotValide(model.IdBonsai))
+            if (await _noteRepo.IsAlreadyExists(idNote))
                 throw new BusinessException("Le Bonsai possède déjà une Note, update le !");
 
-            NoteDTO note = Mapper.NoteBLLToDAL(model);
+            Note note = Mapping.NoteCreateBLLtoDAL(model);
 
-            return await _noteRepo.Create(note);
+            return await _noteRepo.Create(idNote, note);
         }
 
         public Task<bool> DeleteNote(int id)
@@ -33,11 +34,11 @@ namespace BLL_DokiHouse.Services
             return _noteRepo.Delete(id);
         }
 
-        public async Task<bool> UpdateNote(NoteBLL model)
+        public async Task<bool> UpdateNote(int idNote, NoteModel model)
         {
-            NoteDTO note = Mapper.NoteBLLToDAL(model);
+            Note note = Mapping.NoteUpdateBLLtoDAL(model);
 
-            return await _noteRepo.Update(note);
+            return await _noteRepo.Update(idNote, note);
         }
 
     }

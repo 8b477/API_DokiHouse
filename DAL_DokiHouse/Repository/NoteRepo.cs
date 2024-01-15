@@ -15,7 +15,7 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-        public async Task<bool> Create(Note note)
+        public async Task<bool> Create(int idNote, Note note)
         {
             string sql = @"
             INSERT INTO [Note] 
@@ -25,7 +25,7 @@ namespace DAL_DokiHouse.Repository
             DynamicParameters parameters = new();
             parameters.Add("@Title", note.Title);
             parameters.Add("@Description", note.Description);
-            parameters.Add("@IdBonsai", note.Id);
+            parameters.Add("@IdBonsai", idNote);
             parameters.Add("@CreateAt",note.CreatedAt);
             parameters.Add("@ModifiedAt",note.ModifiedAt);
 
@@ -34,7 +34,7 @@ namespace DAL_DokiHouse.Repository
             return rowsAffected > 0;
         }
 
-        public async Task<bool> Update(Note note)
+        public async Task<bool> Update(int idNote, Note note)
         {
             string sql = @"
             UPDATE [Note]
@@ -46,14 +46,14 @@ namespace DAL_DokiHouse.Repository
             DynamicParameters parameters = new();
             parameters.Add("@Title", note.Title);
             parameters.Add("@Description", note.Description);
-            parameters.Add("@IdBonsai", note.Id);
+            parameters.Add("@IdBonsai", idNote);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 
             return rowsAffected > 0;
         }
 
-        public async Task<bool> NotValide(int idBonsai)
+        public async Task<bool> IsAlreadyExists(int idBonsai)
         {
             string sql = @"
         SELECT TOP 1 1
