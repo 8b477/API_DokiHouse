@@ -1,4 +1,6 @@
-﻿using BLL_DokiHouse.ExceptionHandler;
+﻿using BCrypt.Net;
+
+using BLL_DokiHouse.ExceptionHandler;
 using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models.User;
 using BLL_DokiHouse.Tools;
@@ -71,31 +73,31 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<bool> UpdateUserName(int id, UserUpdateModel model)
+        public async Task<bool> UpdateUserName(int id, UserUpdateNameModel model)
         {
-            User user = Mapping.UserUpdateBLLToDAL(model);
+            User user = Mapping.UserUpdateNameBLLToDAL(model);
 
-            return await _userRepo.UpdateName(user);             
+            return await _userRepo.UpdateName(id, user);             
         }
 
 
-        public async Task<bool> UpdateUserPass(int id, UserUpdateModel model)
+        public async Task<bool> UpdateUserPass(int id, UserUpdatePasswdModel model)
         {
-            User user = Mapping.UserUpdateBLLToDAL(model);
+            User user = Mapping.UserUpdatePassBLLToDAL(model);
 
             user.Passwd = BCrypt.Net.BCrypt.HashPassword(model.Passwd);
 
-            return await _userRepo.UpdatePass(user);
+            return await _userRepo.UpdatePass(id, user);
         }
 
 
-        public async Task<bool> UpdateUserEmail(int id, UserUpdateModel model)
+        public async Task<bool> UpdateUserEmail(int id, UserUpdateEmailModel model)
         {
             try
             {
-                User user = Mapping.UserUpdateBLLToDAL(model);
+                User user = Mapping.UserUpdateEmailBLLToDAL(model);
 
-                return await _userRepo.UpdateEmail(user);
+                return await _userRepo.UpdateEmail(id, user);
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {
@@ -122,12 +124,18 @@ namespace BLL_DokiHouse.Services
 
         public async Task<User?> Login(string email, string passwd)
         {
-            User? user = await _userRepo.Logger(email, passwd);
+            try
+            {
+                User? user = await _userRepo.Logger(email, passwd);
 
-            return
-                user is not null
-                ? user 
-                : null;
+                return user is not null
+                       ? user
+                       : null;
+            }
+            catch (SaltParseException)
+            {
+                throw new SaltParseException("Invalid Hash Format");
+            }
         }
 
 
@@ -135,7 +143,7 @@ namespace BLL_DokiHouse.Services
         {
             User user = Mapping.UserUpdateBLLToDAL(model);
 
-            return _userRepo.Update(user);
+            return _userRepo.Update(id,user);
         }
 
 
@@ -154,6 +162,11 @@ namespace BLL_DokiHouse.Services
         public async Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize)
         {
             return await _userRepo.GetUsers(startIndex, pageSize);
+        }
+
+        public async Task<UserAndPictureDTO?> GetUser(int idUser)
+        {
+            return await _userRepo.GetUser(idUser);
         }
     }
 }

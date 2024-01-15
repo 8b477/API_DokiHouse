@@ -253,6 +253,7 @@ namespace BLL_DokiHouse.Tools
             };
         }
 
+        // UPDATE FULL
         // Ajout de la date de modification
         public static User UserUpdateBLLToDAL(UserUpdateModel user)
         {
@@ -266,6 +267,41 @@ namespace BLL_DokiHouse.Tools
             };
         }
 
+
+        // UPDATE NAME
+        // Ajout de la date de modification
+        public static User UserUpdateNameBLLToDAL(UserUpdateNameModel user)
+        {
+            return new()
+            {
+                Name = user.Name,
+                ModifiedAt = DateTime.Now
+            };
+        }
+
+
+        // UPDATE PASS
+        // Ajout de la date de modification
+        public static User UserUpdatePassBLLToDAL(UserUpdatePasswdModel user)
+        {
+            return new()
+            {
+                Passwd = user.Passwd,
+                ModifiedAt = DateTime.Now
+            };
+        }
+
+
+        // UPDATE EMAIL
+        // Ajout de la date de modification
+        public static User UserUpdateEmailBLLToDAL(UserUpdateEmailModel user)
+        {
+            return new()
+            {
+                Email = user.Email,
+                ModifiedAt = DateTime.Now
+            };
+        }
         #endregion
     }
 }

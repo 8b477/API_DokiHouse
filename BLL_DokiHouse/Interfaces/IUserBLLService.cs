@@ -45,7 +45,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdateUserName(int id, UserUpdateModel model);
+        Task<bool> UpdateUserName(int id, UserUpdateNameModel model);
 
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdateUserPass(int id, UserUpdateModel model);
+        Task<bool> UpdateUserPass(int id, UserUpdatePasswdModel model);
 
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les nouvelles informations de l'utilisateur.</param>
         /// <returns>Retourne true si la mise à jour est réussie, sinon retourne false.</returns>
-        Task<bool> UpdateUserEmail(int id, UserUpdateModel model);
+        Task<bool> UpdateUserEmail(int id, UserUpdateEmailModel model);
 
 
         /// <summary>
@@ -114,5 +114,13 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <returns>Retourne une liste d'utilisateurs</returns>
         Task<IEnumerable<UserAndPictureDTO>> GetUsers(int startIndex, int pageSize);
+
+
+        /// <summary>
+        /// Récupère l'utilisateurs en base de donnée sur base d'un identifiant de type INT.
+        /// </summary>
+        /// <param name="idUser">Identifiant de type INT</param>
+        /// <returns>Retourne un utilisateur ou null si pas de correspondance</returns>
+        Task<UserAndPictureDTO?> GetUser(int idUser);
     }
 }

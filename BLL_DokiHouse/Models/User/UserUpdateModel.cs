@@ -20,4 +20,5 @@ namespace BLL_DokiHouse.Models.User
         public string Passwd { get; set; } = string.Empty;
 
     }
+
 }
