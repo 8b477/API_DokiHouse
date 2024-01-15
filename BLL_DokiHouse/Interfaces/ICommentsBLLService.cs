@@ -11,7 +11,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="comment">Les données du commentaire à créer.</param>
         /// <returns>Retourne vrai si la création est réussie, sinon faux.</returns>
-        Task<bool> CreateComment(CommentModel comment, int idPost);
+        Task<bool> CreateComment(CommentModel comment, int idPost, int idToken);
 
 
         /// <summary>

@@ -25,9 +25,11 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<bool> UpdatePost(int idPost, PostModel post)
+        public async Task<bool> UpdatePost(int idPost,int idToken, PostModel post)
         {
             Post postDAL = Mapping.PostUpdateBLLToDAL(post);
+
+            postDAL.IdUser = idToken;
 
             return await _postRepo.Update(idPost, postDAL);
         }

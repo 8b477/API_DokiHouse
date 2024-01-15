@@ -1,8 +1,6 @@
 ﻿using API_DokiHouse.Models;
-
 using BLL_DokiHouse.Models.FilePicture;
 using BLL_DokiHouse.Models.User;
-
 using Entities_DokiHouse.Entities;
 
 namespace BLL_DokiHouse.Tools
@@ -18,7 +16,7 @@ namespace BLL_DokiHouse.Tools
             {
                 Name = bonsaiBLL.Name,
                 Description = bonsaiBLL.Description,
-                CreatedAt = DateTime.Now,
+                CreateAt = DateTime.Now,
                 ModifiedAt = null
             };
         }

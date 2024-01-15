@@ -43,11 +43,14 @@ namespace DAL_DokiHouse.Repository
         {
             string sql = @"
             UPDATE [Comments]
-            SET Content = @Content
+            SET 
+            Content = @Content,
+            ModifiedAt = @ModifiedAt
             WHERE Id = @Id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Content", comments.Content);
+            parameters.Add("@ModifiedAt", comments.ModifiedAt);
             parameters.Add("@Id", Id);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);

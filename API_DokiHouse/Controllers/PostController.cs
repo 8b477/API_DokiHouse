@@ -126,6 +126,7 @@ namespace API_DokiHouse.Controllers
         /// <summary>
         /// Met à jour les informations d'un post.
         /// </summary>
+        /// <param name="idPost">L'identifiant du POST de type INT.</param>
         /// <param name="post">Les données mises à jour du post.</param>
         /// <returns>Retourne un code 200 OK si la mise à jour est réussie, sinon un code 400 Bad Request.</returns>
         [HttpPut("{idPost}:int")]
@@ -133,7 +134,11 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdatePost(int idPost, [FromBody] PostModel post)
         {
-            if (await _postBLLService.UpdatePost(idPost, post))
+            int idToken = _httpContextService.GetIdUserTokenInHttpContext();
+
+            if (idToken == 0) return Unauthorized();
+
+            if (await _postBLLService.UpdatePost(idPost,idToken, post))
                 return Ok();
 
             return BadRequest();

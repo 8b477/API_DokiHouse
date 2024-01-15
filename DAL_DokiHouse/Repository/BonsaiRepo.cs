@@ -26,7 +26,7 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Name",model.Name);
             parameters.Add("@Description", model.Description);
             parameters.Add("@IdUser", idUser);
-            parameters.Add("@CreateAt", model.CreatedAt);
+            parameters.Add("@CreateAt", model.CreateAt);
             parameters.Add("@ModifiedAt", model.ModifiedAt);
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);

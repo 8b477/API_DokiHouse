@@ -42,17 +42,24 @@ namespace DAL_DokiHouse.Repository
         {
             string sql = @"
             UPDATE [Post]
-            SET Description = @Description, @Content = Content 
-            WHERE IdUser = @id";
+            SET
+            Title = @Title,
+            Description = @Description,
+            Content = @Content,
+            ModifiedAt = @ModifiedAt
+            WHERE IdUser = @id AND Id = @idPost";
 
             DynamicParameters parameters = new();
+            parameters.Add("@Title", post.Title);
             parameters.Add("@Description", post.Description);
             parameters.Add("@Content", post.Content);
-            parameters.Add("@id", idPost);
+            parameters.Add("@ModifiedAt", post.ModifiedAt);
+            parameters.Add("@id", post.IdUser);
+            parameters.Add("@idPost", idPost);
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);
 
-            return rowAffected < 0;
+            return rowAffected > 0;
         }
 
 
@@ -61,9 +68,9 @@ namespace DAL_DokiHouse.Repository
             string sql = @"
             SELECT 
             p.Id, p.Title, p.Description, p.Content, p.CreateAt, p.ModifiedAt, p.IdUser,
-            com.Id, com.IdUser, com.IdPost, com.Content, com.CreatedAt, com.ModifiedAt,
+            com.Id, com.IdUser, com.IdPost, com.Content, com.CreatedAt, com.ModifiedAt
             FROM [dbo].[Post] p
-            JOIN [dbo].[Comments] com ON com.IdPost = p.Id
+            LEFT JOIN [dbo].[Comments] com ON com.IdPost = p.Id
             WHERE p.IdUser = @idUser";
 
             var postDictionary = new Dictionary<int, PostAndCommentDTO>();
@@ -78,12 +85,19 @@ namespace DAL_DokiHouse.Repository
                         existingPost.CommentsCollection = new List<Comments>();
                         postDictionary.Add(existingPost.Id, existingPost);
                     }
+
+                    if(comment is not null && existingPost.CommentsCollection is not null)
+                    {
+                        // Ajoutez le commentaire à la collection du post
+                        existingPost.CommentsCollection.Add(comment);
+                    }
+
                     return existingPost;
                 },
                 new { IdUser = idUser },
                 splitOn: "Id,Id");
 
-            return (IEnumerable<PostAndCommentDTO>)postDictionary;
+            return postDictionary.Values;
         }
 
     }
