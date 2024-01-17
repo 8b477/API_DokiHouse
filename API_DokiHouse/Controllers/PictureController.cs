@@ -31,10 +31,9 @@ namespace API_DokiHouse.Controllers
         /// <param name="filePicture">Objet qui représente l'image à insérer</param>
         /// <param name="idBonsai">Identifiant du Bonsai lié à l'ajout de l'image</param>
         /// <returns></returns>
-        [HttpPost("{idBonsai}:int")]
+        [HttpPost("{idBonsai:int}")]
         public async Task<IActionResult> AddPicture(FilePictureModel filePicture, int idBonsai)
         {
-
             int idToken = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
             if (idToken == 0) return Unauthorized();
 

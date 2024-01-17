@@ -15,7 +15,7 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-        public async Task<bool> Create(int idNote, Note note)
+        public async Task<bool> Create(int idBonsai, Note note)
         {
             string sql = @"
             INSERT INTO [Note] 
@@ -25,7 +25,7 @@ namespace DAL_DokiHouse.Repository
             DynamicParameters parameters = new();
             parameters.Add("@Title", note.Title);
             parameters.Add("@Description", note.Description);
-            parameters.Add("@IdBonsai", idNote);
+            parameters.Add("@IdBonsai", idBonsai);
             parameters.Add("@CreateAt",note.CreatedAt);
             parameters.Add("@ModifiedAt",note.ModifiedAt);
 
@@ -40,13 +40,15 @@ namespace DAL_DokiHouse.Repository
             UPDATE [Note]
             SET 
             Title = @Title,
-            Description = @Description
-            WHERE IdBonsai = @IdBonsai";
+            Description = @Description,
+            ModifiedAt = @ModifiedAt,
+            WHERE Id = @IdNote";
 
             DynamicParameters parameters = new();
             parameters.Add("@Title", note.Title);
             parameters.Add("@Description", note.Description);
-            parameters.Add("@IdBonsai", idNote);
+            parameters.Add("@ModifiedAt", note.ModifiedAt);
+            parameters.Add("@IdNote", idNote);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 

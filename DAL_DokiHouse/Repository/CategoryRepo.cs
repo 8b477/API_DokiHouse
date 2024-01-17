@@ -15,7 +15,7 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-        public async Task<bool> Update(Category category)
+        public async Task<bool> Update(int idCategory, Category category)
         {
             string sql = @"
             UPDATE [Category]
@@ -35,8 +35,9 @@ namespace DAL_DokiHouse.Repository
             Kabudachi = @Kabudachi,
             Kokufu = @Kokufu,
             Yamadori = @Yamadori,
-            Perso = @Perso
-            WHERE IdBonsai = @IdBonsai";
+            Perso = @Perso,
+            ModifiedAt = @ModifiedAt
+            WHERE Id = @IdCate";
 
             var parameters = new DynamicParameters();
             parameters.Add("@Shohin", category.Shohin);
@@ -55,7 +56,8 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Kokufu", category.Kokufu);
             parameters.Add("@Yamadori", category.Yamadori);
             parameters.Add("@Perso", category.CatePerso);
-            parameters.Add("@IdBonsai", category.IdBonsai);
+            parameters.Add("@IdCate", idCategory);
+            parameters.Add("@ModifiedAt", category.ModifiedAt);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
 

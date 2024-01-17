@@ -29,13 +29,17 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<bool> UpdateCategory(CategoryModel model, int idBonsai)
+        public async Task<bool> UpdateCategory(CategoryModel model, int idCategory)
         {
             Category category = Mapping.CategoryUpdateBLLToDAL(model);
 
-            return await _repoCategory.Update(category);
+            return await _repoCategory.Update(idCategory, category);
         }
 
 
+        public async Task<bool> DeleteCategory(int idCategory)
+        {
+            return await _repoCategory.Delete(idCategory);
+        }
     }
 }

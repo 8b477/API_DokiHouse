@@ -20,6 +20,14 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle de catégorie à mettre à jour.</param>
         /// <returns>True si la mise à jour est réussie, sinon false.</returns>
-        Task<bool> UpdateCategory(CategoryModel model, int idBonsai);
+        Task<bool> UpdateCategory(CategoryModel model, int idCategory);
+
+
+        /// <summary>
+        /// Supprime une catégorie présente en base de données sur base d'un identifiant id.
+        /// </summary>
+        /// <param name="idCategory">identifiant de type INT</param>
+        /// <returns>Retourne TRUE si la suppresion à réssie si non retourne FALSE.</returns>
+        Task<bool> DeleteCategory(int idCategory);
     }
 }

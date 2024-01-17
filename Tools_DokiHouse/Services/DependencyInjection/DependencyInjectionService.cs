@@ -67,6 +67,18 @@ namespace Tools_DokiHouse.Services.DependencyInjection
             services.AddScoped<ICommentsBLLService, CommentsBLLService>();
 
 
+            //UserBonsai Service
+            services.AddScoped<IUserBonsaiRepo, UserBonsaiRepo>(provider => new UserBonsaiRepo(new SqlConnection(connectionString)));
+
+            services.AddScoped<IUserBonsaiBLLService, UserBonsaiBLLService>();
+
+
+            //PostComment Service
+            services.AddScoped<IPostCommentRepo, PostCommentRepo>(provider => new PostCommentRepo(new SqlConnection(connectionString)));
+
+            services.AddScoped<IPostCommentBLLService, PostCommentBLLService>();
+
+
             //Picture Service
             services.AddScoped<PictureBLLService>();
 

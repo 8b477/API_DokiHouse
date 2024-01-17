@@ -20,5 +20,12 @@ namespace BLL_DokiHouse.Interfaces
         /// <returns>Une tâche asynchrone indiquant si la mise à jour a réussi (true) ou échoué (false).</returns>
         Task<bool> UpdateStyle(int idStyle, StyleModel style);
 
+
+        /// <summary>
+        /// Supprime un style en base de données via son identifiant.
+        /// </summary>
+        /// <param name="idStyle">Identifiant de type INT</param>
+        /// <returns>Retourne TRUE si la suppression à réussi si non retourne FALSE.</returns>
+        Task<bool> DeleteStyle(int idStyle);
     }
 }

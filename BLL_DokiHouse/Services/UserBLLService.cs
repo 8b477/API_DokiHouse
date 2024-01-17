@@ -60,18 +60,6 @@ namespace BLL_DokiHouse.Services
             return null;
         }
 
-
-        public Task<IEnumerable<UserAndBonsaiDetails?>> GetInfos(int startIndex, int pageSize)
-        {
-            return _userRepo.GetInfos(startIndex, pageSize);
-        }
-
-
-        public Task<UserAndBonsaiDetails?> GetInfosById(int idUser)
-        {
-            return _userRepo.GetInfosById(idUser);
-        }
-
         #endregion
 
 
@@ -96,7 +84,7 @@ namespace BLL_DokiHouse.Services
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {
-                throw new BusinessException("Violation of UNIQUE KEY constraints !");
+                throw new BusinessException("Adresse mail invalide !");
             }
             catch (Exception ex)
             {
@@ -149,7 +137,7 @@ namespace BLL_DokiHouse.Services
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {
-                throw new BusinessException("Violation of UNIQUE KEY constraint !");
+                throw new BusinessException("Le mail n'est pas valide !");
             }
             catch (Exception ex)
             {
@@ -186,7 +174,7 @@ namespace BLL_DokiHouse.Services
             }
             catch (SqlException ex) when (ex.Number == 2627)
             {
-                throw new BusinessException("Violation of UNIQUE KEY constraint");
+                throw new BusinessException("Adresse mail invalide");
             }
             catch (Exception ex)
             {
@@ -195,10 +183,10 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public Task<bool> UpdateProfilPicture(int idPicture, int idUser)
-        {
-            return _userRepo.UpdateProfilPicture(idPicture, idUser);
-        }
+        //public Task<bool> UpdateProfilPicture(int idPicture, int idUser)
+        //{
+        //    return _userRepo.UpdateProfilPicture(idPicture, idUser);
+        //}
 
 
         #endregion
