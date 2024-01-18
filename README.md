@@ -4,7 +4,7 @@
 ### [2. Comment l'utiliser ?](#one)  
 ### [3. Mockup si vous avez la flemme de remplir les datas.](#two)
 ### [4. Résulat attendu après suivis d'un schéma d'insertion basique.](#trois) ➡️ NEED UPDATE ⬅️
-### [5. À savoir, spécificité.](#four)
+### [5. À savoir, spécificité.](#four) ➡️ NEED UPDATE ⬅️
 ### [6. Vidéo explicative sur comment publié la base de donnée.](#five)
 ### [7. Todo, liste  de tâches en cours (évolutives).](#six)
 
@@ -207,5 +207,4 @@ https://github.com/8b477/API_DokiHouse/assets/92020766/f642e210-170a-44f4-b525-f
 # <a name="six"> TODO </a>
 
 - Mettre en place un système d'envoie de mail si l'utilisateur à perdu son mot de passe.
-- Ajouter tables pour les notifications.
 - Mettre en place un système de notification Sms/Mail.
