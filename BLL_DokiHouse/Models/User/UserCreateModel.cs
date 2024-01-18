@@ -21,7 +21,7 @@ namespace BLL_DokiHouse.Models.User
         public string Passwd { get; set; } = string.Empty;
 
         [Required(ErrorMessage = $"{nameof(PasswdConfirm)} : champ requis")]
-        [Compare(nameof(Passwd))]
+        [Compare(nameof(Passwd), ErrorMessage = "Le champ Passwd et le PasswdConfirm ne corresponde pas")]
         public string PasswdConfirm { get; set; } = string.Empty;
     }
 }

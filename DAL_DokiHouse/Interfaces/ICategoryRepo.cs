@@ -20,7 +20,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="category">Les nouvelles informations de la catégorie.</param>
         /// <returns>True si la mise à jour a réussi, sinon False.</returns>
-        Task<bool> Update(Category model);
+        Task<bool> Update(int idCategory, Category model);
 
         /// <summary>
         /// Check en DB si une catégorie est déjà présente pour le bonsai identifié

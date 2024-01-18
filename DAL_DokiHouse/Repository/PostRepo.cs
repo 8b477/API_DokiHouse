@@ -1,5 +1,4 @@
-﻿using DAL_DokiHouse.DTO.Post;
-using DAL_DokiHouse.Interfaces;
+﻿using DAL_DokiHouse.Interfaces;
 using DAL_DokiHouse.Repository.Generic;
 using Dapper;
 using Entities_DokiHouse.Entities;
@@ -12,7 +11,7 @@ namespace DAL_DokiHouse.Repository
     {
 
         #region Injection
-        public PostRepo(IDbConnection connection) : base(connection) {}
+        public PostRepo(IDbConnection connection) : base(connection) { }
 
         #endregion
 
@@ -63,42 +62,19 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<IEnumerable<PostAndCommentDTO>>? GetPostsAndComments(int idUser)
+        public async Task<IEnumerable<Post>?> OwnPost(int idUser)
         {
             string sql = @"
             SELECT 
-            p.Id, p.Title, p.Description, p.Content, p.CreateAt, p.ModifiedAt, p.IdUser,
-            com.Id, com.IdUser, com.IdPost, com.Content, com.CreatedAt, com.ModifiedAt
+            p.Id, p.Title, p.Description, p.Content, p.CreateAt, p.ModifiedAt, p.IdUser
             FROM [dbo].[Post] p
-            LEFT JOIN [dbo].[Comments] com ON com.IdPost = p.Id
-            WHERE p.IdUser = @idUser";
+            WHERE p.IdUser = @IdUser";
 
-            var postDictionary = new Dictionary<int, PostAndCommentDTO>();
+            IEnumerable<Post>? request = await _connection.QueryAsync<Post>(sql, new { IdUser = idUser });
 
-            await _connection.QueryAsync<PostAndCommentDTO, Comments, PostAndCommentDTO>(
-                sql,
-                (post, comment) =>
-                {
-                    if (!postDictionary.TryGetValue(post.Id, out var existingPost))
-                    {
-                        existingPost = post;
-                        existingPost.CommentsCollection = new List<Comments>();
-                        postDictionary.Add(existingPost.Id, existingPost);
-                    }
-
-                    if(comment is not null && existingPost.CommentsCollection is not null)
-                    {
-                        // Ajoutez le commentaire à la collection du post
-                        existingPost.CommentsCollection.Add(comment);
-                    }
-
-                    return existingPost;
-                },
-                new { IdUser = idUser },
-                splitOn: "Id,Id");
-
-            return postDictionary.Values;
+            return request;
         }
+
 
     }
 }

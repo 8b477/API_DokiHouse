@@ -21,7 +21,7 @@ namespace API_DokiHouse.Controllers
         #endregion
 
 
-        [HttpPost("{idPost}:int")]
+        [HttpPost("{idPost:int}")]
         public async Task<IActionResult> Create([FromBody] CommentModel comment, int idPost)
         {
             int idToken = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
@@ -48,8 +48,8 @@ namespace API_DokiHouse.Controllers
 
 
 
-        [HttpGet(nameof(GetOwnComments))]
-        public async Task<IActionResult> GetOwnComments()
+        [HttpGet(nameof(Own))]
+        public async Task<IActionResult> Own()
         {
             int idToken = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
 
@@ -64,7 +64,7 @@ namespace API_DokiHouse.Controllers
 
 
 
-        [HttpGet("{id}:int")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
             Comments? comment = await _commentBllService.GetCommentById(id);
@@ -76,7 +76,7 @@ namespace API_DokiHouse.Controllers
 
 
 
-        [HttpPut("{id}:int")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromBody] CommentModel comment, int id)
         {
             if (await _commentBllService.UpdateComment(comment, id))
@@ -87,7 +87,7 @@ namespace API_DokiHouse.Controllers
 
 
 
-        [HttpDelete("{id}:int")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
             return

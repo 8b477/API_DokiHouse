@@ -59,10 +59,9 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public Task<IEnumerable<PostAndCommentDTO>>? GetPostWithComments(int idUser)
+        public Task<IEnumerable<Post>?> OwnPost(int idUser)
         {
-            return _postRepo.GetPostsAndComments(idUser);
+            return _postRepo.OwnPost(idUser);
         }
-
     }
 }

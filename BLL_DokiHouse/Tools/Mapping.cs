@@ -153,6 +153,7 @@ namespace BLL_DokiHouse.Tools
         {
             return new()
             {
+                IdBonsai = filePicture.IdBonsai,
                 FileName = filePicture.FileName,
                 CreatedAt = DateTime.Now,
                 ModifiedAt = null

@@ -47,7 +47,7 @@ namespace API_DokiHouse.Controllers
         /// <returns>
         /// Retourne une action HTTP indiquant le succès ou l'échec de la mise à jour de la note.
         /// </returns>
-        [HttpPut("{idBonsai}:int")]
+        [HttpPut("{idNote:int}")]
         public async Task<IActionResult> Update(int idNote, NoteModel model)
         {
             if (!ModelState.IsValid)

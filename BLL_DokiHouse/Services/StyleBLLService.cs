@@ -39,5 +39,10 @@ namespace BLL_DokiHouse.Services
         }
 
 
+        public async Task<bool> DeleteStyle(int idStyle)
+        {
+            return await _styleRepo.Delete(idStyle);
+        }
+
     }
 }

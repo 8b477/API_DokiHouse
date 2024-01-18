@@ -82,34 +82,6 @@ namespace BLL_DokiHouse.Interfaces
 
 
         /// <summary>
-        /// Met à jour l'ID de l'image de profil pour un utilisateur spécifié.
-        /// </summary>
-        /// <param name="idPicture">L'ID de l'image de profil à associer à l'utilisateur.</param>
-        /// <param name="idUser">L'ID de l'utilisateur dont l'image de profil doit être mise à jour.</param>
-        /// <returns>Une tâche représentant l'opération de mise à jour.</returns>
-        Task<bool> UpdateProfilPicture(int idPicture, int idUser);
-
-
-        /// <summary>
-        /// Récupère toutes les infos des utilisateurs, permet aussi de paginé les datas.
-        /// </summary>
-        /// <param name="startIndex">Paramètre de type : 'int', représente l'index de départ, ne peut pas être négatif</param>
-        /// <param name="pageSize">Paramètre de type : 'int', représente le nombre d'éléments retourner</param>
-        /// <returns>Retourne une liste d'utilisateur avec leur infos</returns>
-        Task<IEnumerable<UserAndBonsaiDetails?>> GetInfos(int startIndex, int pageSize);
-
-
-        /// <summary>
-        /// Récupère toutes les infos des utilisateurs, permet aussi de paginé les datas.
-        /// </summary>
-        /// <param name="idUser">Paramètre de type : 'int', représente l'identifiant de l'utilisateur</param>
-        /// <param name="startIndex">Paramètre de type : 'int', représente l'index de départ, ne peut pas être négatif</param>
-        /// <param name="pageSize">Paramètre de type : 'int', représente le nombre d'éléments retourner</param>
-        /// <returns>Retourne une liste d'utilisateur avec leur infos</returns>
-        Task<UserAndBonsaiDetails?> GetInfosById(int idUser);
-
-
-        /// <summary>
         /// Récupère la liste des utilisateurs en base de donnée.
         /// </summary>
         /// <returns>Retourne une liste d'utilisateurs</returns>
@@ -122,5 +94,14 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="idUser">Identifiant de type INT</param>
         /// <returns>Retourne un utilisateur ou null si pas de correspondance</returns>
         Task<UserAndPictureDTO?> GetUser(int idUser);
+
+
+        ///// <summary>
+        ///// Met à jour l'ID de l'image de profil pour un utilisateur spécifié.
+        ///// </summary>
+        ///// <param name="idPicture">L'ID de l'image de profil à associer à l'utilisateur.</param>
+        ///// <param name="idUser">L'ID de l'utilisateur dont l'image de profil doit être mise à jour.</param>
+        ///// <returns>Une tâche représentant l'opération de mise à jour.</returns>
+        //Task<bool> UpdateProfilPicture(int idPicture, int idUser);
     }
 }

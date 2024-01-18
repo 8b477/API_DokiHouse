@@ -23,12 +23,11 @@ namespace DAL_DokiHouse.Interfaces
 
 
         /// <summary>
-        /// Récupère tout les post et les commentaires en base de données sur base d'un identifiant utilisateur.
+        /// Vas chercher en base de données tout les post lié à un utilisateur préalablement Log.
         /// </summary>
-        /// <param name="idPost">Un identifiant utilisateur de type : int</param>
-        /// <returns></returns>
-        Task<IEnumerable<PostAndCommentDTO>>? GetPostsAndComments(int idUser);
-
+        /// <param name="idUser">Identifiant de l'utilisateur de type INT sur le quelle se base la recherche</param>
+        /// <returns>Retourne une liste de post lié à l'identifiant de l'utilisateur, peux retourner NULL si pas de correspondance trouver en DB</returns>
+        Task<IEnumerable<Post>?> OwnPost(int idUser);
 
     }
 }

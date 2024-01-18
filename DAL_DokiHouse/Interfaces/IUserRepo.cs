@@ -61,31 +61,6 @@ namespace DAL_DokiHouse
         Task<User?> Logger(string email, string motDePasse);
 
 
-        /// <summary>
-        /// Met à jour la colonne IdPictureProfil de la table [User] avec la nouvelle valeur spécifiée.
-        /// </summary>
-        /// <param name="idUser">Identifiant de l'utilisateur à mettre à jour.</param>
-        /// <param name="idPicture">Nouvelle valeur à assigner à la colonne IdPictureProfil.</param>
-        /// <returns>Une tâche représentant l'opération asynchrone.</returns>
-        Task<bool> UpdateProfilPicture(int idUser, int idPicture);
-
-
-        /// <summary>
-        /// Récupère toutes les infos des utilisateurs, permet aussi de paginé les datas.
-        /// </summary>
-        /// <param name="startIndex">Paramètre de type : 'int', représente l'index de départ, ne peut pas être négatif</param>
-        /// <param name="pageSize">Paramètre de type : 'int', représente le nombre d'éléments retourner</param>
-        /// <returns>Retourne une liste d'utilisateur avec leur infos</returns>
-        Task<IEnumerable<UserAndBonsaiDetails?>> GetInfos(int startIndex, int pageSize);
-
-
-        /// <summary>
-        /// Récupère toutes les infos d'un utilisateurs, sur base d'un identifiant.
-        /// </summary>
-        /// <param name="idUser">Paramètre de type : 'int', représente l'identifiant d'un utilisateur</param>
-        /// <returns>Retourne un utilisateur avec ses infos</returns>
-        Task<UserAndBonsaiDetails?> GetInfosById(int idUser);
-
 
         /// <summary>
         /// Récupère la liste des utilisateurs en base de donnée.
@@ -100,5 +75,16 @@ namespace DAL_DokiHouse
         /// <param name="idUser">Identifiant de type INT</param>
         /// <returns>Retourne un utilisateur ou null si pas de correspondance</returns>
         Task<UserAndPictureDTO?> GetUser(int idUser);
+
+
+
+
+        /// <summary>
+        /// Met à jour la colonne IdPictureProfil de la table [User] avec la nouvelle valeur spécifiée.
+        /// </summary>
+        /// <param name="idUser">Identifiant de l'utilisateur à mettre à jour.</param>
+        /// <param name="idPicture">Nouvelle valeur à assigner à la colonne IdPictureProfil.</param>
+        /// <returns>Une tâche représentant l'opération asynchrone.</returns>
+        // Task<bool> UpdateProfilPicture(int idUser, int idPicture);
     }
 }
