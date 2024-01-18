@@ -61,25 +61,5 @@ namespace API_DokiHouse.Controllers
             return result ? CreatedAtAction(nameof(AddPicture), filePicture) : BadRequest();
         }
 
-
-
-        //public async Task<IActionResult> AddPicture(FilePictureModel filePicture, int idBonsai)
-        //{
-        //    int idToken = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
-        //    if (idToken == 0) return Unauthorized();
-
-        //    string userName = _getInfosHTTPContext.GetNameUserTokenInHttpContext();
-        //    if (userName == string.Empty) return Unauthorized();
-
-
-        //    string uniqueFileName = idToken.ToString() + "_" + userName.ToUpper();
-
-        //    filePicture.FilePath = Path.Combine(_env.ContentRootPath, @"images\bonsais", uniqueFileName);
-
-
-        //    bool result = await _pictureRepo.AddPictureBonsai(filePicture, idBonsai);
-
-        //    return result ? CreatedAtAction(nameof(AddPicture), filePicture) : BadRequest();
-        //}
     }
 }
