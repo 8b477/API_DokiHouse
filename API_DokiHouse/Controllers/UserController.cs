@@ -43,6 +43,7 @@ namespace API_DokiHouse.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(User))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] UserCreateModel model)
         {
             if (!ModelState.IsValid)
@@ -66,6 +67,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserAndPictureDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Get([FromQuery] int startIndex = 1, [FromQuery] int pageSize = 12)
         {
             if (startIndex < 1) return BadRequest("Le paramètre startIndex doit être supérieur à zéro");
@@ -92,6 +94,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet("{idUser:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserAndPictureDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Get(int idUser)
         {
             UserAndPictureDTO? result = await _userService.GetUser(idUser);
@@ -113,6 +116,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet(nameof(Profil))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Profil()
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
@@ -141,6 +145,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<User>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetByName([FromRoute] string name, string stringIdentifiant = "Name")
         {
             IEnumerable<User?> result = await _userService.GetUsersByName(name,stringIdentifiant);
@@ -164,6 +169,7 @@ namespace API_DokiHouse.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Update([FromBody] UserUpdateModel user)
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
@@ -189,6 +195,7 @@ namespace API_DokiHouse.Controllers
         [HttpPut(nameof(Name))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateNameModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Name([FromBody] UserUpdateNameModel user)
         {         
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
@@ -214,6 +221,7 @@ namespace API_DokiHouse.Controllers
         [HttpPut(nameof(Pass))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdatePasswdModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Pass([FromBody] UserUpdatePasswdModel user)
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
@@ -239,6 +247,7 @@ namespace API_DokiHouse.Controllers
         [HttpPut(nameof(Mail))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateEmailModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Mail([FromBody] UserUpdateEmailModel user)
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
@@ -264,6 +273,7 @@ namespace API_DokiHouse.Controllers
         [HttpDelete("{idUser:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> Delete(int idUser)
         {           
             return
@@ -284,6 +294,7 @@ namespace API_DokiHouse.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> Delete()
         {
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();

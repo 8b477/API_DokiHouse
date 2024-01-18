@@ -34,23 +34,27 @@ namespace API_DokiHouse.Controllers
         /// Retourne un objet IActionResult représentant le résultat de l'opération d'authentification.
         /// </returns>
         /// <response code="200">Authentification réussie. Retourne un jeton d'authentification.</response>
-        /// <response code="400">La requête est incorrecte ou les informations d'authentification sont invalides.</response>
+        /// <response code="400">La requête est incorrecte ou les informations d'authentification sont invalides. Le message explicatif est fourni dans le corps de la réponse.</response>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] UserLogModel user)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest("La requête est incorrecte. Veuillez fournir des informations d'authentification valides.");
 
             User? result = await _userBLLService.Login(user.Email, user.Passwd);
 
             if (result is not null)
             {
                 string token = _jwtService.GenerateToken(result.Id.ToString(), result.Name, result.Role);
-
                 return Ok(token); // --> peut être envoyé sous forme d'objet au Front `Ok(new {token})`
             }
 
-            return BadRequest("Infos non valide !");
+            return BadRequest("Les informations d'authentification sont invalides. Veuillez vérifier votre email et votre mot de passe.");
         }
+
 
 
     }

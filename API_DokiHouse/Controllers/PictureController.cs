@@ -24,16 +24,16 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Ajoute une image directement enregistrer sur le server et la lie au bonsai via son id.
+        /// Ajoute une image pour un bonsaï.
         /// </summary>
-        /// <param name="picture">Fichier image</param>
-        /// <param name="idBonsai">Identifiant du Bonsai lié à l'ajout de l'image</param>
-        /// <returns></returns>
+        /// <param name="picture">Fichier image à télécharger.</param>
+        /// <param name="idBonsai">ID du bonsaï auquel attacher l'image.</param>
+        /// <returns>Retourne un résultat HTTP. 201 Created si réussi, 400 Bad Request en cas d'échec.</returns>
         [HttpPost("{idBonsai:int}")]
         [Consumes("multipart/form-data")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AddPicture(IFormFile picture, int idBonsai)
         {
             int idToken = _getInfosHTTPContext.GetIdUserTokenInHttpContext();
