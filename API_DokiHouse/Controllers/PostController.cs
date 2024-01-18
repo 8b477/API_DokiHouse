@@ -32,6 +32,7 @@ namespace API_DokiHouse.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreatePost([FromBody] PostModel post)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -55,6 +56,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Post>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Get()
         {
             IEnumerable<Post>? result = await _postBLLService.GetPosts();
@@ -73,6 +75,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Post))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Get(int id)
         {
             Post? post = await _postBLLService.GetPostById(id);
@@ -90,6 +93,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet(nameof(Own))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Post))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Own()
         {
             int idToken = _httpContextService.GetIdUserTokenInHttpContext();
@@ -113,6 +117,7 @@ namespace API_DokiHouse.Controllers
         [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Post>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Get(string name, string stringIdentifiant = "Name")
         {
             IEnumerable<Post>? result = await _postBLLService.GetPostsByName(name, stringIdentifiant);
@@ -132,6 +137,7 @@ namespace API_DokiHouse.Controllers
         [HttpPut("{idPost:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Update(int idPost, [FromBody] PostModel post)
         {
             int idToken = _httpContextService.GetIdUserTokenInHttpContext();
@@ -153,6 +159,7 @@ namespace API_DokiHouse.Controllers
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Delete(int id)
         {
             return await _postBLLService.DeletePost(id)

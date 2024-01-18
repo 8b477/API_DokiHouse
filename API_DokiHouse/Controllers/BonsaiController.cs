@@ -51,9 +51,8 @@ namespace API_DokiHouse.Controllers
         }
 
 
-
         /// <summary>
-        /// Récupère tous les bonsaïs lié à l'utilisateur identifié.
+        /// Récupère tous les bonsaïs liés à l'utilisateur identifié.
         /// </summary>
         /// <returns>
         /// Une action HTTP avec le statut Ok et la liste des bonsaïs si la récupération réussit,
@@ -71,12 +70,11 @@ namespace API_DokiHouse.Controllers
 
             IEnumerable<Bonsai?> result = await _bonsaiService.GetOwnBonsai(idUser);
 
-            return 
-                result is not null 
-                ? Ok(result) 
+            return
+                result is not null
+                ? Ok(result)
                 : NoContent();
         }
-
 
 
         /// <summary>
@@ -90,24 +88,23 @@ namespace API_DokiHouse.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Bonsai))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-
             Bonsai? bonsai = await _bonsaiService.GetBonsaiByID(id);
 
-            return 
-                bonsai is not null 
-                ? Ok(bonsai) 
+            return
+                bonsai is not null
+                ? Ok(bonsai)
                 : NoContent();
         }
-
 
 
         /// <summary>
         /// Récupère un bonsaï par son nom.
         /// </summary>
         /// <param name="name">Le nom du bonsaï à récupérer.</param>
-        /// <param name="stringIdentifiant">Le nom de la colonne en DB a comparé avec la recherche, par défaut ça valeur est : 'Name'.</param>
+        /// <param name="stringIdentifiant">Le nom de la colonne en DB à comparer avec la recherche, par défaut sa valeur est : 'Name'.</param>
         /// <returns>
         /// Une action HTTP avec le statut Ok et le bonsaï récupéré si la récupération réussit,
         /// sinon BadRequest ou NoContent si le bonsaï n'est pas trouvé.
@@ -116,15 +113,15 @@ namespace API_DokiHouse.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Bonsai))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetByName([FromRoute] string name, string stringIdentifiant = "Name")
         {
             IEnumerable<Bonsai>? bonsai = await _bonsaiService.GetBonsaiByName(name, stringIdentifiant);
-            return 
-                bonsai is not null 
-                ? Ok(bonsai) 
+            return
+                bonsai is not null
+                ? Ok(bonsai)
                 : NoContent();
         }
-
 
 
         /// <summary>
@@ -142,18 +139,16 @@ namespace API_DokiHouse.Controllers
         public async Task<IActionResult> Create(BonsaiModel bonsai)
         {
             if (!ModelState.IsValid) return BadRequest();
-           
+
             int idToken = _httpContextService.GetIdUserTokenInHttpContext();
 
-            if(idToken == 0) return Unauthorized();
+            if (idToken == 0) return Unauthorized();
 
-
-            if(await _bonsaiService.CreateBonsai(bonsai, idToken))
-                return CreatedAtAction(nameof(Create), bonsai);
-
-            return BadRequest();
+            return
+                await _bonsaiService.CreateBonsai(bonsai, idToken)
+                ? CreatedAtAction(nameof(Create), bonsai)
+                : BadRequest();
         }
-
 
 
         /// <summary>
@@ -168,18 +163,17 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Update(BonsaiModel bonsai,[FromRoute] int idBonsai)
+        public async Task<IActionResult> Update(BonsaiModel bonsai, [FromRoute] int idBonsai)
         {
             int idToken = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idToken == 0) return Unauthorized();
 
-            return 
-                await _bonsaiService.UpdateBonsai(bonsai, idBonsai) 
-                ? Ok() 
+            return
+                await _bonsaiService.UpdateBonsai(bonsai, idBonsai)
+                ? Ok()
                 : BadRequest();
         }
-
 
 
         /// <summary>
@@ -195,9 +189,9 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            return 
-                await _bonsaiService.DeleteBonsai(id) 
-                ? NoContent() 
+            return
+                await _bonsaiService.DeleteBonsai(id)
+                ? NoContent()
                 : BadRequest();
         }
 

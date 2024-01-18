@@ -26,13 +26,17 @@ namespace API_DokiHouse.Controllers
         /// <param name="idBonsai">Identifiant du bonsaï pour lequel le style est créé.</param>
         /// <param name="style">Modèle du style à créer.</param>
         /// <returns>
-        /// Retourne une action HTTP indiquant le succès ou l'échec de la création du style.
+        /// Une action HTTP avec le statut CreatedAtAction et le modèle créé si la création réussit,
+        /// sinon BadRequest.
         /// </returns>
         [HttpPost("{idBonsai:int}")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(StyleModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create(int idBonsai, StyleModel style)
         {
             if (!ModelState.IsValid) return BadRequest();
-     
+
             return
                 await _styleService.CreateStyle(idBonsai, style)
                 ? CreatedAtAction(nameof(Create), style)
@@ -46,9 +50,12 @@ namespace API_DokiHouse.Controllers
         /// <param name="idBonsai">Identifiant du bonsaï pour lequel le style est mis à jour.</param>
         /// <param name="style">Modèle contenant les nouvelles informations du style.</param>
         /// <returns>
-        /// Retourne une action HTTP indiquant le succès ou l'échec de la mise à jour du style.
+        /// Une action HTTP avec le statut Ok si la mise à jour réussit, sinon BadRequest.
         /// </returns>
         [HttpPut("{idBonsai:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Update(int idBonsai, StyleModel style)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -61,11 +68,16 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Permet la suppression d'un style présent en base de donnée sur base de son id.
+        /// Supprime un style présent en base de donnée sur base de son id.
         /// </summary>
         /// <param name="idStyle">Identifiant de type INT</param>
-        /// Retourne une action HTTP indiquant le succès ou l'échec de la suppression du style ciblé.
+        /// <returns>
+        /// Une action HTTP avec le statut NoContent si la suppression réussit, sinon BadRequest.
+        /// </returns>
         [HttpDelete("{idStyle:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Delete(int idStyle)
         {
             return
@@ -73,5 +85,6 @@ namespace API_DokiHouse.Controllers
                 ? NoContent()
                 : BadRequest();
         }
+
     }
 }

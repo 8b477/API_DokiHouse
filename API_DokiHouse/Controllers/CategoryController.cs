@@ -29,10 +29,13 @@ namespace API_DokiHouse.Controllers
         /// Retourne une action HTTP indiquant le succès ou l'échec de la création de la catégorie.
         /// </returns>
         [HttpPost("{idBonsai:int}")]
+        [ProducesResponseType(StatusCodes.Status201Created)] 
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromRoute] int idBonsai, CategoryModel model)
         {
-            if (await _categoryService.CreateCategory(idBonsai, model)) 
-                return CreatedAtAction(nameof(Create),model);
+            if (await _categoryService.CreateCategory(idBonsai, model))
+                return CreatedAtAction(nameof(Create), model);
 
             return BadRequest();
         }
@@ -47,17 +50,18 @@ namespace API_DokiHouse.Controllers
         /// Retourne une action HTTP indiquant le succès ou l'échec de la mise à jour de la catégorie.
         /// </returns>
         [HttpPut("{idCategory:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Update([FromRoute] int idCategory, [FromBody] CategoryModel model)
         {
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            return
-                await _categoryService.UpdateCategory(model, idCategory)
+
+            return await _categoryService.UpdateCategory(model, idCategory)
                 ? Ok()
                 : BadRequest();
         }
-
 
 
         /// <summary>
@@ -66,13 +70,14 @@ namespace API_DokiHouse.Controllers
         /// <param name="idCategory">Identifiant de type INT</param>
         /// <returns>Retourne une action HTTP indiquant le succès ou l'échec de la suppression</returns>
         [HttpDelete("{idCategory:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Delete(int idCategory)
         {
-            return 
-                await _categoryService.DeleteCategory(idCategory)
+            return await _categoryService.DeleteCategory(idCategory)
                 ? NoContent()
                 : BadRequest();
-
         }
     }
 }
