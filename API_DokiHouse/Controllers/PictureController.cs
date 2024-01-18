@@ -1,7 +1,6 @@
 ﻿using API_DokiHouse.Tools;
 using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models.FilePicture;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 
@@ -27,7 +26,7 @@ namespace API_DokiHouse.Controllers
         /// <summary>
         /// Ajoute une image directement enregistrer sur le server et la lie au bonsai via son id.
         /// </summary>
-        /// <param name="filePicture">Objet qui représente l'image à insérer</param>
+        /// <param name="picture">Fichier image</param>
         /// <param name="idBonsai">Identifiant du Bonsai lié à l'ajout de l'image</param>
         /// <returns></returns>
         [HttpPost("{idBonsai:int}")]
