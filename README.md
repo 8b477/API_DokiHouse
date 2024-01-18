@@ -1,9 +1,9 @@
-# Sommaire (!! pas à jour!!)
+# Sommaire
 
 ### [1. Bref présentation du projet.](#zero) <br>
 ### [2. Comment l'utiliser ?](#one)  
 ### [3. Mockup si vous avez la flemme de remplir les datas.](#two)
-### [4. Résulat attendu après suivis d'un schéma d'insertion basique.](#trois)
+### [4. Résulat attendu après suivis d'un schéma d'insertion basique.](#trois) ==> NEED UPDATE
 ### [5. À savoir, spécificité.](#four)
 ### [6. Vidéo explicative sur comment publié la base de donnée.](#five)
 ### [7. Todo, liste  de tâches en cours (évolutives).](#six)
@@ -11,11 +11,11 @@
 
 # <a name="zero"> API_DokiHouse </a> 
 
-Création d'une API ASP .NET(6) Core sur la gestion d'un Bonsaï :  
+Création d'une API ASP .NET(6) Core sur la gestion d'un Bonsaï et une partie Blog:  
 
 - Création d'un profil perso (User).
 - Espace gestion Bonsaï, ajout, suivis, notification.
-
+- Créer des post, commenter.
 
 
 But à terme de l'api et du front  
@@ -27,12 +27,16 @@ But à terme de l'api et du front
 # <a name="one"> Utilisation </a>
 
 - Création d'un nouveau User
-- Entrée son mail et mot de passe dans le endpoint Log  
+- Log, entrée le mail et mot le de passe du User préalablement créer.  
 => Récupération d'un token personnalisé qui contient (id, role)
 - Insérer le token reçu au dessus a droite dans SwaggerUI 'Authorize'
 
-- Création d'un Bonsai
-- Création d'une Catégorie, une note, un style
+- Création d'un Bonsai.
+- Création d'une Catégorie, une note, un style.
+- Insérer/enregistrer une image (Bonsai) sur le serveur.
+
+- Création d'un Post.
+- Création de commentaire.
 
 Attention les endpoints sont protégés il n'y a que la création d'un User et le endpoint Log qui sont en public, une fois log et avoir inséré son token dans l'endroit approprié les autres endpoints sont ouverts.
 
@@ -108,15 +112,17 @@ Log
 
 ## <a name="trois"> Résulat </a>
 
-*Attendu via =>*   
-   `https://localhost:7043/api/Bonsai/GetOwnBonsai`
+*Attendu via un GET USERS =>*   
+   `https://localhost:7043/api/User?startIndex=1&pageSize=1`
 ```json
 [
   {
     "id": 1,
-    "name": "Bonzi",
-    "description": "Un arbre plein de vie",
-    "idUser": 1
+    "name": "Jhon",
+    "role": "Visitor",
+    "createAt": "2024-01-18T22:08:22.777",
+    "modifiedAt": "0001-01-01T00:00:00",
+    "pictureProfil": null
   }
 ]
 ```
