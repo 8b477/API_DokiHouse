@@ -56,7 +56,6 @@ namespace API_DokiHouse.Controllers
         /// <response code="400">La requête n'est pas correct.</response>
          /// <response code="401">Vous n'êtes pas autorisée.</response>
         [HttpGet("{idUser:int}")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserAndBonsaiDetails))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
