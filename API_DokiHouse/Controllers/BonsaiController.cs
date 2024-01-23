@@ -110,7 +110,6 @@ namespace API_DokiHouse.Controllers
         /// sinon BadRequest ou NoContent si le bonsaï n'est pas trouvé.
         /// </returns>
         [HttpGet("{name}")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Bonsai))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

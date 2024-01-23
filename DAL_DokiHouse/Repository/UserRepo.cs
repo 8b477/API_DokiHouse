@@ -30,7 +30,7 @@ namespace DAL_DokiHouse
             parameters.Add("@Email", model.Email);
             parameters.Add("@Passwd", model.Passwd);
             parameters.Add("@Role", model.Role);
-            parameters.Add("@CreateAt", model.CreatedAt);
+            parameters.Add("@CreateAt", model.CreateAt);
             parameters.Add("@ModifiedAt", model.ModifiedAt);
 
             int rowAffected = await _connection.ExecuteAsync(sql, parameters);

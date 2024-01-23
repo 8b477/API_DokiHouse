@@ -26,7 +26,7 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Title", note.Title);
             parameters.Add("@Description", note.Description);
             parameters.Add("@IdBonsai", idBonsai);
-            parameters.Add("@CreateAt",note.CreatedAt);
+            parameters.Add("@CreateAt",note.CreateAt);
             parameters.Add("@ModifiedAt",note.ModifiedAt);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
