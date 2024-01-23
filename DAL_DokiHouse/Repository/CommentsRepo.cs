@@ -30,7 +30,7 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Content", comments.Content);
             parameters.Add("@IdUser", comments.IdUser);
             parameters.Add("@IdPost", idPost);
-            parameters.Add("@CreatedAt", comments.CreatedAt);
+            parameters.Add("@CreatedAt", comments.CreateAt);
             parameters.Add("@ModifiedAt", comments.ModifiedAt);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);

@@ -23,6 +23,8 @@ namespace DAL_DokiHouse.Repository
             SELECT 
                 u.Id,
                 u.Name,
+                u.CreateAt,
+                u.ModifiedAt,
 
                 pu.Id,
                 pu.Avatar,
@@ -32,6 +34,8 @@ namespace DAL_DokiHouse.Repository
                 b.Id,
                 b.Name,
                 b.IdUser,
+                b.CreateAt,
+                b.ModifiedAt,
 
                 pb.Id,
                 pb.FileName,
@@ -57,6 +61,8 @@ namespace DAL_DokiHouse.Repository
                 c.Yamadori,
                 c.Perso AS CatePerso,
                 c.IdBonsai,
+                c.CreateAt,
+                c.ModifiedAt,
 
                 s.Id,
                 s.Bunjin,
@@ -64,12 +70,15 @@ namespace DAL_DokiHouse.Repository
                 s.Korabuki,
                 s.Ishituki,
                 s.Perso AS StylePerso,
+                s.CreateAt,
+                s.ModifiedAt,
                 s.IdBonsai,
 
                 n.Id,
                 n.Title,
                 n.Description,
                 n.CreateAt,
+                n.ModifiedAt,
                 n.IdBonsai
 
             FROM [dbo].[User] u
@@ -129,6 +138,8 @@ namespace DAL_DokiHouse.Repository
             SELECT 
                 u.Id,
                 u.Name,
+                u.CreateAt,
+                u.ModifiedAt,
 
                 pu.Id,
                 pu.Avatar,
@@ -138,6 +149,8 @@ namespace DAL_DokiHouse.Repository
                 b.Id,
                 b.Name,
                 b.IdUser,
+                b.CreateAt,
+                b.ModifiedAt,
 
                 pb.Id,
                 pb.FileName,
@@ -163,6 +176,8 @@ namespace DAL_DokiHouse.Repository
                 c.Yamadori,
                 c.Perso AS CatePerso,
                 c.IdBonsai,
+                c.CreateAt,
+                c.ModifiedAt,
 
                 s.Id,
                 s.Bunjin,
@@ -170,12 +185,15 @@ namespace DAL_DokiHouse.Repository
                 s.Korabuki,
                 s.Ishituki,
                 s.Perso AS StylePerso,
+                s.CreateAt,
+                s.ModifiedAt,
                 s.IdBonsai,
 
                 n.Id,
                 n.Title,
                 n.Description,
                 n.CreateAt,
+                n.ModifiedAt,
                 n.IdBonsai
 
             FROM [dbo].[User] u

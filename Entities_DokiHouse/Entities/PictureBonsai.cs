@@ -6,7 +6,7 @@ namespace Entities_DokiHouse.Entities
     {
         public int Id { get; set; }
         public string FileName { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreateAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
         public int IdBonsai { get; set; }
     }

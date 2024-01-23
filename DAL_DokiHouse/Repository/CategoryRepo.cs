@@ -93,7 +93,7 @@ namespace DAL_DokiHouse.Repository
             parameters.Add("@Kokufu", category.Kokufu);
             parameters.Add("@Yamadori", category.Yamadori);
             parameters.Add("@Perso", category.CatePerso);
-            parameters.Add("@CreateAt", category.CreatedAt);
+            parameters.Add("@CreateAt", category.CreateAt);
             parameters.Add("@ModifiedAt", category.ModifiedAt);
             parameters.Add("@IdBonsai", idBonsai);
 

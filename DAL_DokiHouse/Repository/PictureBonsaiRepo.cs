@@ -27,7 +27,7 @@ namespace DAL_DokiHouse.Repository
 
             DynamicParameters parameters = new();
             parameters.Add("@FileName", picture.FileName);
-            parameters.Add("@CreateAt", picture.CreatedAt);
+            parameters.Add("@CreateAt", picture.CreateAt);
             parameters.Add("@ModifiedAt", picture.ModifiedAt);
             parameters.Add("@IdBonsai", idBonsai);
 
