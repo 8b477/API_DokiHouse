@@ -215,7 +215,7 @@ namespace BLL_DokiHouse.Tools
                 Ishituki = style.Ishituki,
                 Korabuki = style.Korabuki,
                 StylePerso = style.Perso,
-                CreatedAt = DateTime.Now,    
+                CreateAt = DateTime.Now,    
                 ModifiedAt = null
             };
         }
