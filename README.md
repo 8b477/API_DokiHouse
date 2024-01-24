@@ -213,3 +213,89 @@ Le champ **description** ne peut pas contenir plus de 200 caractères  et ne peu
 ### Contrainte Comments
 Le **content** ne peut pas être null.
 Un commentaire cible un post donc le commentaire ne peut exister si il n'est pas lié à un post.
+
+
+## Les relations
+### User Bonsai et ses détails
+```json
+{
+    "id": 1,
+    "name": "jhon",
+    "createAt": "2024-01-24T22:44:15.957",
+    "modifiedAt": null,
+    "pictureProfil": null,
+    "bonsaiDetails": [
+      {
+        "id": 2,
+        "idUser": 1,
+        "name": "bonzi",
+        "createAt": "2024-01-24T22:45:22.46",
+        "modifiedAt": null,
+        "pictureBonsai": null,
+        "categories": {
+          "id": 1,
+          "shohin": false,
+          "mame": true,
+          "chokkan": false,
+          "moyogi": false,
+          "shakan": false,
+          "kengai": true,
+          "hanKengai": true,
+          "ikadabuki": true,
+          "neagari": false,
+          "literati": false,
+          "yoseUe": false,
+          "ishitsuki": false,
+          "kabudachi": false,
+          "kokufu": false,
+          "yamadori": false,
+          "catePerso": "ninja",
+          "createAt": "2024-01-24T22:46:04.51",
+          "modifiedAt": null,
+          "idBonsai": 2
+        },
+        "styles": {
+          "id": 1,
+          "bunjin": true,
+          "bankan": false,
+          "korabuki": false,
+          "ishituki": true,
+          "stylePerso": "cool",
+          "createdAt": "2024-01-24T22:46:20.08",
+          "modifiedAt": null,
+          "idBonsai": 2
+        },
+        "notes": {
+          "id": 1,
+          "title": "Important",
+          "description": "blabla description",
+          "createAt": "2024-01-24T22:46:45.43",
+          "modifiedAt": null,
+          "idBonsai": 2
+        }
+      }
+```
+### Post et les commentaire
+
+```json
+{
+    "id": 1,
+    "title": "string",
+    "description": "string",
+    "content": "string",
+    "createAt": "2024-01-24T22:03:01.223Z",
+    "modifiedAt": "2024-01-24T22:03:01.223Z",
+    "idUser": 0,
+    "comments": [
+      {
+        "id": 0,
+        "content": "string",
+        "createAt": "2024-01-24T22:03:01.223Z",
+        "modifiedAt": "2024-01-24T22:03:01.223Z",
+        "idPost": 0,
+        "idUser": 0
+      }
+    ]
+  }
+```
+
