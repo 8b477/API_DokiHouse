@@ -176,15 +176,15 @@ Une note est directement lié un a Bonsaï donc impossible de créer une note sa
 -------------------------
 
 ### <a name="picturebonsai"> PictureBonsai </a>
-N'accepte que les formats suivant : ".jpg", ".jpeg", ".png"
-Les images sont directement sauvegardées sur le serveur.
+N'accepte que les formats suivant : ".jpg", ".jpeg", ".png" <br>
+Les images sont directement sauvegardées sur le serveur. <br>
 Les utilisateurs ont un dossier unique pour chacun d'entre eux avec leurs différentes images stocker aussi sous un nom unique.
 
 
 ### <a name="pictureuser"> PictureUser </a>  
 Les images de profil d'un utilisateur sont générées automatiquement à l'inscription de celui-ci via le front,
-via le service de DICEBEAR pour en savoir en plus à leur sujet voici leur site officiel : 
-➡️ https://www.dicebear.com
+via le service de DICEBEAR pour en savoir en plus à leur sujet voici leur site officiel : <br>
+➡️ https://www.dicebear.com <br>
 Je ne stocke que l'url qui fait référence à l'image produite via l'API de DiceBear.
 
 --------------------
