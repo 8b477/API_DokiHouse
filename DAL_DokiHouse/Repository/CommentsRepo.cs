@@ -1,11 +1,9 @@
 ﻿using DAL_DokiHouse.Interfaces;
 using DAL_DokiHouse.Repository.Generic;
-
 using Dapper;
 using Entities_DokiHouse.Entities;
-
 using System.Data;
-using System.Data.Common;
+
 
 
 namespace DAL_DokiHouse.Repository
@@ -23,14 +21,14 @@ namespace DAL_DokiHouse.Repository
         {
             string sql = @"
             INSERT INTO [Comments]
-            (Content, IdUser, IdPost, CreatedAt, ModifiedAt)
-            VALUES (@Content, @IdUser, @IdPost, @CreatedAt, @ModifiedAt)";
+            (Content, IdUser, IdPost, CreateAt, ModifiedAt)
+            VALUES (@Content, @IdUser, @IdPost, @CreateAt, @ModifiedAt)";
 
             DynamicParameters parameters = new();
             parameters.Add("@Content", comments.Content);
             parameters.Add("@IdUser", comments.IdUser);
             parameters.Add("@IdPost", idPost);
-            parameters.Add("@CreatedAt", comments.CreateAt);
+            parameters.Add("@CreateAt", comments.CreateAt);
             parameters.Add("@ModifiedAt", comments.ModifiedAt);
 
             int rowsAffected = await _connection.ExecuteAsync(sql, parameters);
