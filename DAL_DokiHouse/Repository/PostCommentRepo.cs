@@ -37,14 +37,14 @@ namespace DAL_DokiHouse.Repository
                     if (!postDictionary.TryGetValue(post.Id, out var existingPost))
                     {
                         existingPost = post;
-                        existingPost.CommentsCollection = new List<Comments>();
+                        existingPost.Comments = new List<Comments>();
                         postDictionary.Add(existingPost.Id, existingPost);
                     }
 
                     if (comment is not null && existingPost.Comments is not null)
                     {
                         // Ajoutez le commentaire à la collection du post
-                        existingPost.CommentsCollection.Add(comment);
+                        existingPost.Comments.Add(comment);
                     }
 
                     return existingPost;
@@ -75,14 +75,14 @@ namespace DAL_DokiHouse.Repository
                     if (!postDictionary.TryGetValue(post.Id, out var existingPost))
                     {
                         existingPost = post;
-                        existingPost.CommentsCollection = new List<Comments>();
+                        existingPost.Comments = new List<Comments>();
                         postDictionary.Add(existingPost.Id, existingPost);
                     }
 
-                    if (comment is not null && existingPost.CommentsCollection is not null)
+                    if (comment is not null && existingPost.Comments is not null)
                     {
                         // Ajoutez le commentaire à la collection du post
-                        existingPost.CommentsCollection.Add(comment);
+                        existingPost.Comments.Add(comment);
                     }
 
                     return existingPost;
