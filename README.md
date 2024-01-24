@@ -33,9 +33,9 @@ L'API DokiHouse vise à mettre en relation les utilisateurs partageant une même
 ## <a name="three"> Guide de Démarrage </a>
 
 ### **IMPORTANT:** 👀  
-L'API n'est pas en ligne, il vous faudra donc télécharger le projet depuis   
+L'API n'est pas en ligne, il vous faudra donc télécharger le projet depuis :   
 ➡️ [GitHub](https://github.com/8b477/API_DokiHouse). <br><br>
-Ensuite, il vous suffira de démarrer le projet dans un IDE, je vous conseille   
+Ensuite, il vous suffira de démarrer le projet dans un IDE, je vous conseille :   
 ➡️ [Visual Studio](https://visualstudio.microsoft.com/fr/). <br><br>
 Enfin, il vous faudra publier la base de données, il y a une vidéo explicative de moins de 1 min en bas de cette page.  
 
@@ -48,7 +48,7 @@ L'API DokiHouse utilise une authentification par Bearer token, directement gér�
 <br><br>
 ##  <a name="five"> **BESOIN D'AIDE?** </a> 
 
-Si vous avez des questions, vous pouvez me contacter via <br>
+Si vous avez des questions, vous pouvez me contacter via :<br>
 ➡️ [LinkedIn](https://www.linkedin.com/in/jonathan-buchet).
 
 
