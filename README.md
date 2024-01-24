@@ -26,8 +26,8 @@ Ce guide vous aidera à comprendre et à utiliser les fonctionnalités offertes 
 ### - [Category](#category)<br>
 ### - [Style](#style)<br>
 ### - [Note](#note)<br>
-### - [PictureBonsai](#pictureBonsai)<br>
-### - [PictureUser](#pictureUser)<br>
+### - [PictureBonsai](#picturebonsai)<br>
+### - [PictureUser](#pictureuser)<br>
 ### - [Post](#post)<br>
 ### - [Comments](#comments)<br>
 
@@ -175,13 +175,13 @@ Une note est directement lié un a Bonsaï donc impossible de créer une note sa
 
 -------------------------
 
-### <a name="pictureBonsai"> PictureBonsai </a>
+### <a name="picturebonsai"> PictureBonsai </a>
 N'accepte que les formats suivant : ".jpg", ".jpeg", ".png"
 Les images sont directement sauvegardées sur le serveur.
 Les utilisateurs ont un dossier unique pour chacun d'entre eux avec leurs différentes images stocker aussi sous un nom unique.
 
 
-### <a name="pictureUser"> PictureUser </a>  
+### <a name="pictureuser"> PictureUser </a>  
 Les images de profil d'un utilisateur sont générées automatiquement à l'inscription de celui-ci via le front,
 via le service de DICEBEAR pour en savoir en plus à leur sujet voici leur site officiel : 
 ➡️ https://www.dicebear.com
