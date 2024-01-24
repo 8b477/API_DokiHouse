@@ -51,9 +51,7 @@ Si vous avez des questions, vous pouvez me contacter via <br>
 ➡️ [LinkedIn](https://www.linkedin.com/in/jonathan-buchet).
 
 
-
-----------------
-
+<br><br>
 
 # <a name="six"> Comment publier la DB et changer la connection string ? </a>
 
