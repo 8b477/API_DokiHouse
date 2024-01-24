@@ -25,7 +25,6 @@ namespace DAL_DokiHouse.Repository
             com.Id, com.IdUser, com.IdPost, com.Content, com.CreatedAt, com.ModifiedAt
             FROM [dbo].[Post] p
             LEFT JOIN [dbo].[Comments] com ON com.IdPost = p.Id
-            WHERE p.IdUser = @idUser
             ORDER BY u.Id
             OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
 
