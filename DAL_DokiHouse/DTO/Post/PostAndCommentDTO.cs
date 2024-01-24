@@ -11,6 +11,6 @@ namespace DAL_DokiHouse.DTO.Post
         public DateTime CreateAt { get; set; }
         public DateTime ModifiedAt { get; set; }
         public int IdUser { get; set; }
-        public List<Comments>? CommentsCollection { get; set; }
+        public List<Comments>? Comments { get; set; }
     }
 }

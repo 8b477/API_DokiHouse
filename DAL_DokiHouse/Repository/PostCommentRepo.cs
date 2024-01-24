@@ -22,10 +22,10 @@ namespace DAL_DokiHouse.Repository
             string sql = @"
             SELECT 
             p.Id, p.Title, p.Description, p.Content, p.CreateAt, p.ModifiedAt, p.IdUser,
-            com.Id, com.IdUser, com.IdPost, com.Content, com.CreatedAt, com.ModifiedAt
+            com.Id, com.IdUser, com.IdPost, com.Content, com.CreateAt, com.ModifiedAt
             FROM [dbo].[Post] p
             LEFT JOIN [dbo].[Comments] com ON com.IdPost = p.Id
-            ORDER BY u.Id
+            ORDER BY p.Id
             OFFSET @StartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
 
             var postDictionary = new Dictionary<int, PostAndCommentDTO>();
@@ -41,7 +41,7 @@ namespace DAL_DokiHouse.Repository
                         postDictionary.Add(existingPost.Id, existingPost);
                     }
 
-                    if (comment is not null && existingPost.CommentsCollection is not null)
+                    if (comment is not null && existingPost.Comments is not null)
                     {
                         // Ajoutez le commentaire à la collection du post
                         existingPost.CommentsCollection.Add(comment);
@@ -64,8 +64,7 @@ namespace DAL_DokiHouse.Repository
             com.Id, com.IdUser, com.IdPost, com.Content, com.CreatedAt, com.ModifiedAt
             FROM [dbo].[Post] p
             LEFT JOIN [dbo].[Comments] com ON com.IdPost = p.Id
-            WHERE p.IdUser = @idUser"
-            ;
+            WHERE p.IdUser = @idUser";
 
             var postDictionary = new Dictionary<int, PostAndCommentDTO>();
 
