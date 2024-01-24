@@ -31,6 +31,11 @@ Ce guide vous aidera à comprendre et à utiliser les fonctionnalités offertes 
 ### - [Post](#post)<br>
 ### - [Comments](#comments)<br>
 
+<br>
+
+## Relations
+### - [Display des relations entre les tables](#relation)
+
 <br><br>
 
 ## 🔖 Comment utiliser ce guide
@@ -214,8 +219,9 @@ Le champ **description** ne peut pas contenir plus de 200 caractères  et ne peu
 Le **content** ne peut pas être null.
 Un commentaire cible un post donc le commentaire ne peut exister si il n'est pas lié à un post.
 
+<br>
 
-## Les relations
+## <a name="relation"> Display des relations entre les tables </a>
 ### User Bonsai et ses détails
 ```json
 {
@@ -278,22 +284,22 @@ Un commentaire cible un post donc le commentaire ne peut exister si il n'est pas
 ### Post et les commentaire
 
 ```json
-{
+  {
     "id": 1,
-    "title": "string",
-    "description": "string",
-    "content": "string",
-    "createAt": "2024-01-24T22:03:01.223Z",
-    "modifiedAt": "2024-01-24T22:03:01.223Z",
-    "idUser": 0,
+    "title": "La main verte",
+    "description": "Super longue description",
+    "content": "Et un contenu encore plus long",
+    "createAt": "2024-01-24T23:29:38.46",
+    "modifiedAt": null,
+    "idUser": 1,
     "comments": [
       {
-        "id": 0,
-        "content": "string",
-        "createAt": "2024-01-24T22:03:01.223Z",
-        "modifiedAt": "2024-01-24T22:03:01.223Z",
-        "idPost": 0,
-        "idUser": 0
+        "id": 1,
+        "content": "J'adore ton post ??",
+        "createAt": "2024-01-24T23:32:42.597",
+        "modifiedAt": null,
+        "idPost": 1,
+        "idUser": 1
       }
     ]
   }
