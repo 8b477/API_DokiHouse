@@ -1,4 +1,6 @@
 ﻿using BLL_DokiHouse.Models.User;
+using BLL_DokiHouse.Models.User.View;
+
 using DAL_DokiHouse.DTO.User;
 using Entities_DokiHouse.Entities;
 
@@ -13,7 +15,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">attend un : 'UserCreateDTO'</param>
         /// <returns>Retourne 'true' si réussi ou si non 'false'</returns>
-        Task<bool> CreateUser(UserCreateModel model);
+        Task<UserView?> CreateUser(UserCreateModel model);
 
 
         /// <summary>

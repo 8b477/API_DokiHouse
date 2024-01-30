@@ -3,11 +3,8 @@ using Tools_DokiHouse.Services.DependencyInjection;
 using Tools_DokiHouse.Services.SwaggerConfiguration;
 using Tools_DokiHouse.Filters.AuthorizationFilter;
 using API_DokiHouse.Tools;
-
-using Microsoft.Extensions.Caching.Memory;
 using Serilog;
-using BLL_DokiHouse.Models;
-using BLL_DokiHouse.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,6 +65,24 @@ builder.Host.UseSerilog();
 
 
 
+//************ CORS *******************
+string allowLocalHost4200 = "angular";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowLocalHost4200,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+//*************************************
+
+
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -81,6 +96,7 @@ app.UseHttpsRedirection();
 
 
 //**********************
+app.UseCors(allowLocalHost4200);
 app.UseAuthentication();
 //**********************
 

@@ -1,7 +1,9 @@
 ﻿using BCrypt.Net;
 using BLL_DokiHouse.ExceptionHandler;
+using BLL_DokiHouse.Extensions;
 using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models.User;
+using BLL_DokiHouse.Models.User.View;
 using BLL_DokiHouse.Tools;
 using DAL_DokiHouse;
 using DAL_DokiHouse.DTO.User;
@@ -67,7 +69,7 @@ namespace BLL_DokiHouse.Services
 
         #region  ========> ______________CREATE______________ <==========
 
-        public async Task<bool> CreateUser(UserCreateModel model)
+        public async Task<UserView?> CreateUser(UserCreateModel model)
         {
             try
             {
@@ -77,15 +79,17 @@ namespace BLL_DokiHouse.Services
 
                     User user = Mapping.UserCreateBLLToDAL(model);
 
-                    return await _userRepo.Create(user);
+                    if( await _userRepo.Create(user) )
+                        return user.BLLToView();
                 }
-
-                return false;
+                return null;
             }
+
             catch (SqlException ex) when (ex.Number == 2627)
             {
                 throw new BusinessException("Adresse mail invalide !");
             }
+
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
