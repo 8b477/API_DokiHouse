@@ -180,7 +180,7 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
             if (await _userService.UpdateUser(idUser, user))
-                return Ok();
+                return Ok("A successful update");
 
             return BadRequest();
         }
@@ -196,7 +196,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut(nameof(Name))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateNameModel))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Name([FromBody] UserUpdateNameModel user)
@@ -206,7 +206,7 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
             if(await _userService.UpdateUserName(idUser, user))           
-                return Ok(user);
+                return Ok("Name Update");
 
             return BadRequest();
         }
@@ -222,7 +222,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut(nameof(Pass))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdatePasswdModel))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Pass([FromBody] UserUpdatePasswdModel user)
@@ -232,7 +232,7 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
             if (await _userService.UpdateUserPass(idUser, user))
-                return Ok(user);
+                return Ok("Pass Update");
 
             return BadRequest();
         }
@@ -248,7 +248,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne les informations de l'utilisateur mis à jour.</response>
         /// <response code="400">La mise à jour de l'utilisateur a échoué.</response>
         [HttpPut(nameof(Mail))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserUpdateEmailModel))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Mail([FromBody] UserUpdateEmailModel user)
@@ -258,7 +258,7 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
             if (await _userService.UpdateUserEmail(idUser, user))
-                return Ok(user);
+                return Ok("Mail Update");
 
             return BadRequest();
         }
