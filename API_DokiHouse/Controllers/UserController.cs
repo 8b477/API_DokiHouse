@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using BLL_DokiHouse.Models.User;
 using DAL_DokiHouse.DTO.User;
 using Entities_DokiHouse.Entities;
+using BLL_DokiHouse.Models.User.View;
 
 
 
@@ -41,7 +42,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="400">La création de l'utilisateur a échoué.</response>
         [AllowAnonymous]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserView))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] UserCreateModel model)
@@ -49,10 +50,12 @@ namespace API_DokiHouse.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
+            UserView? userView = await _userService.CreateUser(model);
+
             return
-                await _userService.CreateUser(model) == true
-                ? CreatedAtAction(nameof(Create),model)
-                : BadRequest();
+                  userView is null
+                ? BadRequest()
+                : CreatedAtAction(nameof(Create), userView);
         }
 
 
