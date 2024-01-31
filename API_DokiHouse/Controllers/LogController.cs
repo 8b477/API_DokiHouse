@@ -38,7 +38,6 @@ namespace API_DokiHouse.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] UserLogModel user)
         {
             if (!ModelState.IsValid)
@@ -49,7 +48,7 @@ namespace API_DokiHouse.Controllers
             if (result is not null)
             {
                 string token = _jwtService.GenerateToken(result.Id.ToString(), result.Name, result.Role);
-                return Ok(token); // --> peut être envoyé sous forme d'objet au Front `Ok(new {token})`
+                return Ok(new { token });
             }
 
             return BadRequest("Les informations d'authentification sont invalides. Veuillez vérifier votre email et votre mot de passe.");
