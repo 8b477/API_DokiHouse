@@ -13,7 +13,7 @@ namespace DAL_DokiHouse
         /// </summary>
         /// <param name="model">Le modèle UserDTO contenant les informations de l'utilisateur à créer.</param>
         /// <returns>Retourne true si la création est réussie, sinon retourne false.</returns>
-        Task<bool> Create(User model);
+        Task<int> Create(User model);
 
 
         /// <summary>

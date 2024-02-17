@@ -18,12 +18,13 @@ namespace DAL_DokiHouse
 
 
 
-        public async Task<bool> Create(User model)
+        public async Task<int> Create(User model)
         {
             string sql = @"
             INSERT INTO [User] 
             (Name, Email, Passwd, Role, CreateAt, ModifiedAt)
-            VALUES (@Name, @Email, @Passwd, @Role, @CreateAt, @ModifiedAt)";
+            VALUES (@Name, @Email, @Passwd, @Role, @CreateAt, @ModifiedAt);
+            SELECT SCOPE_IDENTITY()";
 
             DynamicParameters parameters = new();
             parameters.Add("@Name", model.Name);
@@ -33,9 +34,9 @@ namespace DAL_DokiHouse
             parameters.Add("@CreateAt", model.CreateAt);
             parameters.Add("@ModifiedAt", model.ModifiedAt);
 
-            int rowAffected = await _connection.ExecuteAsync(sql, parameters);
+            int idEntity = await _connection.QuerySingleOrDefaultAsync<int>(sql, parameters);
 
-            return rowAffected > 0;
+            return idEntity;
         }
 
 

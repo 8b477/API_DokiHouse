@@ -41,12 +41,16 @@ namespace BLL_DokiHouse.Services
         }
 
 
-        public async Task<User?> GetUserByID(int id)
+        public async Task<UserView?> GetUserByID(int id)
         {
             User? result = await _userRepo.GetBy(id);
 
+
             if (result is not null)
-                return result;
+            {
+                UserView userView = result.BLLToView();
+                return userView;
+            }
 
             return null;
         }
@@ -79,8 +83,14 @@ namespace BLL_DokiHouse.Services
 
                     User user = Mapping.UserCreateBLLToDAL(model);
 
-                    if( await _userRepo.Create(user) )
-                        return user.BLLToView();
+                    int result = await _userRepo.Create(user);
+
+                    if( result > 0)
+                    {
+                        UserView userView = user.BLLToView(result);
+
+                        return userView; 
+                    }
                 }
                 return null;
             }
