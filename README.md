@@ -2,7 +2,7 @@
 
 Bienvenue dans le guide de démarrage rapide de l'API DokiHouse.   
 Ce guide vous aidera à comprendre et à utiliser les fonctionnalités offertes par DokiHouse.
-<br><br><br>
+<br><br>
 
 ## Sommaire
 
