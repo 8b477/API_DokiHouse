@@ -1,44 +1,97 @@
-# Sommaire
+# 📄 DokiHouse - Guide de Démarrage Rapide
 
-### [1. Bref présentation du projet.](#zero) <br>
-### [2. Comment l'utiliser ?](#one)  
-### [3. Mockup si vous avez la flemme de remplir les datas.](#two)
-### [4. Résulat attendu après suivis d'un schéma d'insertion basique.](#trois)
-### [5. À savoir, spécificité.](#four)
-### [6. Vidéo explicative sur comment publié la base de donnée.](#five)
-### [7. Todo, liste  de tâches en cours (évolutives).](#six)
+Bienvenue dans le guide de démarrage rapide de l'API DokiHouse.   
+Ce guide vous aidera à comprendre et à utiliser les fonctionnalités offertes par DokiHouse.
+<br><br><br>
+
+## Sommaire
+
+### - [Présentation.](#one) <br>
+### - [Objectifs.](#two) <br>
+### - [Guide de démarrage.](#three) <br>
+### - [Authentification.](#four) <br>
+### - [Besoin d'aide.](#five) 
+### - [Vidéo publication DB.](#six)
+<br>
+
+## Mockup
+### - [User.](#seven) <br>
+### - [Bonsai.](#eight) <br>
+### - [Blog.](#nine) <br>
+<br>
+
+## Contrainte des différentes tables
+### - [User](#seven2)<br>
+### - [Bonsai](#eight2)<br>
+### - [Category](#category)<br>
+### - [Style](#style)<br>
+### - [Note](#note)<br>
+### - [PictureBonsai](#picturebonsai)<br>
+### - [PictureUser](#pictureuser)<br>
+### - [Post](#post)<br>
+### - [Comments](#comments)<br>
+
+<br>
+
+## Relations
+### - [Display des relations entre les tables](#relation)
+
+<br><br>
+
+## 🔖 Comment utiliser ce guide
+Si vous voulez des détails plus précis sur les différents endpoints disponibles, je vous invite à cliquer sur le lien qui suit :
+
+➡️ [Doc_Postman](https://documenter.getpostman.com/view/23325187/2s9YynkPkN)   
+
+<br><br>
+## <a name="one"> Présentation de l'API DokiHouse </a>
+
+L'API DokiHouse offre un ensemble de fonctionnalités pour créer un réseau autour de la passion des Bonsaïs et de la gestion d'un blog. Elle permet de gérer des profils d'utilisateurs, d'ajouter et de suivre des Bonsaïs, de recevoir des notifications, de créer des posts et de commenter.
+
+<br><br>
+### <a name="two"> Objectifs de l'API </a>
+
+L'API DokiHouse vise à mettre en relation les utilisateurs partageant une même passion pour les Bonsaïs. Les principales fonctionnalités incluent la possibilité de créer un profil personnel, de gérer des Bonsaïs avec des fonctionnalités telles que l'ajout et le suivi, de recevoir des notifications pertinentes, de créer des posts et de commenter.
+
+<br><br>
+## <a name="three"> Guide de Démarrage </a>
+
+### **IMPORTANT:** 👀  
+L'API n'est pas en ligne, il vous faudra donc télécharger le projet depuis :   
+➡️ [GitHub](https://github.com/8b477/API_DokiHouse). <br><br>
+Ensuite, il vous suffira de démarrer le projet dans un IDE, je vous conseille :   
+➡️ [Visual Studio](https://visualstudio.microsoft.com/fr/). <br><br>
+Enfin, il vous faudra publier la base de données, il y a une vidéo explicative de moins de 1 min en bas de cette page.  
+
+<br><br>
+## <a name="four"> **AUTHENTIFICATION:**  </a>
+
+L'API DokiHouse utilise une authentification par Bearer token, directement gérée via l'API au moment de la connexion.
 
 
-# <a name="zero"> API_DokiHouse </a> 
+<br><br>
+##  <a name="five"> **BESOIN D'AIDE?** </a> 
 
-Création d'une API ASP .NET(6) Core sur la gestion d'un Bonsaï :  
-
-- Création d'un profil perso (User).
-- Espace gestion Bonsaï, ajout, suivis, notification.
-
+Si vous avez des questions, vous pouvez me contacter via :<br>
+➡️ [LinkedIn](https://www.linkedin.com/in/jonathan-buchet).
 
 
-But à terme de l'api et du front  
+<br><br>
 
-- Mise en relation des utilisateurs autour d'une même passion.
-- Possibilité pour l'utilisateur de publier des posts ou de commenter.
+# <a name="six"> Comment publier la DB et changer la connection string ? </a>
+
+https://github.com/8b477/API_DokiHouse/assets/92020766/d948a66a-4bd7-4867-a007-4c97d58b1d62
 
 
-# <a name="one"> Utilisation </a>
+<br><br>
 
-- Création d'un nouveau User
-- Entrée son mail et mot de passe dans le endpoint Log  
-=> Récupération d'un token personnalisé qui contient (id, role)
-- Insérer le token reçu au dessus a droite dans SwaggerUI 'Authorize'
+# Mockup
+<br>
 
-- Création d'un Bonsai
-- Création d'une Catégorie, une note, un style
+----------------------------
 
-Attention les endpoints sont protégés il n'y a que la création d'un User et le endpoint Log qui sont en public, une fois log et avoir inséré son token dans l'endroit approprié les autres endpoints sont ouverts.
+## <a name="seven"> User </a>
 
-## <a name="two"> Mockup </a>
-
-**USER Create**
 ```json
 {
   "name": "jhon",
@@ -47,34 +100,43 @@ Attention les endpoints sont protégés il n'y a que la création d'un User et l
   "passwdConfirm": "Test1234*"
 }
 ```
-Log
+
+-----------------------------
+
+### <a name="seven2"> Contrainte User </a>
+Le **name** ne peut contenir plus de 50 caractères et ne peut pas être null.  
+Le **passwd** doit contenir 8 caractère minimum, une majuscule, une minuscule, un caractère spécial et un chiffre et ne peut pas être null.  
+L'adresse **mail** ne peut pas être déjà éxistante en base de donnée (UNIQUE) et ne peut pas être null.  
+Le **passwdConfirm** doit être exactement identique à passwd et ne peut pas être null.  
+
+----------------------------
+
+## <a name="eight"> Bonsai </a>
 ```json
 {
-  "email": "jhon@example.com",
-  "passwd": "Test1234*"
+  "name": "bonzi",
+  "description": "Super description"
 }
 ```
 
-**BONSAI Create**
-```json
-{
-  "name": "Bonzi",
-  "description": "Un arbre plein de vie"
-}
-```
+### <a name="eight2"> Contrainte Bonsai </a>
+
+Le **name** est de maximum 50 caratères et ne peut pas être null.   
+Le **description** peut être null.   
+Le Bonsai ne peut être créer que si un Utilisateur est enregistrer en base de données.
 
 
-**CATEGORY Create**
+### <a name="category"> Category </a>
 ```json
 {
   "shohin": false,
   "mame": true,
   "chokkan": false,
   "moyogi": false,
-  "shakan": true,
+  "shakan": false,
   "kengai": true,
-  "hanKengai": false,
-  "ikadabuki": false,
+  "hanKengai": true,
+  "ikadabuki": true,
   "neagari": false,
   "literati": false,
   "yoseUe": false,
@@ -82,125 +144,164 @@ Log
   "kabudachi": false,
   "kokufu": false,
   "yamadori": false,
-  "perso": "Super caté !"
+  "perso": "ninja"
 }
 ```
+### Contrainte catégorie
 
-**STYLE Create**
+Le champ **perso** ne peut pas contenir plus de 150 caractères et peut être null.
+Une catégorie est directement lié un a Bonsaï donc impossible de créer une catégorie sans avoir de Bonsaï préalablement créer.
+
+### <a name="style"> Style </a>
 ```json
 {
-  "bunjin": false,
-  "bankan": true,
+  "bunjin": true,
+  "bankan": false,
   "korabuki": false,
-  "ishituki": false,
-  "perso": ""
+  "ishituki": true,
+  "perso": "cool"
 }
 ```
+### Contrainte Style
 
+Le champ **perso** ne peut pas contenir plus de 150 caractères et peut être null.
+Un style est directement lié un a Bonsaï donc impossible de créer un style sans avoir de Bonsaï préalablement créer.
 
-**NOTE Create**
+### <a name="note"> Note </a>
 ```json
- {
-  "title": "Titre de ma note",
-  "description": "Tache visible sur le dessous des feuilles"
+{
+  "title": "Important",
+  "description": "blabla description"
 }
 ```
+### Contrainte Note
+Le champ **title** ne peut pas contenir plus de 100 caractères et ne peut pas être null.
+Une note est directement lié un a Bonsaï donc impossible de créer une note sans avoir de Bonsaï préalablement créer.
 
-## <a name="trois"> Résulat </a>
+-------------------------
 
-*Attendu via =>*   
-   `https://localhost:7043/api/Bonsai/GetOwnBonsai`
-```json
-[
-  {
-    "id": 1,
-    "name": "Bonzi",
-    "description": "Un arbre plein de vie",
-    "idUser": 1
-  }
-]
-```
+### <a name="picturebonsai"> PictureBonsai </a>
+N'accepte que les formats suivant : ".jpg", ".jpeg", ".png" <br>
+Les images sont directement sauvegardées sur le serveur. <br>
+Les utilisateurs ont un dossier unique pour chacun d'entre eux avec leurs différentes images stocker aussi sous un nom unique.
 
 
-*Attendu via =>*  
-  `https://localhost:7043/api/ADokiHouse`
-
-```json
-[
-  {
-    "user": {
-      "userId": 1,
-      "userName": "jhon",
-      "role": "Visitor",
-      "idPictureProfil": null
-    },
-    "bonsai": {
-      "bonsaiId": 1,
-      "bonsaiName": "Bonzi",
-      "bonsaiDescription": "Un arbre plein de vie",
-      "bonsaiUserId": 1
-    },
-    "category": {
-      "categoryId": 1,
-      "shohin": false,
-      "mame": true,
-      "chokkan": false,
-      "moyogi": false,
-      "shakan": true,
-      "kengai": true,
-      "hanKengai": false,
-      "ikadabuki": false,
-      "neagari": false,
-      "literati": false,
-      "yoseUe": false,
-      "ishitsuki": false,
-      "kabudachi": false,
-      "kokufu": false,
-      "yamadori": false,
-      "categoryPerso": "Super caté !"
-    },
-    "style": {
-      "styleId": 1,
-      "bunjin": false,
-      "bankan": true,
-      "korabuki": false,
-      "ishituki": false,
-      "stylePerso": ""
-    },
-    "note": {
-      "noteId": 1,
-      "title": "Titre de ma note",
-      "noteDescription": "Tache visible sur le dessous des feuilles",
-      "createAt": "2024-01-04T17:27:21.107"
-    }
-  }
-]
-```
-
-# <a name="four"> A savoir </a>
-
-Le projet a un endpoint qui se nomme ADokiHouse, il récupère toutes les données en base de données et build un objet via leurs relations de clé étrangère:  
-
-Il récupère un User.  
-Puis la liste des Bonsai possédé par le User.  
-Enfin la table Catégorie, Style, Note liée au à la table Bonsai.
-
-Résultat : 
-
-Les User qui n'ont pas de Bonsai, Style, Catégorie, Note ceux-ci seront affiché comme champ avec une valeur 'null', j'ai décidé de ne pas développer d'avantage les propriétés de l'objet si celui-ci est évalué à 'null'.
-
+### <a name="pictureuser"> PictureUser </a>  
+Les images de profil d'un utilisateur sont générées automatiquement à l'inscription de celui-ci via le front,
+via le service de DICEBEAR pour en savoir en plus à leur sujet voici leur site officiel : <br>
+➡️ https://www.dicebear.com <br>
+Je ne stocke que l'url qui fait référence à l'image produite via l'API de DiceBear.
 
 --------------------
-# <a name="five"> Comment publier la DB et changer la connection string ? </a>
 
-https://github.com/8b477/API_DokiHouse/assets/92020766/f642e210-170a-44f4-b525-f7205a491193
+## <a name="nine"> Partie Blog </a>
+
+### <a name="post"> Post </a>
+```json
+{
+  "title": "La main verte",
+  "description": "Super longue description",
+  "content": "Et un contenu encore plus long"
+}
+```
+### Contrainte Post
+Le champ **title** ne peut pas contenir plus de 50 caractères  et ne peut pas être null.
+Le champ **description** ne peut pas contenir plus de 200 caractères  et ne peut pas être null.
 
 
----------------
+### <a name="comments"> Comments </a>
+```json
+{
+  "content": "J'adore ton post 🥰"
+}
+```
+### Contrainte Comments
+Le **content** ne peut pas être null.
+Un commentaire cible un post donc le commentaire ne peut exister si il n'est pas lié à un post.
 
-# <a name="six"> TODO </a>
+<br>
 
-- Fix les endpoints Picture.
-- Mettre en place un système d'envoie de mail si l'utilisateur à perdu son mot de passe.
-- Ajouter les tables Blog, Comments, Notification.
-- Mettre en place un système de notification Sms/Mail.
+## <a name="relation"> Display des relations entre les tables </a>
+### User Bonsai et ses détails
+```json
+{
+    "id": 1,
+    "name": "jhon",
+    "createAt": "2024-01-24T22:44:15.957",
+    "modifiedAt": null,
+    "pictureProfil": null,
+    "bonsaiDetails": [
+      {
+        "id": 2,
+        "idUser": 1,
+        "name": "bonzi",
+        "createAt": "2024-01-24T22:45:22.46",
+        "modifiedAt": null,
+        "pictureBonsai": null,
+        "categories": {
+          "id": 1,
+          "shohin": false,
+          "mame": true,
+          "chokkan": false,
+          "moyogi": false,
+          "shakan": false,
+          "kengai": true,
+          "hanKengai": true,
+          "ikadabuki": true,
+          "neagari": false,
+          "literati": false,
+          "yoseUe": false,
+          "ishitsuki": false,
+          "kabudachi": false,
+          "kokufu": false,
+          "yamadori": false,
+          "catePerso": "ninja",
+          "createAt": "2024-01-24T22:46:04.51",
+          "modifiedAt": null,
+          "idBonsai": 2
+        },
+        "styles": {
+          "id": 1,
+          "bunjin": true,
+          "bankan": false,
+          "korabuki": false,
+          "ishituki": true,
+          "stylePerso": "cool",
+          "createdAt": "2024-01-24T22:46:20.08",
+          "modifiedAt": null,
+          "idBonsai": 2
+        },
+        "notes": {
+          "id": 1,
+          "title": "Important",
+          "description": "blabla description",
+          "createAt": "2024-01-24T22:46:45.43",
+          "modifiedAt": null,
+          "idBonsai": 2
+        }
+      }
+```
+### Post et les commentaire
+
+```json
+  {
+    "id": 1,
+    "title": "La main verte",
+    "description": "Super longue description",
+    "content": "Et un contenu encore plus long",
+    "createAt": "2024-01-24T23:29:38.46",
+    "modifiedAt": null,
+    "idUser": 1,
+    "comments": [
+      {
+        "id": 1,
+        "content": "J'adore ton post ??",
+        "createAt": "2024-01-24T23:32:42.597",
+        "modifiedAt": null,
+        "idPost": 1,
+        "idUser": 1
+      }
+    ]
+  }
+```
+
