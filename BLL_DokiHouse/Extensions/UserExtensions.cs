@@ -10,5 +10,10 @@ namespace BLL_DokiHouse.Extensions
         {
             return new UserView(model.Id, model.Name, model.Role, model.CreateAt, model.ModifiedAt);
         }
+
+        public static UserView BLLToView(this User model, int id)
+        {
+            return new UserView(id, model.Name, model.Role, model.CreateAt, model.ModifiedAt);
+        }
     }
 }

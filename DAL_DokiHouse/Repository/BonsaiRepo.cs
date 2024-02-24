@@ -62,5 +62,28 @@ namespace DAL_DokiHouse.Repository
             return bonsaiCollection;
         }
 
+
+        public async Task<IEnumerable<object>?> GetBonsaiAndPicture()
+        {
+            string sql = @"
+            SELECT
+                b.Id,
+                b.Name,
+                b.IdUser,
+                b.CreateAt,
+                b.ModifiedAt,
+
+                pb.FileName,
+                pb.CreateAt,
+                pb.ModifiedAt,
+                pb.IdBonsai
+
+            FROM [Bonsai] b
+            LEFT JOIN [dbo].[PictureBonsai] pb ON pb.IdBonsai = b.Id";
+
+            var bonsaiCollection = await _connection.QueryAsync<object>(sql);
+
+            return bonsaiCollection;
+        }
     }
 }

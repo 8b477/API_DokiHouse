@@ -149,12 +149,12 @@ namespace BLL_DokiHouse.Tools
         #region Picture
 
         // Ajout de la date de création
-        public static PictureBonsai FilePictureCreateToDAL(FilePictureModel filePicture)
+        public static PictureBonsai FilePictureCreateToDAL(string uniqueFileName, FilePictureModel filePicture, string domain, string userId, string userName)
         {
             return new()
             {
                 IdBonsai = filePicture.IdBonsai,
-                FileName = filePicture.FileName,
+                FileName = domain + "Picture/api/images/bonsais/" + userId + '_' + userName + '/' + uniqueFileName,
                 CreateAt = DateTime.Now,
                 ModifiedAt = null
                 

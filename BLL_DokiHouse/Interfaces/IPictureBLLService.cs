@@ -10,6 +10,13 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="filePicture">Fichier image à associer au Bonsai.</param>
         /// <param name="idBonsai">Identifiant du Bonsai à associé à l'image.</param>
         /// <returns>Identifiant de l'image du bonsai ajoutée.</returns>
-        Task<bool> AddPictureBonsai(FilePictureModel filePicture , int idBonsai);
+        Task<bool> AddPictureBonsai(FilePictureModel filePicture , int idBonsai, string domain, string userId, string userName);
+
+        /// <summary>
+        /// Obtient le type MIME à partir de l'extension de fichier spécifiée.
+        /// </summary>
+        /// <param name="fileExtension">L'extension de fichier pour laquelle obtenir le type MIME.</param>
+        /// <returns>Retourne le type MIME correspondant à l'extension de fichier spécifiée.</returns>
+        string GetMimeTypeFromExtension(string fileExtension);
     }
 }

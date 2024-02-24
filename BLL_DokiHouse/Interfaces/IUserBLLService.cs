@@ -31,7 +31,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="id">identifiant de type 'int'</param>
         /// <returns>Retourne le User qui correspond a la recherche ou si non retourne null</returns>
-        Task<User?> GetUserByID(int id);
+        Task<UserView?> GetUserByID(int id);
 
 
         /// <summary>

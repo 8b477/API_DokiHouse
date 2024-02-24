@@ -59,5 +59,12 @@ namespace BLL_DokiHouse.Interfaces
         /// <param name="id">L'ID du bonsaï à supprimer.</param>
         /// <returns>True si la suppression est réussie, sinon false.</returns>
         Task<bool> DeleteBonsai(int id);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<object>?> GetBonsaiAndPicture();
     }
 }

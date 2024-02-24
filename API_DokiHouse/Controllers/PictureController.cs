@@ -1,8 +1,12 @@
 ﻿using API_DokiHouse.Tools;
 using BLL_DokiHouse.Interfaces;
 using BLL_DokiHouse.Models.FilePicture;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
+
+
 
 namespace API_DokiHouse.Controllers
 {
@@ -16,10 +20,11 @@ namespace API_DokiHouse.Controllers
         private readonly IPictureBLLService _pictureRepo;
         private readonly IWebHostEnvironment _env;
         private readonly GetInfosHTTPContext _getInfosHTTPContext;
+        private readonly GetDomainService _getDomainService;
 
-        public PictureController(IWebHostEnvironment env, IPictureBLLService pictureRepo, GetInfosHTTPContext getInfosHTTPContext)
-            => (_env, _pictureRepo, _getInfosHTTPContext) 
-            =  (env, pictureRepo, getInfosHTTPContext);
+        public PictureController(IWebHostEnvironment env, IPictureBLLService pictureRepo, GetInfosHTTPContext getInfosHTTPContext, GetDomainService getDomainService)
+            => (_env, _pictureRepo, _getInfosHTTPContext, _getDomainService)
+            = (env, pictureRepo, getInfosHTTPContext, getDomainService);
         #endregion
 
 
@@ -54,10 +59,33 @@ namespace API_DokiHouse.Controllers
                 FileFolder = uniqueFileNameFolder
             };
 
+            string domain = _getDomainService.GetCurrentDomainName();
 
-            bool result = await _pictureRepo.AddPictureBonsai(filePicture, idBonsai);
+            bool result = await _pictureRepo.AddPictureBonsai(filePicture, idBonsai, domain, idToken.ToString(), userName.ToUpper());
 
             return result ? CreatedAtAction(nameof(AddPicture), filePicture) : BadRequest();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("api/images/bonsais/{uniqueFileNameFolder}/{uniqueFileName}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetImage(string uniqueFileNameFolder, string uniqueFileName)
+        {
+            var imagePath = Path.Combine(_env.ContentRootPath, @"images\bonsais", uniqueFileNameFolder, uniqueFileName);
+
+            if (!System.IO.File.Exists(imagePath))
+            {
+                return NotFound();
+            }
+
+            string fileExtension = Path.GetExtension(uniqueFileName);
+
+            string mimeType = _pictureRepo.GetMimeTypeFromExtension(fileExtension);
+
+            var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+
+            return File(imageBytes, mimeType);
         }
 
     }

@@ -29,7 +29,7 @@ namespace BLL_DokiHouse.Services
 
         #endregion
 
-        public async Task<bool> AddPictureBonsai(FilePictureModel filePicture, int idBonsai)
+        public async Task<bool> AddPictureBonsai(FilePictureModel filePicture, int idBonsai, string domain, string userId, string userName)
         {
             if(filePicture.File is null) 
                 throw new ArgumentNullException(nameof(filePicture));
@@ -50,10 +50,28 @@ namespace BLL_DokiHouse.Services
             }
 
 
-            PictureBonsai picture = Mapping.FilePictureCreateToDAL(filePicture);
+
+            PictureBonsai picture = Mapping.FilePictureCreateToDAL(uniqueFileName, filePicture, domain, userId, userName);
 
             return await _pictureRepo.AddPictureBonsai(idBonsai,picture);
         }
 
+
+
+        public string GetMimeTypeFromExtension(string fileExtension)
+        {
+            switch (fileExtension.ToLower())
+            {
+                case ".jpg":
+                    return "image/jpg";
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                // Ajouter d'autres types MIME pour les autres extensions si nécessaire
+                default:
+                    return "application/octet-stream"; // Type MIME par défaut si l'extension n'est pas reconnue
+            }
+        }
     }
 }

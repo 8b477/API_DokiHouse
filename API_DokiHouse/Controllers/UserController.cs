@@ -117,7 +117,7 @@ namespace API_DokiHouse.Controllers
         /// <response code="200">Retourne l'utilisateur trouvé.</response>
         /// <response code="204">Aucun utilisateur n'est trouvé.</response>
         [HttpGet(nameof(Profil))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserView))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Profil()
@@ -126,7 +126,7 @@ namespace API_DokiHouse.Controllers
 
             if (idUser == 0) return Unauthorized();
 
-            User? result = await _userService.GetUserByID(idUser);
+            UserView? result = await _userService.GetUserByID(idUser);
 
             if (result is not null)
                 return Ok(result);

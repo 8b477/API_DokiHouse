@@ -48,7 +48,7 @@ namespace API_DokiHouse.Controllers
             if (result is not null)
             {
                 string token = _jwtService.GenerateToken(result.Id.ToString(), result.Name, result.Role);
-                return Ok(new { token });
+                return Ok( token);
             }
 
             return BadRequest("Les informations d'authentification sont invalides. Veuillez vérifier votre email et votre mot de passe.");
