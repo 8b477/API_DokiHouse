@@ -21,14 +21,9 @@ DependencyInjectionService
 //HTTPContext Service
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<GetInfosHTTPContext>();
+//Domain Service
+builder.Services.AddSingleton<GetDomainService>();
 //********************************************************************************************
-
-
-
-
-//**************************** BIND FILE APPSETTINGS.JSON **********************************
-var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-//******************************************************************************************
 
 
 
@@ -38,13 +33,9 @@ AuthenticationService.ConfigureAuthentication(builder.Services);
 //*********************************************************************
 
 
-
-
 //**************************** ADD FILTER ****************************************
 AuthorizationFilterService.AddFilterControllersAuthorize(builder.Services);
 //********************************************************************************
-
-
 
 
 //****************** SWAGGER CONFIG *********************
@@ -52,6 +43,9 @@ SwaggerService.ConfigureSwagger(builder.Services);
 //*******************************************************
 
 
+//**************************** BIND FILE APPSETTINGS.JSON **********************************
+var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+//******************************************************************************************
 
 
 //************ SERILOG *******************

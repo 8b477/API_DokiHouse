@@ -8,6 +8,7 @@ using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Http;
 
 
 namespace Tools_DokiHouse.Services.DependencyInjection
@@ -85,6 +86,8 @@ namespace Tools_DokiHouse.Services.DependencyInjection
 
             //Token Service
             services.AddScoped<JwtUserIdentifiantFilter>();
+
+
         }
     }
 }

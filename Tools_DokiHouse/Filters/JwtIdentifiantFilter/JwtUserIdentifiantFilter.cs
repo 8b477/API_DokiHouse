@@ -26,7 +26,7 @@ namespace Tools_DokiHouse.Filters.JwtIdentifiantFilter
             string? role = context.HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
 
 
-            // Extrait le rôle de l'utilisateur du jeton JWT
+            // Extrait le nom de l'utilisateur du jeton JWT
             string? name = context.HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
 
             // Stocke l'identifiant et le rôle dans l'objet context.HttpContext.Items pour les rendre accessibles aux actions ultérieures dans la même requête si nécessaire.

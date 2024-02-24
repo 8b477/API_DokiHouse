@@ -65,6 +65,9 @@ namespace BLL_DokiHouse.Services
             return await _bonsaiRepo.Delete(id);
         }
 
-
+        public async Task<IEnumerable<object>?> GetBonsaiAndPicture()
+        {
+            return await _bonsaiRepo.GetBonsaiAndPicture();
+        }
     }
 }

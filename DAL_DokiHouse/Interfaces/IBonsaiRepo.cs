@@ -28,5 +28,11 @@ namespace DAL_DokiHouse.Interfaces
         /// <param name="idUser">L'identifiant sur le quelle la recherche se base</param>
         /// <returns>Retourne une liste de bonsai, si pas de bonsai associé retrouver retourne null</returns>
         Task<IEnumerable<Bonsai>?> GetOwnBonsai(int idUser);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<object>?> GetBonsaiAndPicture();
     }
 }
