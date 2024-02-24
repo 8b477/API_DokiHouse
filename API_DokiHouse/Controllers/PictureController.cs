@@ -88,18 +88,5 @@ namespace API_DokiHouse.Controllers
             return File(imageBytes, mimeType);
         }
 
-
-        [AllowAnonymous]
-        [HttpGet(nameof(Test))]
-        public IActionResult Test()
-        {
-
-           
-            string test1 = _getDomainService.GetCurrentDomainName(); // recup ici le https://localhost:7043/api/
-            string test2 = ""; // Ici je recup le nom du controller Picture/
-            string test3 = ""; // ici je cherche le nom de la méthode Test/
-
-            return Ok(test1);
-        }
     }
 }

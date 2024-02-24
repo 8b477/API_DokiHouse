@@ -1,5 +1,4 @@
 ﻿
-
 namespace API_DokiHouse.Tools
 {
     public class GetDomainService
