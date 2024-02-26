@@ -59,7 +59,7 @@ namespace API_DokiHouse.Controllers
         /// </returns>
         [AllowAnonymous]
         [HttpGet(nameof(GetTest))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<object>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiPictureDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetTest()
