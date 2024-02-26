@@ -2,6 +2,8 @@
 using DAL_DokiHouse.Repository.Generic;
 using Dapper;
 using Entities_DokiHouse.Entities;
+using Entities_DokiHouse.Interfaces;
+
 using System.Data;
 
 namespace DAL_DokiHouse.Repository
@@ -63,16 +65,18 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<IEnumerable<object>?> GetBonsaiAndPicture()
+        public async Task<IEnumerable<BonsaiPictureDTO>?> GetBonsaiAndPicture()
         {
             string sql = @"
             SELECT
-                b.Id,
-                b.Name,
+                b.Id AS IdBonsai,
                 b.IdUser,
+                b.Name AS BonsaiName,
+                b.Description AS BonsaiDescription,
                 b.CreateAt,
                 b.ModifiedAt,
 
+                pb.Id AS IdPicture,
                 pb.FileName,
                 pb.CreateAt,
                 pb.ModifiedAt,
@@ -81,9 +85,49 @@ namespace DAL_DokiHouse.Repository
             FROM [Bonsai] b
             LEFT JOIN [dbo].[PictureBonsai] pb ON pb.IdBonsai = b.Id";
 
-            var bonsaiCollection = await _connection.QueryAsync<object>(sql);
+            Dictionary<int, BonsaiPictureDTO> bonsaiDico = new();
 
-            return bonsaiCollection;
+            var bonsaiCollection = await _connection.QueryAsync<BonsaiPictureDTO, PictureBonsaiDTO, BonsaiPictureDTO>(sql,
+                (bonsai, picture) =>
+                    {
+                        if (!bonsaiDico.TryGetValue(bonsai.IdBonsai, out var bonsaiEntry))
+                        {
+                            bonsaiEntry = bonsai;
+                            bonsaiEntry.BonsaiPicture = new List<PictureBonsaiDTO>();
+                            bonsaiDico.Add(bonsaiEntry.IdBonsai, bonsaiEntry);
+                        }
+
+                        if (picture != null)
+                        {
+                            bonsaiEntry.BonsaiPicture.Add(picture);
+                        }
+
+                        return bonsaiEntry;
+                    },
+            splitOn: "IdPicture"
+        );
+
+            return bonsaiCollection.Distinct();
         }
     }
+}
+
+public class BonsaiPictureDTO
+{
+    public int IdBonsai { get; set; }
+    public int IdUser { get; set; }
+    public string BonsaiName { get; set; } = string.Empty;
+    public string BonsaiDescription { get; set; } = string.Empty;
+    public DateTime CreateAt { get; set; }
+    public DateTime ModifiedAt { get; set; }
+    public List<PictureBonsaiDTO>? BonsaiPicture { get; set; }
+}
+
+public class PictureBonsaiDTO
+{
+    public int IdPicture { get; set; }
+    public string FileName { get; set; } = string.Empty;
+    public DateTime CreateAt { get; set; }
+    public DateTime? ModifiedAt { get; set; }
+    public int IdBonsai { get; set; }
 }
