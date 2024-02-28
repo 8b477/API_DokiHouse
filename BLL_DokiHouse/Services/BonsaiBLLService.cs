@@ -69,5 +69,10 @@ namespace BLL_DokiHouse.Services
         {
             return await _bonsaiRepo.GetBonsaiAndPicture(idUser);
         }
+
+        public async Task<IEnumerable<BonsaiPictureDTO>?> GetAllBonsaiAndPicture()
+        {
+            return await _bonsaiRepo.GetAllBonsaiAndPicture();
+        }
     }
 }

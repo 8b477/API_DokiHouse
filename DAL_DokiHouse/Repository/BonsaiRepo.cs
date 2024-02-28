@@ -111,6 +111,52 @@ namespace DAL_DokiHouse.Repository
 
             return bonsaiCollection.Distinct();
         }
+
+
+        public async Task<IEnumerable<BonsaiPictureDTO>?> GetAllBonsaiAndPicture()
+        {
+            string sql = @"
+            SELECT
+                b.Id AS IdBonsai,
+                b.IdUser,
+                b.Name AS BonsaiName,
+                b.Description AS BonsaiDescription,
+                b.CreateAt,
+                b.ModifiedAt,
+
+                pb.Id AS IdPicture,
+                pb.FileName,
+                pb.CreateAt,
+                pb.ModifiedAt,
+                pb.IdBonsai
+
+            FROM [Bonsai] b
+            LEFT JOIN [dbo].[PictureBonsai] pb ON pb.IdBonsai = b.Id";
+
+            Dictionary<int, BonsaiPictureDTO> bonsaiDico = new();
+
+            var bonsaiCollection = await _connection.QueryAsync<BonsaiPictureDTO, PictureBonsaiDTO, BonsaiPictureDTO>(sql,
+                (bonsai, picture) =>
+                {
+                    if (!bonsaiDico.TryGetValue(bonsai.IdBonsai, out var bonsaiEntry))
+                    {
+                        bonsaiEntry = bonsai;
+                        bonsaiEntry.BonsaiPicture = new List<PictureBonsaiDTO>();
+                        bonsaiDico.Add(bonsaiEntry.IdBonsai, bonsaiEntry);
+                    }
+
+                    if (picture != null)
+                    {
+                        bonsaiEntry.BonsaiPicture.Add(picture);
+                    }
+
+                    return bonsaiEntry;
+                },
+            splitOn: "IdPicture"
+        );
+
+            return bonsaiCollection.Distinct();
+        }
     }
 }
 

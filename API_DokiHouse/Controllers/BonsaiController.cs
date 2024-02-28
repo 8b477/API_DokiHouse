@@ -4,6 +4,7 @@ using BLL_DokiHouse.Interfaces;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 using Microsoft.AspNetCore.Mvc;
 using Entities_DokiHouse.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 
 
@@ -69,6 +70,27 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
             var result = await _bonsaiService.GetBonsaiAndPicture(idUser);
+
+            return
+                result is not null
+                ? Ok(result)
+                : NoContent();
+        }
+
+
+        /// <summary>
+        /// Récupère tous les bonsaïs en base de données.
+        /// </summary>
+        /// <returns>
+        /// Retourne la liste des bonsaïs si la récupération réussit, sinon une liste vide.
+        /// </returns>
+        [AllowAnonymous]
+        [HttpGet(nameof(GetAllBonsaiAndPicture))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiPictureDTO>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> GetAllBonsaiAndPicture()
+        {
+            var result = await _bonsaiService.GetAllBonsaiAndPicture();
 
             return
                 result is not null
