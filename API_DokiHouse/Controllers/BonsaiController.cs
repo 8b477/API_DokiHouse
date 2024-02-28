@@ -4,7 +4,7 @@ using BLL_DokiHouse.Interfaces;
 using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 using Microsoft.AspNetCore.Mvc;
 using Entities_DokiHouse.Entities;
-using Microsoft.AspNetCore.Authorization;
+
 
 
 namespace API_DokiHouse.Controllers
@@ -57,7 +57,6 @@ namespace API_DokiHouse.Controllers
         /// <returns>
         /// Retourne la liste des bonsaïs si la récupération réussit, sinon une liste vide.
         /// </returns>
-        [AllowAnonymous]
         [HttpGet(nameof(GetBonsaiAndPicture))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiPictureDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
