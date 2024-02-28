@@ -65,7 +65,7 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<IEnumerable<BonsaiPictureDTO>?> GetBonsaiAndPicture()
+        public async Task<IEnumerable<BonsaiPictureDTO>?> GetBonsaiAndPicture(int idUser)
         {
             string sql = @"
             SELECT
@@ -83,7 +83,8 @@ namespace DAL_DokiHouse.Repository
                 pb.IdBonsai
 
             FROM [Bonsai] b
-            LEFT JOIN [dbo].[PictureBonsai] pb ON pb.IdBonsai = b.Id";
+            LEFT JOIN [dbo].[PictureBonsai] pb ON pb.IdBonsai = b.Id
+            WHERE b.IdUser = @idUserP";
 
             Dictionary<int, BonsaiPictureDTO> bonsaiDico = new();
 
@@ -104,6 +105,7 @@ namespace DAL_DokiHouse.Repository
 
                         return bonsaiEntry;
                     },
+                new { idUserP = idUser},
             splitOn: "IdPicture"
         );
 

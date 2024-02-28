@@ -33,6 +33,6 @@ namespace DAL_DokiHouse.Interfaces
         /// 
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<BonsaiPictureDTO>?> GetBonsaiAndPicture();
+        Task<IEnumerable<BonsaiPictureDTO>?> GetBonsaiAndPicture(int idUser);
     }
 }

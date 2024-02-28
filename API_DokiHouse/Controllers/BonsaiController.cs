@@ -58,13 +58,18 @@ namespace API_DokiHouse.Controllers
         /// Retourne la liste des bonsaïs si la récupération réussit, sinon une liste vide.
         /// </returns>
         [AllowAnonymous]
-        [HttpGet(nameof(GetTest))]
+        [HttpGet(nameof(GetBonsaiAndPicture))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiPictureDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetTest()
+        public async Task<IActionResult> GetBonsaiAndPicture()
         {
-            var result = await _bonsaiService.GetBonsaiAndPicture();
+
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
+
+            if (idUser == 0) return Unauthorized();
+
+            var result = await _bonsaiService.GetBonsaiAndPicture(idUser);
 
             return
                 result is not null
