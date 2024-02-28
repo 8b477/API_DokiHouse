@@ -65,7 +65,55 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-        public async Task<IEnumerable<BonsaiPictureDTO>?> GetBonsaiAndPicture()
+        public async Task<IEnumerable<BonsaiPictureDTO>?> GetBonsaiAndPicture(int idUser)
+        {
+            string sql = @"
+            SELECT
+                b.Id AS IdBonsai,
+                b.IdUser,
+                b.Name AS BonsaiName,
+                b.Description AS BonsaiDescription,
+                b.CreateAt,
+                b.ModifiedAt,
+
+                pb.Id AS IdPicture,
+                pb.FileName,
+                pb.CreateAt,
+                pb.ModifiedAt,
+                pb.IdBonsai
+
+            FROM [Bonsai] b
+            LEFT JOIN [dbo].[PictureBonsai] pb ON pb.IdBonsai = b.Id
+            WHERE b.IdUser = @idUserP";
+
+            Dictionary<int, BonsaiPictureDTO> bonsaiDico = new();
+
+            var bonsaiCollection = await _connection.QueryAsync<BonsaiPictureDTO, PictureBonsaiDTO, BonsaiPictureDTO>(sql,
+                (bonsai, picture) =>
+                    {
+                        if (!bonsaiDico.TryGetValue(bonsai.IdBonsai, out var bonsaiEntry))
+                        {
+                            bonsaiEntry = bonsai;
+                            bonsaiEntry.BonsaiPicture = new List<PictureBonsaiDTO>();
+                            bonsaiDico.Add(bonsaiEntry.IdBonsai, bonsaiEntry);
+                        }
+
+                        if (picture != null)
+                        {
+                            bonsaiEntry.BonsaiPicture.Add(picture);
+                        }
+
+                        return bonsaiEntry;
+                    },
+                new { idUserP = idUser},
+            splitOn: "IdPicture"
+        );
+
+            return bonsaiCollection.Distinct();
+        }
+
+
+        public async Task<IEnumerable<BonsaiPictureDTO>?> GetAllBonsaiAndPicture()
         {
             string sql = @"
             SELECT
@@ -89,21 +137,21 @@ namespace DAL_DokiHouse.Repository
 
             var bonsaiCollection = await _connection.QueryAsync<BonsaiPictureDTO, PictureBonsaiDTO, BonsaiPictureDTO>(sql,
                 (bonsai, picture) =>
+                {
+                    if (!bonsaiDico.TryGetValue(bonsai.IdBonsai, out var bonsaiEntry))
                     {
-                        if (!bonsaiDico.TryGetValue(bonsai.IdBonsai, out var bonsaiEntry))
-                        {
-                            bonsaiEntry = bonsai;
-                            bonsaiEntry.BonsaiPicture = new List<PictureBonsaiDTO>();
-                            bonsaiDico.Add(bonsaiEntry.IdBonsai, bonsaiEntry);
-                        }
+                        bonsaiEntry = bonsai;
+                        bonsaiEntry.BonsaiPicture = new List<PictureBonsaiDTO>();
+                        bonsaiDico.Add(bonsaiEntry.IdBonsai, bonsaiEntry);
+                    }
 
-                        if (picture != null)
-                        {
-                            bonsaiEntry.BonsaiPicture.Add(picture);
-                        }
+                    if (picture != null)
+                    {
+                        bonsaiEntry.BonsaiPicture.Add(picture);
+                    }
 
-                        return bonsaiEntry;
-                    },
+                    return bonsaiEntry;
+                },
             splitOn: "IdPicture"
         );
 
