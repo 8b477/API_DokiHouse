@@ -7,6 +7,7 @@ using BLL_DokiHouse.Models.User;
 using DAL_DokiHouse.DTO.User;
 using Entities_DokiHouse.Entities;
 using BLL_DokiHouse.Models.User.View;
+using System.Text.Json;
 
 
 
@@ -205,8 +206,11 @@ namespace API_DokiHouse.Controllers
 
             if (idUser == 0) return Unauthorized();
 
-            if(await _userService.UpdateUserName(idUser, user))           
-                return Ok("Name Update");
+            if(await _userService.UpdateUserName(idUser, user))
+            {
+                //return Ok(JsonSerializer.Serialize(updateMessage));               
+                return Ok(user);
+            }           
 
             return BadRequest();
         }
