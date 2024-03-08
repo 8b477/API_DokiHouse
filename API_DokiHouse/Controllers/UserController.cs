@@ -207,8 +207,7 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
             if(await _userService.UpdateUserName(idUser, user))
-            {
-                //return Ok(JsonSerializer.Serialize(updateMessage));               
+            {              
                 return Ok(user);
             }           
 
