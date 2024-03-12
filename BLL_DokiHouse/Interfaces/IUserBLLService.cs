@@ -98,6 +98,15 @@ namespace BLL_DokiHouse.Interfaces
         Task<UserAndPictureDTO?> GetUser(int idUser);
 
 
+        /// <summary>
+        /// Compare le passwd entrée en paramètre avec celui stocker en base de données.
+        /// </summary>
+        /// <param name="idUser">Identifiant de l'utilisateur : 'Int' </param>
+        /// <param name="passwd">Paramètre à comparer : 'String' </param>
+        /// <returns>Retourne le passwd : 'String' correspondant, sinon retourne 'Null'</returns>
+        Task<bool> CheckPasswd(int idUser, string passwd);
+
+
         ///// <summary>
         ///// Met à jour l'ID de l'image de profil pour un utilisateur spécifié.
         ///// </summary>

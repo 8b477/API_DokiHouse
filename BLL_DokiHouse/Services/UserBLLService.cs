@@ -112,7 +112,7 @@ namespace BLL_DokiHouse.Services
 
 
 
-        #region  ========> _______________LOGIN________________ <==========
+        #region  ========> __________LOGIN - CheckPass__________ <==========
 
         public async Task<User?> Login(string email, string passwd)
         {
@@ -128,6 +128,20 @@ namespace BLL_DokiHouse.Services
             {
                 throw new SaltParseException("Informations invalide !");
             }
+        }
+
+
+        public async Task<bool> CheckPasswd(int idUser, string passwd)
+        {
+            string? passwdHash = await _userRepo.CheckPasswd(idUser);
+
+            if(passwdHash is not null)
+            {
+                bool validPasswd = BCrypt.Net.BCrypt.Verify(passwd, passwdHash);
+
+                if (validPasswd) return true;
+            }
+            return false;
         }
 
 
