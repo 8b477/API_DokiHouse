@@ -7,7 +7,6 @@ using BLL_DokiHouse.Models.User;
 using DAL_DokiHouse.DTO.User;
 using Entities_DokiHouse.Entities;
 using BLL_DokiHouse.Models.User.View;
-using System.Text.Json;
 
 
 
@@ -317,7 +316,7 @@ namespace API_DokiHouse.Controllers
         /// <summary>
         /// Compare le paramètre d'entrée avec le passwd stocker en base de données d'un utilisateur connecter.
         /// </summary>
-        /// <param name="passwd">Paramètre à comparer de type : 'String'</param>
+        /// <param name="passToUpdate">Paramètre à comparer de type : 'String'</param>
         /// <response code="204">Le passwd entrée en paramètre correspond à celui en base de données.</response>
         /// <response code="400">Le passwd entrée en paramètre ne correspond pas à celui stocker en base de données.</response>
         /// <response code="401">L'utilisateur n'est pas autorisée.</response>
@@ -325,18 +324,18 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CheckPasswd(string passwd)
+        public async Task<IActionResult> CheckPasswd([FromBody] UserCheckActualPass passToUpdate)
         {
 
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
             if (idUser == 0) return Unauthorized();
 
-            bool response = await _userService.CheckPasswd(idUser,passwd);
+            bool response = await _userService.CheckPasswd(idUser, passToUpdate.Passwd);
 
             return response
-                   ? Ok() 
-                   : BadRequest();
+                   ? Ok(true) 
+                   : BadRequest(false);
         }
     }
 }
