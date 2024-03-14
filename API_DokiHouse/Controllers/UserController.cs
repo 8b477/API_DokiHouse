@@ -7,6 +7,8 @@ using BLL_DokiHouse.Models.User;
 using DAL_DokiHouse.DTO.User;
 using Entities_DokiHouse.Entities;
 using BLL_DokiHouse.Models.User.View;
+using System.Data.SqlTypes;
+using BLL_DokiHouse.ExceptionHandler;
 
 
 
@@ -234,9 +236,11 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
             if (await _userService.UpdateUserPass(idUser, user))
-                return Ok("Pass Update");
+            {
+                return Ok(true);
+            }
 
-            return BadRequest();
+            return BadRequest(false);
         }
 
 
@@ -331,11 +335,16 @@ namespace API_DokiHouse.Controllers
 
             if (idUser == 0) return Unauthorized();
 
-            bool response = await _userService.CheckPasswd(idUser, passToUpdate.Passwd);
+            try
+            {
+                bool response = await _userService.CheckPasswd(idUser, passToUpdate.Passwd);
+                return Ok(true);
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest(new{ ex.Message});
+            }
 
-            return response
-                   ? Ok(true) 
-                   : BadRequest(false);
         }
     }
 }

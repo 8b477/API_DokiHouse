@@ -1,7 +1,7 @@
 ﻿
 namespace BLL_DokiHouse.ExceptionHandler
 {
-    internal class BusinessException : Exception
+    public class BusinessException : Exception
     {
         public BusinessException() : base() { }
 
