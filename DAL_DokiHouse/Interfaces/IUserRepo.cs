@@ -76,7 +76,12 @@ namespace DAL_DokiHouse
         /// <returns>Retourne un utilisateur ou null si pas de correspondance</returns>
         Task<UserAndPictureDTO?> GetUser(int idUser);
 
-
+        /// <summary>
+        /// Récupère le passwd stocker en base de données sur base d'un Id utilisateur.
+        /// </summary>
+        /// <param name="idUser">Paramètre : 'Int' à comparer</param>
+        /// <returns>Retourne passwd : 'String' si correspondance, sinon retourne 'Null'</returns>
+        Task<string?> CheckPasswd(int idUser);
 
 
         /// <summary>

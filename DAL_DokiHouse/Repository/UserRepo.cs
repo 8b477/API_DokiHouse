@@ -124,20 +124,6 @@ namespace DAL_DokiHouse
         }
 
 
-        //public async Task<bool> UpdateProfilPicture(int idUser, int idPicture)
-        //{
-        //    string sql = @"
-        //    UPDATE [User]
-        //    SET 
-        //    IdPictureProfil = @idPicture
-        //    WHERE Id = @idUser";
-
-        //    int result = await _connection.ExecuteAsync(sql, new { idUser, idPicture });
-
-        //    return result > 0;
-        //}
-
-
         public async Task<bool> Update(int id, User model)
         {
             string sql = @"
@@ -212,6 +198,23 @@ namespace DAL_DokiHouse
             return item.FirstOrDefault();
         }
 
+
+        public async Task<string?> CheckPasswd(int idUser)
+        {
+
+            string query = @"SELECT [passwd] FROM [User] WHERE [Id] = @idUserParam";
+
+            DynamicParameters parameters = new ();
+
+            parameters.Add("idUserParam", idUser);
+
+            string? passHash = await _connection.QueryFirstOrDefaultAsync<string>(query, parameters);
+
+
+            return passHash is not null 
+                   ? passHash 
+                   : null;
+        }
 
     }
 }

@@ -7,7 +7,8 @@ using BLL_DokiHouse.Models.User;
 using DAL_DokiHouse.DTO.User;
 using Entities_DokiHouse.Entities;
 using BLL_DokiHouse.Models.User.View;
-using System.Text.Json;
+using System.Data.SqlTypes;
+using BLL_DokiHouse.ExceptionHandler;
 
 
 
@@ -235,9 +236,11 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
             if (await _userService.UpdateUserPass(idUser, user))
-                return Ok("Pass Update");
+            {
+                return Ok(true);
+            }
 
-            return BadRequest();
+            return BadRequest(false);
         }
 
 
@@ -313,5 +316,35 @@ namespace API_DokiHouse.Controllers
                 : BadRequest("Aucune correspondance");
         }
 
+
+        /// <summary>
+        /// Compare le paramètre d'entrée avec le passwd stocker en base de données d'un utilisateur connecter.
+        /// </summary>
+        /// <param name="passToUpdate">Paramètre à comparer de type : 'String'</param>
+        /// <response code="204">Le passwd entrée en paramètre correspond à celui en base de données.</response>
+        /// <response code="400">Le passwd entrée en paramètre ne correspond pas à celui stocker en base de données.</response>
+        /// <response code="401">L'utilisateur n'est pas autorisée.</response>
+        [HttpPost(nameof(CheckPasswd))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CheckPasswd([FromBody] UserCheckActualPass passToUpdate)
+        {
+
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
+
+            if (idUser == 0) return Unauthorized();
+
+            try
+            {
+                bool response = await _userService.CheckPasswd(idUser, passToUpdate.Passwd);
+                return Ok(true);
+            }
+            catch (BusinessException ex)
+            {
+                return BadRequest(new{ ex.Message});
+            }
+
+        }
     }
 }
