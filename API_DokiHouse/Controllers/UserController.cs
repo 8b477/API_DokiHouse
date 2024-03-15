@@ -263,9 +263,9 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
             if (await _userService.UpdateUserEmail(idUser, user))
-                return Ok("Mail Update");
+                return Ok(new {user});
 
-            return BadRequest();
+            return BadRequest(new {user});
         }
 
 
@@ -325,8 +325,8 @@ namespace API_DokiHouse.Controllers
         /// <response code="401">L'utilisateur n'est pas autorisée.</response>
         [HttpPost(nameof(CheckPasswd))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CheckPasswd([FromBody] UserCheckActualPass passToUpdate)
         {
 
@@ -347,12 +347,26 @@ namespace API_DokiHouse.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> CheckMail(string mail)
+        /// <summary>
+        /// Compare le mail entrée en paramètre avec celui en base de donnée d'un utilisateur préalablement authentifié.
+        /// </summary>
+        /// <param name="mail">Mail à comparé de type 'string'</param>
+        /// <response code="204">Le passwd entrée en paramètre correspond à celui en base de données.</response>
+        /// <response code="400">Le passwd entrée en paramètre ne correspond pas à celui stocker en base de données.</response>
+        /// <response code="401">L'utilisateur n'est pas autorisée.</response>
+        [HttpPost(nameof(CheckMail))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> CheckMail([FromBody] string mail)
         {
 
-            bool mailValid  = _userService.CheckMail(mail);
+            int idUser = _httpContextService.GetIdUserTokenInHttpContext();
 
+            if (idUser == 0) return Unauthorized();
+
+
+            bool mailValid  = await _userService.CheckMail(idUser, mail);
 
             return mailValid ? Ok(mailValid) : BadRequest(new { mail });
 

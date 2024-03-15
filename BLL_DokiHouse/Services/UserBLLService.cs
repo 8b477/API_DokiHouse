@@ -112,7 +112,7 @@ namespace BLL_DokiHouse.Services
 
 
 
-        #region  ========> __________LOGIN - CheckPass__________ <==========
+        #region  ======> _______LOGIN - CheckPass - CheckMail_______ <=======
 
         public async Task<User?> Login(string email, string passwd)
         {
@@ -146,6 +146,14 @@ namespace BLL_DokiHouse.Services
 
         }
 
+
+        public async Task<bool> CheckMail(int idUser, string mail)
+        {
+            bool result = await _userRepo.CheckMail(idUser, mail);
+
+            return result;
+
+        }
 
         #endregion
 

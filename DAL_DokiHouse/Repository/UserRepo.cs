@@ -216,5 +216,19 @@ namespace DAL_DokiHouse
                    : null;
         }
 
+
+        public async Task<bool> CheckMail(int idUser, string mail)
+        {
+            string request = @"SELECT * FROM [User] WHERE [Id] = @IdParam AND [Email] = @MailParam";
+
+            DynamicParameters parameters = new();
+            parameters.Add("IdParam", idUser);
+            parameters.Add("MailParam", mail);
+      
+            int rowAffected = await _connection.QueryFirstOrDefaultAsync<int>(request, parameters);
+
+            return rowAffected > 0;
+        }
+
     }
 }
