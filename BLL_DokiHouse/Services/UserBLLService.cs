@@ -112,7 +112,7 @@ namespace BLL_DokiHouse.Services
 
 
 
-        #region  ========> __________LOGIN - CheckPass__________ <==========
+        #region  ======> _______LOGIN - CheckPass - CheckMail_______ <=======
 
         public async Task<User?> Login(string email, string passwd)
         {
@@ -141,9 +141,19 @@ namespace BLL_DokiHouse.Services
 
                 if (validPasswd) return true;
             }
+
             throw new BusinessException("Le mot de passe n'est pas correct");
+
         }
 
+
+        public async Task<bool> CheckMail(int idUser, string mail)
+        {
+            bool result = await _userRepo.CheckMail(idUser, mail);
+
+            return result;
+
+        }
 
         #endregion
 

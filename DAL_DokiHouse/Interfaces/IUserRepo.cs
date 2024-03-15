@@ -83,6 +83,14 @@ namespace DAL_DokiHouse
         /// <returns>Retourne passwd : 'String' si correspondance, sinon retourne 'Null'</returns>
         Task<string?> CheckPasswd(int idUser);
 
+        /// <summary>
+        /// Compare le mail d'un utilisateur en base de donnée avec celui fournis en paramètre, l'utilisateur lui est identifié par son ID
+        /// </summary>
+        /// <param name="idUser">Identifiant de type 'int'</param>
+        /// <param name="mail">Mail à comparé de type 'string'</param>
+        /// <returns></returns>
+        Task<bool> CheckMail(int idUser, string mail);
+
 
         /// <summary>
         /// Met à jour la colonne IdPictureProfil de la table [User] avec la nouvelle valeur spécifiée.

@@ -107,6 +107,15 @@ namespace BLL_DokiHouse.Interfaces
         Task<bool> CheckPasswd(int idUser, string passwd);
 
 
+        /// <summary>
+        /// Compare le mail entré en paramètre à celui associé à l'identité d'un utilisateur authentifié dans la base de données.
+        /// </summary>
+        /// <param name="idUser">Identifiant de type 'int';</param>
+        /// <param name="mail">Mail à comparée de type 'string';</param>
+        /// <returns></returns>
+        Task<bool> CheckMail(int idUser, string mail);
+
+
         ///// <summary>
         ///// Met à jour l'ID de l'image de profil pour un utilisateur spécifié.
         ///// </summary>
