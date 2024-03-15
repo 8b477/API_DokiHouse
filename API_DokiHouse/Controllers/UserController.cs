@@ -7,7 +7,6 @@ using BLL_DokiHouse.Models.User;
 using DAL_DokiHouse.DTO.User;
 using Entities_DokiHouse.Entities;
 using BLL_DokiHouse.Models.User.View;
-using System.Data.SqlTypes;
 using BLL_DokiHouse.ExceptionHandler;
 
 
@@ -344,6 +343,18 @@ namespace API_DokiHouse.Controllers
             {
                 return BadRequest(new{ ex.Message});
             }
+            
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CheckMail(string mail)
+        {
+
+            bool mailValid  = _userService.CheckMail(mail);
+
+
+            return mailValid ? Ok(mailValid) : BadRequest(new { mail });
 
         }
     }
