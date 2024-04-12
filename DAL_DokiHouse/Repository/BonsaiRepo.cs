@@ -17,24 +17,26 @@ namespace DAL_DokiHouse.Repository
         #endregion
 
 
-        public async Task<bool> Create(Bonsai model, int idUser)
+        public async Task<int> Create(Bonsai model, int idUser)
         {
             string sql = @"
-            INSERT INTO [Bonsai]
-            (Name, Description, IdUser, CreateAt, ModifiedAt) 
-            VALUES (@Name, @Description, @IdUser, @CreateAt, @ModifiedAt)";
+                INSERT INTO [Bonsai]
+                (Name, Description, IdUser, CreateAt, ModifiedAt) 
+                VALUES (@Name, @Description, @IdUser, @CreateAt, @ModifiedAt);
+                SELECT SCOPE_IDENTITY();";
 
             DynamicParameters parameters = new();
-            parameters.Add("@Name",model.Name);
+            parameters.Add("@Name", model.Name);
             parameters.Add("@Description", model.Description);
             parameters.Add("@IdUser", idUser);
             parameters.Add("@CreateAt", model.CreateAt);
             parameters.Add("@ModifiedAt", model.ModifiedAt);
 
-            int rowAffected = await _connection.ExecuteAsync(sql, parameters);
+            int idBonsai = await _connection.QuerySingleOrDefaultAsync<int>(sql, parameters);
 
-            return rowAffected > 0;
+            return idBonsai;
         }
+
 
 
         public async Task<bool> Update(Bonsai bonsai, int idBonsai)

@@ -1,4 +1,6 @@
 ﻿using API_DokiHouse.Models;
+using BLL_DokiHouse.Models.Bonsai.View;
+
 using Entities_DokiHouse.Entities;
 
 
@@ -12,7 +14,7 @@ namespace BLL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">Le modèle de bonsaï à créer.</param>
         /// <returns>L'ID du bonsaï créé.</returns>
-        Task<bool> CreateBonsai(BonsaiModel model, int idToken);
+        Task<BonsaiView?> CreateBonsai(BonsaiModel model, int idToken);
 
 
         /// <summary>

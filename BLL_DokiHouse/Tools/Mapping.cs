@@ -236,6 +236,7 @@ namespace BLL_DokiHouse.Tools
         }
         #endregion
 
+
         #region User
 
         // Ajout de la date de création
@@ -302,5 +303,6 @@ namespace BLL_DokiHouse.Tools
             };
         }
         #endregion
+
     }
 }
