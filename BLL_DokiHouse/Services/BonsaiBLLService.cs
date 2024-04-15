@@ -1,5 +1,8 @@
 ﻿using API_DokiHouse.Models;
+
+using BLL_DokiHouse.Extensions;
 using BLL_DokiHouse.Interfaces;
+using BLL_DokiHouse.Models.Bonsai.View;
 using BLL_DokiHouse.Tools;
 using DAL_DokiHouse.Interfaces;
 using Entities_DokiHouse.Entities;
@@ -18,11 +21,15 @@ namespace BLL_DokiHouse.Services
         #endregion
 
 
-        public async Task<bool> CreateBonsai(BonsaiModel bonsai, int idToken)
+        public async Task<BonsaiView?> CreateBonsai(BonsaiModel bonsai, int idToken)
         {
             Bonsai bonsaiDAL = Mapping.BonsaiCreateBLLtoDAL(bonsai);
+            int idBonsai = await _bonsaiRepo.Create(bonsaiDAL, idToken);
 
-            return await _bonsaiRepo.Create(bonsaiDAL, idToken);
+            if (idBonsai == 0)
+                return null;
+
+            return bonsaiDAL.BLLToView(idBonsai, idToken);
         }
 
 

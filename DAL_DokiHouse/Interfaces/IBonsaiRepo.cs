@@ -12,7 +12,7 @@ namespace DAL_DokiHouse.Interfaces
         /// </summary>
         /// <param name="model">model à inséré en base de donnée</param>
         /// <returns></returns>
-        Task<bool> Create(Bonsai bonsai, int idUser);
+        Task<int> Create(Bonsai bonsai, int idUser);
 
 
         /// <summary>

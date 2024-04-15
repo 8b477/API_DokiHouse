@@ -5,6 +5,7 @@ using Tools_DokiHouse.Filters.JwtIdentifiantFilter;
 using Microsoft.AspNetCore.Mvc;
 using Entities_DokiHouse.Entities;
 using Microsoft.AspNetCore.Authorization;
+using BLL_DokiHouse.Models.Bonsai.View;
 
 
 
@@ -53,16 +54,16 @@ namespace API_DokiHouse.Controllers
 
 
         /// <summary>
-        /// Récupère tous les bonsaïs en base de données.
+        /// Récupère tous les bonsaïs en base de données en relation avec l'utilisateur préalablement log.
         /// </summary>
         /// <returns>
-        /// Retourne la liste des bonsaïs si la récupération réussit, sinon une liste vide.
+        /// Retourne la liste des bonsaïs de l'utilisateur ,  sinon aucune correspondance renvoie null.
         /// </returns>
-        [HttpGet(nameof(GetBonsaiAndPicture))]
+        [HttpGet(nameof(GetOwnBonsaiAndPicture))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BonsaiPictureDTO>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetBonsaiAndPicture()
+        public async Task<IActionResult> GetOwnBonsaiAndPicture()
         {
 
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
@@ -180,7 +181,7 @@ namespace API_DokiHouse.Controllers
         /// sinon BadRequest.
         /// </returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BonsaiModel))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BonsaiView))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create(BonsaiModel bonsai)
@@ -191,9 +192,11 @@ namespace API_DokiHouse.Controllers
 
             if (idToken == 0) return Unauthorized();
 
+            BonsaiView? bonsaiView = await _bonsaiService.CreateBonsai(bonsai, idToken);
+
             return
-                await _bonsaiService.CreateBonsai(bonsai, idToken)
-                ? CreatedAtAction(nameof(Create), bonsai)
+                  bonsaiView is not null
+                ? CreatedAtAction(nameof(Create), bonsaiView)
                 : BadRequest();
         }
 
