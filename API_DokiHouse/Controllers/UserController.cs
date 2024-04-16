@@ -358,7 +358,7 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> CheckMail([FromBody] string mail)
+        public async Task<IActionResult> CheckMail([FromBody] UserCheckActualMail mail)
         {
 
             int idUser = _httpContextService.GetIdUserTokenInHttpContext();
@@ -366,9 +366,9 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
 
-            bool mailValid  = await _userService.CheckMail(idUser, mail);
+            bool mailValid  = await _userService.CheckMail(idUser, mail.Value);
 
-            return mailValid ? Ok(mailValid) : BadRequest(new { mail });
+            return mailValid ? Ok(mailValid) : BadRequest(new { mail.Value });
 
         }
     }
