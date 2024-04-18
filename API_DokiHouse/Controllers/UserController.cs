@@ -209,9 +209,14 @@ namespace API_DokiHouse.Controllers
             if(await _userService.UpdateUserName(idUser, user))
             {              
                 return Ok(user);
-            }           
-
-            return BadRequest();
+            }
+            // Récupère les erreurs du ModelState
+            var errors = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList();
+          
+            return BadRequest(errors);
         }
 
 
@@ -366,9 +371,9 @@ namespace API_DokiHouse.Controllers
             if (idUser == 0) return Unauthorized();
 
 
-            bool mailValid  = await _userService.CheckMail(idUser, mail.Value);
+            bool mailValid  = await _userService.CheckMail(idUser, mail.Mail);
 
-            return mailValid ? Ok(mailValid) : BadRequest(new { mail.Value });
+            return mailValid ? Ok(mailValid) : BadRequest(new { mail.Mail });
 
         }
     }
