@@ -11,6 +11,7 @@ using BLL_DokiHouse.ExceptionHandler;
 
 
 
+
 namespace API_DokiHouse.Controllers
 {
     [Route("api/[controller]")]
@@ -210,13 +211,8 @@ namespace API_DokiHouse.Controllers
             {              
                 return Ok(user);
             }
-            // Récupère les erreurs du ModelState
-            var errors = ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage)
-                .ToList();
           
-            return BadRequest(errors);
+            return BadRequest();
         }
 
 
