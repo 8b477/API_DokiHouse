@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Tools_DokiHouse.Filters.AuthorizationFilter
 {
-    public static class AuthorizationFilterService
+    public static class AuthorizationFilter
     {
         public static void AddFilterControllersAuthorize(this IServiceCollection service)
         {

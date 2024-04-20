@@ -34,7 +34,7 @@ AuthenticationService.ConfigureAuthentication(builder.Services);
 
 
 //**************************** ADD FILTER ****************************************
-AuthorizationFilterService.AddFilterControllersAuthorize(builder.Services);
+AuthorizationFilter.AddFilterControllersAuthorize(builder.Services);
 //********************************************************************************
 
 
