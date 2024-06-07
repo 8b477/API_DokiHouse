@@ -221,15 +221,15 @@ namespace API_DokiHouse.Controllers
 
             return
                 await _bonsaiService.UpdateBonsai(bonsai, idBonsai)
-                ? Ok()
-                : BadRequest();
+                ? Ok(new {message="Update success !"})
+                : BadRequest(new { message = "Update failed" });
         }
 
 
         /// <summary>
         /// Supprime un bonsaï par son identifiant.
         /// </summary>
-        /// <param name="id">L'identifiant du bonsaï à supprimer.</param>
+        /// <param name="idBonsai">L'identifiant du bonsaï à supprimer.</param>
         /// <returns>
         /// Une action HTTP avec le statut NoContent si la suppression réussit, sinon BadRequest.
         /// </returns>
@@ -237,10 +237,10 @@ namespace API_DokiHouse.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int idBonsai)
         {
             return
-                await _bonsaiService.DeleteBonsai(id)
+                await _bonsaiService.DeleteBonsai(idBonsai)
                 ? NoContent()
                 : BadRequest();
         }

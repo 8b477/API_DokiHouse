@@ -38,13 +38,12 @@ namespace DAL_DokiHouse.Repository
         }
 
 
-
         public async Task<bool> Update(Bonsai bonsai, int idBonsai)
         {
             string sql = @"
             UPDATE [Bonsai] 
             SET Name = @Name, Description = @Description 
-            WHERE IdUser = @id";
+            WHERE Id = @id";
 
             DynamicParameters parameters = new();
             parameters.Add("@Name", bonsai.Name);
@@ -54,6 +53,21 @@ namespace DAL_DokiHouse.Repository
             int result = await _connection.ExecuteAsync(sql, parameters);
 
             return result > 0;
+        }
+
+
+        public override async Task<bool> Delete(int bonsaiId)
+        {
+            string sql1 = "DELETE FROM [PictureBonsai] WHERE IdBonsai = @param1";
+            string sql2 = "DELETE FROM [Bonsai] WHERE Id = @param2";
+
+            int query1 = await _connection.ExecuteAsync(sql1, new {param1 = bonsaiId});
+            int query2 = await _connection.ExecuteAsync(sql2, new {param2 = bonsaiId});
+
+            if(query1 == 0 || query2 == 0)
+                return false;
+
+            return true;
         }
 
 
