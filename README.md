@@ -4,6 +4,7 @@ Bienvenue dans le guide de démarrage rapide de l'API DokiHouse.
 Ce guide vous aidera à comprendre et à utiliser les fonctionnalités offertes par DokiHouse.
 <br><br>
 
+Attention : ce projet est un exercice pratique visant à améliorer ma compréhension de l’environnement .NET, en utilisant au maximum la programmation orientée objet (POO) et le framework ASP.NET Core.
 -----------------
 
 ## Sommaire
